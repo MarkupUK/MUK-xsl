@@ -197,7 +197,7 @@
             <fo:region-body margin-bottom="{$body.margin.bottom}"
                 margin-top="{$body.margin.top}"
                 column-gap="{$column.gap.body}"
-                column-count="{$column.count.body}">
+                column-count="2"><!-- {$column.count.body} -->
                 <xsl:attribute name="margin-{$direction.align.start}">
                     <xsl:value-of select="$body.margin.outer"/>
                 </xsl:attribute>
@@ -324,7 +324,7 @@
                 <xsl:text>Lauren Wood - XML.com</xsl:text>
             </fo:block>
             
-            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
+            <fo:block font-size="14pt" font-weight="bold" break-before="column">
                 <xsl:text>Sister Conferences</xsl:text>
             </fo:block>
             

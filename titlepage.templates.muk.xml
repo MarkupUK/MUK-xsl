@@ -12,7 +12,7 @@
 
 <!-- ==================================================================== -->
     <t:titlepage t:element="article" t:wrapper="fo:block" font-family="{$title.fontset}">
-        <t:titlepage-content t:side="recto" start-indent="0pt" text-align="center">
+        <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
             <title t:named-template="component.title" margin-top="25mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="bold" font-size="24pt"/>
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
             <!--<subtitle t:named-template="spareparts.list.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="24pt"/>-->

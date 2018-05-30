@@ -75,7 +75,7 @@
       </xsl:choose>
     </xsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
-      <fo:block start-indent="0pt" text-align="center"><xsl:copy-of select="$recto.content"/></fo:block>
+      <fo:block start-indent="0pt" text-align="left"><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
     <xsl:variable name="verso.content">
       <xsl:call-template name="article.titlepage.before.verso"/>
