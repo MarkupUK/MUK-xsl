@@ -280,12 +280,6 @@
                 <xsl:text>Bethan Tovey</xsl:text>
             </fo:block>
             
-            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
-                <xsl:text>Staff</xsl:text>
-            </fo:block>
-            <fo:block>
-                <xsl:text>Rebecca Shoob</xsl:text>
-            </fo:block>
             
             <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
                 <xsl:text>Programme Committee</xsl:text>
@@ -322,6 +316,30 @@
             </fo:block>
             <fo:block>
                 <xsl:text>Lauren Wood - XML.com</xsl:text>
+            </fo:block>
+            
+            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
+                <xsl:text>Thank You</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Mulberry Technologies</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Rebecca Shoob</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Adam Retter</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Jirka Kosek</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Norman Walsh</xsl:text>
             </fo:block>
             
             <fo:block font-size="14pt" font-weight="bold" break-before="column">

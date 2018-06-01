@@ -41,6 +41,9 @@
     <!-- Xref Handling -->
     <xsl:param name="insert.xref.page.number">1</xsl:param>
     <xsl:param name="xref.with.number.and.title">0</xsl:param>
+    
+    <!-- Hyphenate -->
+    <xsl:param name="hyphenate" select="'false'"/>
 
 
     <!-- Article title page handling -->
@@ -153,8 +156,11 @@
     
 
     <!-- Body Font -->
-    <xsl:param name="body.font.family">sans-serif</xsl:param>
+    <xsl:param name="body.font.family">Arial</xsl:param>
     <xsl:param name="body.font.master" select="9"/>
+    
+    <!-- Programlisting Font -->
+    <xsl:param name="monospace.font.family">DejaVu Sans Mono</xsl:param>
 
 
     <!-- Tables -->
@@ -164,7 +170,17 @@
     <!-- Graphics -->
     <xsl:param name="default.image.width" select="'160mm'"/>
 
-
+    
+    <!-- Program listing -->
+    <xsl:attribute-set name="monospace.verbatim.properties">
+        <xsl:attribute name="font-size">
+            <xsl:choose>
+                <xsl:when test="processing-instruction('db-font-size')"><xsl:value-of
+                    select="processing-instruction('db-font-size')"/></xsl:when>
+                <xsl:otherwise>inherit</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+    </xsl:attribute-set>
     
     
     <xsl:attribute-set name="thead.attrs.common">
