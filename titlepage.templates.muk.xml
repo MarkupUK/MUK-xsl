@@ -79,7 +79,7 @@
     <t:titlepage t:element="book" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
             <mediaobject/>
-            <title t:named-template="division.title" param:node="ancestor-or-self::book[1]" text-align="left" font-size="32pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}"/>
+            <title t:named-template="division.title" param:node="ancestor-or-self::book[1]" text-align="left" font-size="28pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}"/>
             <subtitle text-align="center" font-size="24pt" space-before="15.552pt" font-family="{$title.fontset}"/>
             <corpauthor font-size="17.28pt" keep-with-next.within-column="always" space-before="2in"/>
             <!--<authorgroup space-before="2in"/>-->

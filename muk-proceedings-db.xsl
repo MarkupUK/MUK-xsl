@@ -34,6 +34,9 @@
     
     <!-- TOC -->
     <xsl:param name="generate.toc" select="'book toc'"/>
+    
+    <!-- Columns, title pages -->
+    <xsl:param name="column.count.titlepage" select="1"/>
 
     <!-- Body start indent (4pc default) -->
     <xsl:param name="body.start.indent" select="'0pt'"/>
