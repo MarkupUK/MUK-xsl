@@ -78,10 +78,10 @@
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
 
-    <!-- Page Breaks -->
+    <!-- Page Breaks: ALLOW SECTIONS TO RUN ON
     <xsl:attribute-set name="section.level1.properties">
         <xsl:attribute name="break-before">page</xsl:attribute>
-    </xsl:attribute-set>
+    </xsl:attribute-set>-->
 
     <!-- Section Title Level One Customization -->
     <xsl:attribute-set name="section.title.level1.properties">
