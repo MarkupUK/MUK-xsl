@@ -78,6 +78,31 @@
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
+    
+    
+    <!-- Suppress email in author info -->
+    <xsl:template match="author" mode="titlepage.mode">
+        <fo:block>
+            <xsl:call-template name="anchor"/>
+            <xsl:choose>
+                <xsl:when test="orgname">
+                    <xsl:apply-templates/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:call-template name="person.name"/>
+                    <xsl:if test="affiliation/orgname">
+                        <xsl:text>, </xsl:text>
+                        <xsl:apply-templates select="affiliation/orgname" mode="titlepage.mode"/>
+                    </xsl:if>
+                    <!--<xsl:if test="affiliation/address/email">
+                        <xsl:text> </xsl:text>
+                        <xsl:apply-templates select="(affiliation/address/email)[1]"/>
+                    </xsl:if>-->
+                </xsl:otherwise>
+            </xsl:choose>
+        </fo:block>
+    </xsl:template>
+    
 
     <!-- Page Breaks: ALLOW SECTIONS TO RUN ON
     <xsl:attribute-set name="section.level1.properties">
