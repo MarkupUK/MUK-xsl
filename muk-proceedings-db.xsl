@@ -34,6 +34,7 @@
     
     <!-- TOC -->
     <xsl:param name="generate.toc" select="'book toc'"/>
+    <xsl:param name="toc.section.depth" select="0"/>
     
     <!-- Columns, title pages -->
     <xsl:param name="column.count.titlepage" select="1"/>
