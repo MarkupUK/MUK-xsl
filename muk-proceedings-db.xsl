@@ -74,7 +74,7 @@
 
 
     <!-- Title Font Family -->
-    <xsl:param name="title.font.family">Garamond, Palatino Linotype</xsl:param>
+    <xsl:param name="title.font.family">Garamond, EB Garamond, Palatino Linotype</xsl:param>
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
@@ -185,7 +185,7 @@
     
 
     <!-- Body Font -->
-    <xsl:param name="body.font.family">Garamond, Palatino Linotype</xsl:param>
+    <xsl:param name="body.font.family">Garamond, EB Garamond, Palatino Linotype</xsl:param>
     <xsl:param name="body.font.master" select="9"/>
     
     <!-- Programlisting Font -->
