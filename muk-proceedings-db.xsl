@@ -33,7 +33,7 @@
     <xsl:param name="footer.column.widths">5 1 1</xsl:param>
     
     <!-- TOC -->
-    <xsl:param name="generate.toc" select="'book toc'"/>
+    <xsl:param name="generate.toc" select="'book toc,title'"/>
     <xsl:param name="toc.section.depth" select="0"/>
     
     <!-- Columns, title pages -->
