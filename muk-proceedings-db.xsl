@@ -109,9 +109,9 @@
         <xsl:attribute name="font-size">13pt</xsl:attribute>
         <!--<xsl:attribute name="keep-with-next.within-column">10</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
-        <xsl:attribute name="page-break-before">
+        <!--<xsl:attribute name="page-break-before">
             <xsl:call-template name="page-break-before"/>
-        </xsl:attribute>
+        </xsl:attribute>-->
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
     </xsl:attribute-set>
 
@@ -125,9 +125,9 @@
         <!--<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
-        <xsl:attribute name="page-break-before">
+        <!--<xsl:attribute name="page-break-before">
             <xsl:call-template name="page-break-before"/>
-        </xsl:attribute>
+        </xsl:attribute>-->
         <!--<xsl:attribute name="keep-with-previous">
             <xsl:call-template name="keep-sections-2-4"/>
         </xsl:attribute>-->
@@ -143,19 +143,19 @@
         <!--<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
-        <xsl:attribute name="page-break-before">
+        <!--<xsl:attribute name="page-break-before">
             <xsl:call-template name="page-break-before"/>
-        </xsl:attribute>
+        </xsl:attribute>-->
     </xsl:attribute-set>
     
     
-    <!-- Page break before logic -->
+    <!-- Page break before logic 
     <xsl:template name="page-break-before">
         <xsl:choose>
             <xsl:when test="parent::db:section[preceding-sibling::*]">always</xsl:when>
             <xsl:otherwise>auto</xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
+    </xsl:template>-->
     
     
 
