@@ -352,7 +352,7 @@
             <fo:block font-size="10pt">
                 <fo:block>by B. Tommie Usdin, Rob Walpole, Mark Dunn, Bert Willems, Tony Graham,
                     David Maus, Makoto Murata, Hans-Jürgen Rennau, Hauke Brandes, Achim
-                    Berndzen, Philip Hodder, Robin La Fontaine, and Steven Pemberton</fo:block>
+                    Berndzen, Philip Hodder, Michael Kay, Robin La Fontaine, and Steven Pemberton</fo:block>
             </fo:block>
             
         </fo:flow>
