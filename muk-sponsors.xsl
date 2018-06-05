@@ -330,6 +330,10 @@
             <fo:block>
                 <xsl:text>Norman Walsh</xsl:text>
             </fo:block>
+            
+            <fo:block>
+                <xsl:text>...and our long-suffering partners</xsl:text>
+            </fo:block>
 
             <fo:block font-size="14pt" font-weight="bold" break-before="column">
                 <xsl:text>Sister Conferences</xsl:text>
