@@ -46,6 +46,18 @@
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/pubdate"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/pubdate"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/pubdate"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/revision"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/revhistory"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/abstract"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/abstract"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/abstract"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/itermset"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/itermset"/>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/itermset"/>
 </xsl:template>
 
 <xsl:template name="article.titlepage.verso">
@@ -166,6 +178,30 @@
 
 <xsl:template match="pubdate" mode="article.titlepage.recto.auto.mode">
 <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em">
+<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
+</fo:block>
+</xsl:template>
+
+<xsl:template match="revision" mode="article.titlepage.recto.auto.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em">
+<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
+</fo:block>
+</xsl:template>
+
+<xsl:template match="revhistory" mode="article.titlepage.recto.auto.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em">
+<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
+</fo:block>
+</xsl:template>
+
+<xsl:template match="abstract" mode="article.titlepage.recto.auto.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" text-align="start" margin-left="0.5in" margin-right="0.5in" font-family="{$body.fontset}">
+<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
+</fo:block>
+</xsl:template>
+
+<xsl:template match="itermset" mode="article.titlepage.recto.auto.mode">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block>
 </xsl:template>
@@ -461,7 +497,7 @@
 </xsl:template>
 
 <xsl:template match="title" mode="book.titlepage.recto.auto.mode">
-<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="left" font-size="32pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="book.titlepage.recto.style" text-align="left" font-size="28pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}">
 <xsl:call-template name="division.title">
 <xsl:with-param name="node" select="ancestor-or-self::book[1]"/>
 </xsl:call-template>
@@ -3848,7 +3884,7 @@
 </xsl:template>
 
 <xsl:template name="bibliography.titlepage.recto">
-  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="bibliography.titlepage.recto.style" margin-left="{$title.margin.left}" font-size="30pt" font-family="{$title.fontset}" font-weight="bold">
+  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="bibliography.titlepage.recto.style" margin-left="{$title.margin.left}" font-size="16pt" font-family="{$title.fontset}" font-weight="bold">
 <xsl:call-template name="component.title">
 <xsl:with-param name="node" select="ancestor-or-self::bibliography[1]"/>
 </xsl:call-template></fo:block>
