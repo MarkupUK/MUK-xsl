@@ -232,6 +232,43 @@
         <xsl:attribute name="padding-top">1.5pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">0pt</xsl:attribute>
     </xsl:attribute-set>
+    
+    <!-- add author names to ToC: customising autotoc.xsl -->
+    <xsl:template name="toc.line">
+        <xsl:param name="toc-context" select="NOTANODE"/>
+        
+        <xsl:variable name="id">
+            <xsl:call-template name="object.id"/>
+        </xsl:variable>
+        
+        <xsl:variable name="label">
+            <xsl:apply-templates select="." mode="label.markup"/>
+        </xsl:variable>
+        
+        <fo:block xsl:use-attribute-sets="toc.line.properties">
+            <fo:inline keep-with-next.within-line="always">
+                <fo:basic-link internal-destination="{$id}">
+                    <xsl:if test="$label != ''">
+                        <xsl:copy-of select="$label"/>
+                        <xsl:value-of select="$autotoc.label.separator"/>
+                    </xsl:if>
+                    <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+                </fo:basic-link>
+                <!-- hackeroo -->
+                <xsl:text> &#x2013; </xsl:text>
+                <fo:inline font-style="italic">
+                    <xsl:apply-templates select="(articleinfo/author|articleinfo/authorgroup/author)" mode="bibliography.mode"/>
+                </fo:inline> 
+                <!-- fun ends here -->
+            </fo:inline>
+            <fo:inline keep-together.within-line="always">
+                <fo:leader xsl:use-attribute-sets="toc.leader.properties"/>
+                <fo:basic-link internal-destination="{$id}">
+                    <fo:page-number-citation ref-id="{$id}"/>
+                </fo:basic-link>
+            </fo:inline>
+        </fo:block>
+    </xsl:template>
 
     
 </xsl:stylesheet>
