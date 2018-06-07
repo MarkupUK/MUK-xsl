@@ -103,6 +103,10 @@
         </fo:block>
     </xsl:template>
     
+    
+    <!-- TOC Customisation for adding author -->
+    
+    
 
     <!-- Page Breaks: ALLOW SECTIONS TO RUN ON
     <xsl:attribute-set name="section.level1.properties">
