@@ -5,6 +5,7 @@
     xmlns:fo="http://www.w3.org/1999/XSL/Format"
     xmlns:exsl="http://exslt.org/common"
     xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
     exclude-result-prefixes="xs"
     version="1.0">
     
@@ -14,6 +15,9 @@
     <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
     <xsl:param name="fo.processor" select="'fop'"/>
+    
+    <xsl:param name="fop1.extensions" select="1"/>
+    <xsl:param name="fop.extensions" select="1"/>
     
     
         <!-- Page Geometry -->
