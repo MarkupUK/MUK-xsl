@@ -250,7 +250,7 @@
                 <xsl:text>Andrew Sales</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Bethan Tovey</xsl:text>
+                <xsl:text>Rebecca Shoob</xsl:text>
             </fo:block>
 
 
@@ -308,15 +308,27 @@
             </fo:block>
 
             <fo:block>
-                <xsl:text>Mulberry Technologies</xsl:text>
+                <xsl:text>letex Publishing Services</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Mercator</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Exeter</xsl:text>
             </fo:block>
             
             <fo:block>
                 <xsl:text>Deborah A. Lapeyre</xsl:text>
             </fo:block>
+            
+            <fo:block>
+                <xsl:text>B. Tommie Usdin</xsl:text>
+            </fo:block>
 
             <fo:block>
-                <xsl:text>Rebecca Shoob</xsl:text>
+                <xsl:text>Bethan Tovey</xsl:text>
             </fo:block>
 
             <fo:block>
@@ -351,12 +363,10 @@
 
 
             <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
-                <fo:block>Markup UK 2018 Proceedings</fo:block>
+                <fo:block>Markup UK 2019 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
-                <fo:block>by B. Tommie Usdin, Rob Walpole, Mark Dunn, Bert Willems, Tony Graham,
-                    David Maus, Makoto Murata, Hans-Jürgen Rennau, Hauke Brandes, Achim
-                    Berndzen, Philip Hodder, Michael Kay, Robin La Fontaine, and Steven Pemberton</fo:block>
+                <fo:block>by B. Tommie Usdin, Debbie Lapeyre, Karin Bredenberg, Jaime Kaminski, Peter Flynn, Marco Geue, Gerrit Imsieke, Andy Bunce, Alain Couthures, Andreas Tai, Michael Seiferle, Robin La Fontaine, Nigel A Whitaker, John Lumley, Octavian Nadolu, Tony Graham, Barnabas Davoti, Erik Siegel, Cristian Talau, Liam R E Quin, Syd Bauman, and Sandro Cirulli</fo:block>
             </fo:block>
             
         </fo:flow>
