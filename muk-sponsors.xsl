@@ -221,17 +221,49 @@
             <fo:block text-align="center" font-size="32pt" font-weight="bold">
                 <xsl:text>Our Sponsors</xsl:text>
             </fo:block>
-            <fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
+            <!-- Evolved Binary, Fusion DB -->
+            <!--<fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
                 <fo:external-graphic content-width="130mm" src="img/evolved-binary-logo.png"/>
+            </fo:block>-->
+            
+            <fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
+                <fo:external-graphic content-width="130mm" src="img/fusionDB-logo.png"/>
             </fo:block>
+            
+            <!-- Saxonica -->
             <fo:block text-align="center">
                 <fo:external-graphic content-width="130mm"
                     src="img/logo_crop-mid-blue-background.gif"/>
             </fo:block>
-
-            <fo:block text-align="center" margin-top="40mm">
+            
+            <!-- oXygen -->
+            <fo:block text-align="center" margin-top="40mm"  page-break-before="always">
                 <fo:external-graphic content-width="75mm"
                     src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
+            </fo:block>
+            
+            <!-- letex -->
+            <fo:block text-align="center" margin-top="40mm">
+                <fo:external-graphic content-width="75mm"
+                    src="img/letex-logo.png"/>
+            </fo:block>
+            
+            <!-- Mercator -->
+            <fo:block text-align="center" margin-top="40mm">
+                <fo:external-graphic content-width="75mm"
+                    src="img/mercator-logo.png"/>
+            </fo:block>
+            
+            <!-- exeter -->
+            <fo:block text-align="center" margin-top="40mm">
+                <fo:external-graphic content-width="75mm"
+                    src="img/exeterLogo.png"/>
+            </fo:block>
+            
+            <!-- Mulberry -->
+            <fo:block text-align="center" margin-top="40mm">
+                <fo:external-graphic content-width="75mm"
+                    src="img/mul-logo.png"/>
             </fo:block>
 
             <fo:block font-size="14pt" font-weight="bold" page-break-before="always">
