@@ -6,6 +6,7 @@
     xmlns:exsl="http://exslt.org/common"
     xmlns:db="http://docbook.org/ns/docbook"
     xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
     exclude-result-prefixes="xs"
     version="1.0">
     
