@@ -226,15 +226,30 @@
                 <fo:external-graphic content-width="130mm" src="img/evolved-binary-logo.png"/>
             </fo:block>-->
             
-            <fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
-                <fo:external-graphic content-width="130mm" src="img/fusionDB-logo.png"/>
-            </fo:block>
+            <fo:table>
+                <fo:table-body>
+                    <fo:table-row>
+                        <fo:table-cell>
+                            <fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
+                                <fo:external-graphic content-width="130mm" src="img/fusionDB-logo.png"/>
+                            </fo:block>                
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row>
+                        <fo:table-cell>
+                            <fo:block text-align="center">
+                                <fo:external-graphic content-width="130mm"
+                                    src="img/logo_crop-mid-blue-background.gif"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                </fo:table-body>
+            </fo:table>
+            
+            
             
             <!-- Saxonica -->
-            <fo:block text-align="center">
-                <fo:external-graphic content-width="130mm"
-                    src="img/logo_crop-mid-blue-background.gif"/>
-            </fo:block>
+            
             
             <!-- oXygen -->
             <fo:block text-align="center" margin-top="40mm"  page-break-before="always">
