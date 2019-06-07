@@ -132,7 +132,7 @@
                 </xsl:call-template>
             </xsl:if>
             <fo:region-body margin-bottom="{$body.margin.bottom}" margin-top="{$body.margin.top}"
-                column-gap="{$column.gap.body}" column-count="{$column.count.body}">
+                column-gap="{$column.gap.body}" column-count="2">
                 <xsl:attribute name="margin-{$direction.align.start}">
                     <xsl:value-of select="$body.margin.inner"/>
                 </xsl:attribute>
@@ -218,9 +218,9 @@
 
     <xsl:template name="sponsors-flow">
         <fo:flow flow-name="xsl-region-body">
-            <fo:block text-align="center" font-size="32pt" font-weight="bold">
+            <!--<fo:block text-align="center" font-size="32pt" font-weight="bold">
                 <xsl:text>Our Sponsors</xsl:text>
-            </fo:block>
+            </fo:block>-->
             <!-- Evolved Binary, Fusion DB -->
             <!--<fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
                 <fo:external-graphic content-width="130mm" src="img/evolved-binary-logo.png"/>
@@ -228,18 +228,27 @@
             
             <fo:table>
                 <fo:table-body>
-                    <fo:table-row>
+                    <fo:table-row height="80mm">
                         <fo:table-cell>
-                            <fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
+                            <fo:block text-align="center" margin-bottom="50mm" margin-top="10mm">
                                 <fo:external-graphic content-width="130mm" src="img/fusionDB-logo.png"/>
                             </fo:block>                
                         </fo:table-cell>
                     </fo:table-row>
-                    <fo:table-row>
+                    <fo:table-row height="35mm">
+                        <fo:table-cell>
+                            <!-- Saxonica -->
+                            <fo:block text-align="center">
+                                <fo:external-graphic content-width="110mm"
+                                    src="img/logo_crop-mid-blue-background.gif"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="40mm">
                         <fo:table-cell>
                             <fo:block text-align="center">
-                                <fo:external-graphic content-width="130mm"
-                                    src="img/logo_crop-mid-blue-background.gif"/>
+                                <fo:external-graphic content-width="120mm"
+                                    src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -248,38 +257,68 @@
             
             
             
-            <!-- Saxonica -->
+            <fo:table width="130mm" page-break-before="always">
+                <fo:table-body>
+                    <fo:table-row height="100mm">
+                        <fo:table-cell>
+                            <fo:block text-align="left" vertical-align="center" margin-top="45mm">
+                                <fo:external-graphic content-width="50mm"
+                                    src="img/letex-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block text-align="right" vertical-align="center" margin-top="40mm">
+                                <fo:external-graphic content-width="60mm"
+                                    src="img/exeterLogo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="100mm">
+                        <fo:table-cell>
+                            <fo:block text-align="left" vertical-align="center" margin-top="50mm">
+                                <fo:external-graphic content-width="55mm"
+                                    src="img/mercator-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block text-align="right" vertical-align="center" margin-top="40mm">
+                                <fo:external-graphic content-width="60mm"
+                                    src="img/mul-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                </fo:table-body>
+            </fo:table>
             
-            
-            <!-- oXygen -->
+            <!--<!-\- oXygen -\->
             <fo:block text-align="center" margin-top="40mm"  page-break-before="always">
                 <fo:external-graphic content-width="75mm"
                     src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
             </fo:block>
             
-            <!-- letex -->
+            <!-\- letex -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
                     src="img/letex-logo.png"/>
             </fo:block>
             
-            <!-- Mercator -->
+            <!-\- Mercator -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
                     src="img/mercator-logo.png"/>
             </fo:block>
             
-            <!-- exeter -->
+            <!-\- exeter -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
                     src="img/exeterLogo.png"/>
             </fo:block>
             
-            <!-- Mulberry -->
+            <!-\- Mulberry -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
                     src="img/mul-logo.png"/>
-            </fo:block>
+            </fo:block>-->
 
             <fo:block font-size="14pt" font-weight="bold" page-break-before="always">
                 <xsl:text>Organisation Committee</xsl:text>
