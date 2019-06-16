@@ -12,6 +12,7 @@
     
     
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
+    <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
