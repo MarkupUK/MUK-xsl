@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0"
-    xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
-    xmlns:fo="http://www.w3.org/1999/XSL/Format">
-
-  <xsl:attribute-set name="administrivia.title.properties">
-    <xsl:attribute name="font-family">
-      <xsl:value-of select="$title.font.family"/>
-    </xsl:attribute>
-    <xsl:attribute name="font-weight">normal</xsl:attribute>
-      <xsl:attribute name="color">
-        <xsl:value-of select="$muk.blue" />
-      </xsl:attribute>
-    <xsl:attribute name="font-size">14pt</xsl:attribute>
-  </xsl:attribute-set>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:exsl="http://exslt.org/common" xmlns:db="http://docbook.org/ns/docbook"
+    exclude-result-prefixes="db exsl xs" version="1.0">
 
     <!-- Add sponsor pages -->
 
