@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 
-		xmlns:s6hl="http://net.sf.xslthl/ConnectorSaxon6" 
+    xmlns:s6hl="java:net.sf.xslthl.ConnectorSaxon6" 
 		xmlns:sbhl="http://net.sf.xslthl/ConnectorSaxonB" 
 		xmlns:xhl="http://net.sf.xslthl/ConnectorXalan"
 		xmlns:saxon6="http://icl.com/saxon" 
@@ -29,7 +29,7 @@
 </xalan:component> 
 
 <!-- for saxon 6 -->
-<saxon6:script implements-prefix="s6hl" language="java" src="java:net.sf.xslthl.ConnectorSaxon6" />
+<!--<saxon6:script implements-prefix="s6hl" language="java" src="java:net.sf.xslthl.ConnectorSaxon6" />-->
 
 <!-- for saxon 8.5 and later -->
 <saxonb:script implements-prefix="sbhl" language="java" src="java:net.sf.xslthl.ConnectorSaxonB" />
