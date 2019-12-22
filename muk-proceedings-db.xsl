@@ -2,26 +2,50 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
     xmlns:fo="http://www.w3.org/1999/XSL/Format"
     xmlns:exsl="http://exslt.org/common"
     xmlns:db="http://docbook.org/ns/docbook"
     xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
     xmlns:xi="http://www.w3.org/2001/XInclude"
-    exclude-result-prefixes="xs"
+    exclude-result-prefixes="db exsl fox xi xs"
     version="1.0">
     
     
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
+    <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
     <xsl:param name="fo.processor" select="'fop'"/>
     
-    <xsl:param name="fop1.extensions" select="1"/>
-    <xsl:param name="fop.extensions" select="1"/>
+    <xsl:param name="axf.extensions">
+        <xsl:choose>
+            <xsl:when test="$fo.processor = 'ahf'">1</xsl:when>
+            <xsl:otherwise>0</xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
+    
+    <xsl:param name="fop1.extensions">
+        <xsl:choose>
+            <xsl:when test="$fo.processor = 'fop'">1</xsl:when>
+            <xsl:otherwise>0</xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
+    <xsl:param name="fop.extensions">
+        <xsl:choose>
+            <xsl:when test="$fo.processor = 'fop'">1</xsl:when>
+            <xsl:otherwise>0</xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
     
     
-        <!-- Page Geometry -->
+    <!-- Markup UK colors -->
+    <xsl:param name="muk.blue" select="'rgb(59, 64, 99)'" />
+    <xsl:param name="muk.grey" select="'rgb(233, 236, 239)'" />
+    <xsl:param name="muk.red" select="'rgb(202, 77, 94)'" />
+
+    <!-- Page Geometry -->
     <xsl:param name="paper.type" select="'A4'"/>
     <xsl:param name="page.margin.inner">25mm</xsl:param>
     <xsl:param name="page.margin.outer">25mm</xsl:param>
@@ -43,9 +67,11 @@
     
     <!-- Columns, title pages -->
     <xsl:param name="column.count.titlepage" select="1"/>
+    <xsl:param name="column.count.body" select="2"/>
+    <xsl:param name="column.gap.body" select="'24pt'"/>
 
     <!-- Body start indent (4pc default) -->
-    <xsl:param name="body.start.indent" select="'0pt'"/>
+    <xsl:param name="body.start.indent" select="'0'"/>
     
     <!-- Xref Handling -->
     <xsl:param name="insert.xref.page.number">1</xsl:param>
@@ -64,9 +90,9 @@
     
 
     <!-- Cover template for title page -->
-    <xsl:template match="db:cover" mode="titlepage.mode">
+    <!--<xsl:template match="cover" mode="titlepage.mode">
         <fo:block-container border-style="solid" border-width="0.5pt" margin-left="40mm" margin-right="40mm">
-            <!--<xsl:apply-templates/>-->
+            <!-\-<xsl:apply-templates/>-\->
             <fo:block>
                 <fo:external-graphic>
                     <xsl:attribute name="src">
@@ -75,11 +101,11 @@
                 </fo:external-graphic>
             </fo:block>
         </fo:block-container>
-    </xsl:template>
+    </xsl:template>-->
 
 
     <!-- Title Font Family -->
-    <xsl:param name="title.font.family">Garamond, EB Garamond, Palatino Linotype</xsl:param>
+    <xsl:param name="title.font.family">League Gothic, sans-serif</xsl:param>
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
@@ -123,7 +149,10 @@
         <xsl:attribute name="font-family">
             <xsl:value-of select="$title.font.family"/>
         </xsl:attribute>
-        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="color">
+          <xsl:value-of select="$muk.blue" />
+        </xsl:attribute>
         <xsl:attribute name="font-size">16pt</xsl:attribute>
         <xsl:attribute name="keep-with-next">
             <xsl:choose>
@@ -139,7 +168,7 @@
         <xsl:attribute name="font-family">
             <xsl:value-of select="$title.font.family"/>
         </xsl:attribute>
-        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
         <xsl:attribute name="font-size">13pt</xsl:attribute>
         <!--<xsl:attribute name="keep-with-next.within-column">10</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
@@ -154,7 +183,7 @@
         <xsl:attribute name="font-family">
             <xsl:value-of select="$title.font.family"/>
         </xsl:attribute>
-        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
         <xsl:attribute name="font-size">11pt</xsl:attribute>
         <!--<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
@@ -194,11 +223,11 @@
     
 
     <!-- Body Font -->
-    <xsl:param name="body.font.family">Garamond, EB Garamond, Palatino Linotype</xsl:param>
+    <xsl:param name="body.font.family">Liberation Sans, sans-serif</xsl:param>
     <xsl:param name="body.font.master" select="9"/>
     
     <!-- Programlisting Font -->
-    <xsl:param name="monospace.font.family">DejaVu Sans Mono</xsl:param>
+    <xsl:param name="monospace.font.family">Liberation Mono, DejaVu Sans Mono, monospace</xsl:param>
 
 
     <!-- Tables -->
@@ -279,5 +308,73 @@
         </fo:block>
     </xsl:template>
 
-    
+    <xsl:template name="user.declarations">
+      <fo:declarations>
+          <!-- https://github.com/theleagueof/league-gothic/archive/master.zip -->
+        <axf:font-face
+            src="url('league-gothic-master/LeagueGothic-Regular.otf')"
+            font-family="League Gothic" />
+        <!-- https://github.com/liberationfonts/liberation-fonts/releases -->
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Regular.ttf')"
+            font-family="Liberation Sans" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Bold.ttf')"
+            font-family="Liberation Sans"
+            font-weight="bold" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Italic.ttf')"
+            font-family="Liberation Sans"
+            font-style="italic" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-BoldItalic.ttf')"
+            font-family="Liberation Sans"
+            font-weight="bold"
+            font-style="italic" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Regular.ttf')"
+            font-family="Liberation Mono" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Bold.ttf')"
+            font-family="Liberation Mono"
+            font-weight="bold" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Italic.ttf')"
+            font-family="Liberation Mono"
+            font-style="italic" />
+        <axf:font-face
+            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-BoldItalic.ttf')"
+            font-family="Liberation Mono"
+            font-weight="bold"
+            font-style="italic" />
+      </fo:declarations>
+    </xsl:template>
+
+    <xsl:template name="user-axf-page-master-properties">
+        <xsl:param name="page.master" select="''"/>
+        
+        <xsl:choose>
+            <xsl:when test="$page.master = 'titlepage-first'">
+                <xsl:attribute name="background-image">url(img/background.jpg)</xsl:attribute>
+                <xsl:attribute name="axf:background-size">cover</xsl:attribute>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+<xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
+    <fo:inline text-depth="0" line-stacking-strategy="font-height" hyphenate="false" padding="16mm"
+      color="{$muk.blue}" background-color="{$muk.grey}" axf:border-radius="3mm"
+      font-family="{$title.fontset}" font-weight="normal" font-size="16mm">
+      <fo:block start-indent="0" end-indent="0">
+        <xsl:apply-templates />
+      </fo:block>
+    </fo:inline>
+</xsl:template>
+
+<xsl:template match="abstract" mode="titlepage.mode">
+  <fo:block background-color="{$muk.grey}" axf:border-radius="3mm" padding="3mm" xsl:use-attribute-sets="abstract.properties" margin-left="0" margin-right="0">
+    <xsl:apply-templates select="*[not(self::title)]" mode="titlepage.mode"/>
+  </fo:block>
+</xsl:template>
+
 </xsl:stylesheet>
