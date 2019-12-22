@@ -1,19 +1,22 @@
-<t:templates xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" xmlns:param="http://nwalsh.com/docbook/xsl/template/1.0/param" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<t:templates
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
+    xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0"
+    xmlns:param="http://nwalsh.com/docbook/xsl/template/1.0/param"
+    xmlns:fo="http://www.w3.org/1999/XSL/Format">
 
 <!-- ********************************************************************
-     $Id: titlepage.templates.xml 9722 2013-02-01 19:44:13Z bobstayton $
-     ********************************************************************
 
-     This file is part of the DocBook XSL Stylesheet distribution.
-     See ../README or http://docbook.sf.net/ for copyright
-     copyright and other information.
+     Markup UK titlepage templates.
+
+     This file is not part of the DocBook XSL Stylesheet distribution.
 
      ******************************************************************** -->
 
 <!-- ==================================================================== -->
-    <t:titlepage t:element="article" t:wrapper="fo:block" font-family="{$title.fontset}">
+    <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}">
         <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
-            <title t:named-template="component.title" margin-top="25mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="bold" font-size="24pt"/>
+            <title t:named-template="component.title" margin-top="25mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="24pt"/>
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
             <!--<subtitle t:named-template="spareparts.list.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="24pt"/>-->
 
@@ -78,8 +81,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="book" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <mediaobject/>
-            <title t:named-template="division.title" param:node="ancestor-or-self::book[1]" text-align="left" font-size="28pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}"/>
+            <title t:named-template="muk-proceedings.title" param:node="ancestor-or-self::book[1]" text-align="right" font-size="28pt" space-before="18.6624pt" font-weight="bold" font-family="{$title.fontset}"/>
             <subtitle text-align="center" font-size="24pt" space-before="15.552pt" font-family="{$title.fontset}"/>
             <corpauthor font-size="17.28pt" keep-with-next.within-column="always" space-before="2in"/>
             <!--<authorgroup space-before="2in"/>-->
@@ -352,7 +354,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="section" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <title margin-left="{$title.margin.left}" font-family="{$title.fontset}"/>
+            <title margin-left="{$title.margin.left}" font-family="{$title.fontset}, blah" color="{$muk.blue}" font-weight="normal" />
             <subtitle font-family="{$title.fontset}"/>
             <corpauthor/>
             <authorgroup/>
@@ -681,7 +683,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="table.of.contents" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <title t:force="1" t:named-template="gentext" param:key="'TableofContents'" space-before.minimum="1em" space-before.optimum="1.5em" space-before.maximum="2em" space-after="0.5em" start-indent="0pt" font-size="17.28pt" font-weight="bold" font-family="{$title.fontset}"/>
+            <title t:force="1" t:named-template="gentext" param:key="'TableofContents'" space-before.minimum="1em" space-before.optimum="1.5em" space-before.maximum="2em" space-after="0.5em" start-indent="0pt" font-size="17.28pt" font-weight="normal" color="{$muk.blue}" font-family="{$title.fontset}"/>
         </t:titlepage-content>
         <t:titlepage-content t:side="verso"/>
         <t:titlepage-separator>
