@@ -8,6 +8,10 @@
      $Id: axf.xsl 8983 2011-03-27 07:41:25Z mzjn $
      ******************************************************************** -->
 
+<xsl:key name="keywords"
+         match="keyword[normalize-space(.) != '']"
+         use="normalize-space(.)" />
+
 <xsl:template name="axf-document-information">
 
     <xsl:variable name="authors" select="(//author|//editor|
@@ -17,7 +21,7 @@
         <xsl:choose>
           <xsl:when test="$authors[self::authorgroup]">
             <xsl:call-template name="person.name.list">
-              <xsl:with-param name="person.list" 
+              <xsl:with-param name="person.list"
                  select="$authors/*[self::author|self::corpauthor|
                                self::othercredit|self::editor]"/>
             </xsl:call-template>
@@ -50,17 +54,17 @@
     </xsl:variable>
 
     <!-- * see bug report #1465301 - mzjn -->
-    <axf:document-info name="title">
-      <xsl:attribute name="value">
-        <xsl:value-of select="normalize-space($title)"/>
-      </xsl:attribute>
-    </axf:document-info>
+    <axf:document-info name="title" value="{normalize-space($title)}"/>
+    <axf:document-info name="displaydoctitle" value="true"/>
 
     <xsl:if test="//keyword">
       <xsl:element name="axf:document-info">
         <xsl:attribute name="name">keywords</xsl:attribute>
         <xsl:attribute name="value">
-          <xsl:for-each select="//keyword">
+          <xsl:for-each
+              select="//keyword[normalize-space(.) != '']
+                               [count(. | key('keywords', normalize-space(.))[1]) = 1]">
+            <xsl:sort select="normalize-space(.)"/>
             <xsl:value-of select="normalize-space(.)"/>
             <xsl:if test="position() != last()">
               <xsl:text>, </xsl:text>
