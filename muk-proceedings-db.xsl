@@ -10,22 +10,29 @@
     xmlns:xi="http://www.w3.org/2001/XInclude"
     exclude-result-prefixes="db exsl fox xi xs"
     version="1.0">
-    
-    
+
+
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
     <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
+    <xsl:import href="muk-highlight.xsl"/>
+    <xsl:import href="muk-lists.xsl"/>
+    <xsl:import href="muk-verbatim.xsl"/>
+
+    <xsl:param name="docbook-xsl.dir"
+               select="'docbook-xsl-1.79.1'" />
+
     <xsl:param name="fo.processor" select="'fop'"/>
-    
+
     <xsl:param name="axf.extensions">
         <xsl:choose>
             <xsl:when test="$fo.processor = 'ahf'">1</xsl:when>
             <xsl:otherwise>0</xsl:otherwise>
         </xsl:choose>
     </xsl:param>
-    
+
     <xsl:param name="fop1.extensions">
         <xsl:choose>
             <xsl:when test="$fo.processor = 'fop'">1</xsl:when>
@@ -38,12 +45,14 @@
             <xsl:otherwise>0</xsl:otherwise>
         </xsl:choose>
     </xsl:param>
-    
-    
+
+
     <!-- Markup UK colors -->
     <xsl:param name="muk.blue" select="'rgb(59, 64, 99)'" />
-    <xsl:param name="muk.grey" select="'rgb(233, 236, 239)'" />
+    <xsl:param name="muk.darkgrey" select="'rgb(33, 37, 41)'" />
+    <xsl:param name="muk.grey" select="'rgb(125, 140, 163)'" />
     <xsl:param name="muk.red" select="'rgb(202, 77, 94)'" />
+    <xsl:param name="muk.background" select="'rgb(233, 236, 239)'" />
 
     <!-- Page Geometry -->
     <xsl:param name="paper.type" select="'A4'"/>
@@ -60,34 +69,44 @@
     <!-- Header and footer column widths (left, centre, right) -->
     <xsl:param name="header.column.widths">7 1 7</xsl:param>
     <xsl:param name="footer.column.widths">5 1 1</xsl:param>
-    
+
+    <xsl:attribute-set name="root.properties">
+      <xsl:attribute name="font-size">10pt</xsl:attribute>
+      <xsl:attribute name="text-align">start</xsl:attribute>
+    </xsl:attribute-set>
+
     <!-- TOC -->
     <xsl:param name="generate.toc" select="'book toc,title'"/>
     <xsl:param name="toc.section.depth" select="0"/>
-    
+
     <!-- Columns, title pages -->
     <xsl:param name="column.count.titlepage" select="1"/>
-    <xsl:param name="column.count.body" select="2"/>
+    <xsl:param name="column.count.body" select="1"/>
     <xsl:param name="column.gap.body" select="'24pt'"/>
 
     <!-- Body start indent (4pc default) -->
-    <xsl:param name="body.start.indent" select="'0'"/>
-    
+    <xsl:param name="body.start.indent" select="'4pc'"/>
+    <xsl:param name="title.margin.left1" select="$body.start.indent" />
     <!-- Xref Handling -->
     <xsl:param name="insert.xref.page.number">1</xsl:param>
     <xsl:param name="xref.with.number.and.title">0</xsl:param>
-    
+
     <!-- Hyphenate -->
     <xsl:param name="hyphenate" select="'false'"/>
 
+    <!-- Lists -->
+    <xsl:attribute-set name="itemizedlist.label.properties">
+      <xsl:attribute name="color">
+        <xsl:value-of select="$muk.red" />
+      </xsl:attribute>
+      <xsl:attribute name="font-weight">bold</xsl:attribute>
+    </xsl:attribute-set>
 
-    <!-- Article title page handling -->
-    <xsl:template name="article.titlepage.separator">
-        <fo:block break-after="page"/>
-    </xsl:template>
-    
-    
-    
+    <xsl:attribute-set name="orderedlist.label.properties">
+      <xsl:attribute name="color">
+        <xsl:value-of select="$muk.red" />
+      </xsl:attribute>
+    </xsl:attribute-set>
 
     <!-- Cover template for title page -->
     <!--<xsl:template match="cover" mode="titlepage.mode">
@@ -109,8 +128,8 @@
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
-    
-    
+
+
     <!-- Suppress email in author info -->
     <xsl:template match="author" mode="titlepage.mode">
         <fo:block>
@@ -133,11 +152,11 @@
             </xsl:choose>
         </fo:block>
     </xsl:template>
-    
-    
+
+
     <!-- TOC Customisation for adding author -->
-    
-    
+
+
 
     <!-- Page Breaks: ALLOW SECTIONS TO RUN ON
     <xsl:attribute-set name="section.level1.properties">
@@ -161,6 +180,9 @@
             </xsl:choose>
         </xsl:attribute>
         <xsl:attribute name="text-align">left</xsl:attribute>
+        <xsl:attribute name="margin-left">
+          <xsl:value-of select="$body.start.indent" />
+        </xsl:attribute>
     </xsl:attribute-set>
 
     <!-- Section Title Level Two Customization -->
@@ -169,6 +191,9 @@
             <xsl:value-of select="$title.font.family"/>
         </xsl:attribute>
         <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="color">
+          <xsl:value-of select="$muk.darkgrey" />
+        </xsl:attribute>
         <xsl:attribute name="font-size">13pt</xsl:attribute>
         <!--<xsl:attribute name="keep-with-next.within-column">10</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
@@ -176,6 +201,9 @@
             <xsl:call-template name="page-break-before"/>
         </xsl:attribute>-->
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
+        <xsl:attribute name="margin-left">
+          <xsl:value-of select="$body.start.indent" />
+        </xsl:attribute>
     </xsl:attribute-set>
 
     <!-- Section Title Level Three Customization -->
@@ -188,6 +216,9 @@
         <!--<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
+        <xsl:attribute name="margin-left">
+          <xsl:value-of select="$body.start.indent" />
+        </xsl:attribute>
         <!--<xsl:attribute name="page-break-before">
             <xsl:call-template name="page-break-before"/>
         </xsl:attribute>-->
@@ -206,26 +237,29 @@
         <!--<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>-->
         <xsl:attribute name="text-align">left</xsl:attribute>
         <xsl:attribute name="keep-with-next">always</xsl:attribute>
+        <xsl:attribute name="margin-left">
+          <xsl:value-of select="$body.start.indent" />
+        </xsl:attribute>
         <!--<xsl:attribute name="page-break-before">
             <xsl:call-template name="page-break-before"/>
         </xsl:attribute>-->
     </xsl:attribute-set>
-    
-    
-    <!-- Page break before logic 
+
+
+    <!-- Page break before logic
     <xsl:template name="page-break-before">
         <xsl:choose>
             <xsl:when test="parent::db:section[preceding-sibling::*]">always</xsl:when>
             <xsl:otherwise>auto</xsl:otherwise>
         </xsl:choose>
     </xsl:template>-->
-    
-    
+
+
 
     <!-- Body Font -->
     <xsl:param name="body.font.family">Liberation Sans, sans-serif</xsl:param>
     <xsl:param name="body.font.master" select="9"/>
-    
+
     <!-- Programlisting Font -->
     <xsl:param name="monospace.font.family">Liberation Mono, DejaVu Sans Mono, monospace</xsl:param>
 
@@ -237,19 +271,76 @@
     <!-- Graphics -->
     <xsl:param name="default.image.width" select="'160mm'"/>
 
-    
+
     <!-- Program listing -->
-    <xsl:attribute-set name="monospace.verbatim.properties">
-        <xsl:attribute name="font-size">
+    <xsl:param name="shade.verbatim" select="1" />
+
+    <xsl:attribute-set name="shade.verbatim.style">
+      <xsl:attribute name="background-color">
+        <xsl:value-of select="$muk.background" />
+      </xsl:attribute>
+      <xsl:attribute name="axf:border-radius">3pt</xsl:attribute>
+      <xsl:attribute name="padding">3pt</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="monospace.properties">
+        <xsl:attribute name="color">
             <xsl:choose>
-                <xsl:when test="processing-instruction('db-font-size')"><xsl:value-of
-                    select="processing-instruction('db-font-size')"/></xsl:when>
-                <xsl:otherwise>inherit</xsl:otherwise>
+              <xsl:when test="self::code">
+                <xsl:value-of
+                    select="$muk.darkgrey"/>
+              </xsl:when>
+              <xsl:otherwise>inherit</xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
     </xsl:attribute-set>
-    
-    
+
+    <xsl:attribute-set name="monospace.verbatim.properties">
+      <xsl:attribute name="start-indent">
+        <xsl:choose>
+          <xsl:when
+              test="ancestor::table | ancestor::informaltable">0</xsl:when>
+              <xsl:otherwise>4pc</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+        <xsl:attribute name="font-size">
+            <xsl:choose>
+              <xsl:when test="processing-instruction('db-font-size')">
+                <xsl:value-of
+                    select="processing-instruction('db-font-size')"/>
+              </xsl:when>
+              <xsl:otherwise>0.95em</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+        <xsl:attribute name="line-height">inherit</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="pgwide.properties">
+      <xsl:attribute name="start-indent">0</xsl:attribute>
+      <xsl:attribute name="padding-top">1lh</xsl:attribute>
+      <xsl:attribute name="padding-bottom">1lh</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:param name="callout.unicode" select="1" />
+    <xsl:attribute-set name="callout.unicode.properties">
+      <xsl:attribute name="color">
+        <xsl:value-of select="$muk.red" />
+      </xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:param name="callout.graphics" select="0" />
+    <xsl:param name="callout.graphics.path"
+               select="concat($docbook-xsl.dir,
+                              '/images/callouts/')" />
+
+    <!-- Tables -->
+    <xsl:attribute-set name="formal.title.properties">
+        <xsl:attribute name="font-family">
+            <xsl:value-of select="$title.font.family"/>
+        </xsl:attribute>
+      <xsl:attribute name="font-weight">normal</xsl:attribute>
+    </xsl:attribute-set>
+
     <xsl:attribute-set name="thead.attrs.common">
         <xsl:attribute name="padding-start">2pt</xsl:attribute>
         <xsl:attribute name="padding-end">2pt</xsl:attribute>
@@ -270,19 +361,19 @@
         <xsl:attribute name="padding-top">1.5pt</xsl:attribute>
         <xsl:attribute name="padding-bottom">0pt</xsl:attribute>
     </xsl:attribute-set>
-    
+
     <!-- add author names to ToC: customising autotoc.xsl -->
     <xsl:template name="toc.line">
         <xsl:param name="toc-context" select="NOTANODE"/>
-        
+
         <xsl:variable name="id">
             <xsl:call-template name="object.id"/>
         </xsl:variable>
-        
+
         <xsl:variable name="label">
             <xsl:apply-templates select="." mode="label.markup"/>
         </xsl:variable>
-        
+
         <fo:block xsl:use-attribute-sets="toc.line.properties">
             <fo:inline keep-with-next.within-line="always">
                 <fo:basic-link internal-destination="{$id}">
@@ -296,7 +387,7 @@
                 <xsl:text> &#x2013; </xsl:text>
                 <fo:inline font-style="italic">
                     <xsl:apply-templates select="(articleinfo/author|articleinfo/authorgroup/author)" mode="bibliography.mode"/>
-                </fo:inline> 
+                </fo:inline>
                 <!-- fun ends here -->
             </fo:inline>
             <fo:inline keep-together.within-line="always">
@@ -310,7 +401,7 @@
 
     <xsl:template name="user.declarations">
       <fo:declarations>
-          <!-- https://github.com/theleagueof/league-gothic/archive/master.zip -->
+        <!-- https://github.com/theleagueof/league-gothic/archive/master.zip -->
         <axf:font-face
             src="url('league-gothic-master/LeagueGothic-Regular.otf')"
             font-family="League Gothic" />
@@ -352,7 +443,7 @@
 
     <xsl:template name="user-axf-page-master-properties">
         <xsl:param name="page.master" select="''"/>
-        
+
         <xsl:choose>
             <xsl:when test="$page.master = 'titlepage-first'">
                 <xsl:attribute name="background-image">url(img/background.jpg)</xsl:attribute>
@@ -363,18 +454,18 @@
 
 <xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
     <fo:inline text-depth="0" line-stacking-strategy="font-height" hyphenate="false" padding="16mm"
-      color="{$muk.blue}" background-color="{$muk.grey}" axf:border-radius="3mm"
+      color="{$muk.blue}" background-color="{$muk.background}" axf:border-radius="3mm"
       font-family="{$title.fontset}" font-weight="normal" font-size="16mm">
-      <fo:block start-indent="0" end-indent="0">
         <xsl:apply-templates />
-      </fo:block>
     </fo:inline>
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
-  <fo:block background-color="{$muk.grey}" axf:border-radius="3mm" padding="3mm" xsl:use-attribute-sets="abstract.properties" margin-left="0" margin-right="0">
+  <fo:block-container span="all" background-color="{$muk.background}" axf:border-radius="3mm" padding="3mm" xsl:use-attribute-sets="abstract.properties" margin-left="0" margin-right="0">
+      <fo:block start-indent="0" end-indent="0">
     <xsl:apply-templates select="*[not(self::title)]" mode="titlepage.mode"/>
-  </fo:block>
+      </fo:block>
+  </fo:block-container>
 </xsl:template>
 
 </xsl:stylesheet>
