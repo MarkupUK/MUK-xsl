@@ -14,7 +14,7 @@
      ******************************************************************** -->
 
 <!-- ==================================================================== -->
-    <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}">
+    <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}" padding-bottom="1lh">
         <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
             <title t:named-template="component.title" margin-top="25mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="24pt"/>
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
@@ -41,8 +41,6 @@
     <revhistory space-before="0.5em"/>
     <abstract space-before="0.5em"
 	      text-align="start"
-	      margin-left="0.5in"
-              margin-right="0.5in"
               font-family="{$body.fontset}"/>
     <itermset/>
         </t:titlepage-content>
@@ -354,7 +352,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="section" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <title margin-left="{$title.margin.left}" font-family="{$title.fontset}, blah" color="{$muk.blue}" font-weight="normal" />
+            <title margin-left="{$title.margin.left}" font-family="{$title.fontset}" color="{$muk.blue}" font-weight="normal" />
             <subtitle font-family="{$title.fontset}"/>
             <corpauthor/>
             <authorgroup/>

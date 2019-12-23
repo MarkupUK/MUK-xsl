@@ -73,7 +73,7 @@
 </xsl:template>
 
 <xsl:template name="article.titlepage">
-  <fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" span="all" font-family="{$title.fontset}">
+  <fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" span="all" font-family="{$title.fontset}" padding-bottom="1lh">
     <xsl:variable name="recto.content">
       <xsl:call-template name="article.titlepage.before.recto"/>
       <xsl:call-template name="article.titlepage.recto"/>
@@ -195,7 +195,7 @@
 </xsl:template>
 
 <xsl:template match="abstract" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" text-align="start" margin-left="0.5in" margin-right="0.5in" font-family="{$body.fontset}">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" text-align="start" font-family="{$body.fontset}">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
@@ -2505,7 +2505,7 @@
 </xsl:template>
 
 <xsl:template match="title" mode="section.titlepage.recto.auto.mode">
-<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="section.titlepage.recto.style" margin-left="{$title.margin.left}" font-family="{$title.fontset}, blah" color="{$muk.blue}" font-weight="normal">
+<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="section.titlepage.recto.style" margin-left="{$title.margin.left}" font-family="{$title.fontset}" color="{$muk.blue}" font-weight="normal">
 <xsl:apply-templates select="." mode="section.titlepage.recto.mode"/>
 </fo:block>
 </xsl:template>
