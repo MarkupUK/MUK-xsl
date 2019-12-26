@@ -5,7 +5,7 @@
     
     
     <!-- Header image -->
-    <xsl:param name="header.image.filename" select="'img/MarkupUK.svg.png'"/>
+    <xsl:param name="header.image.filename" select="'img/MarkupUK-2.svg'"/>
     
     
     
