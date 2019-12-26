@@ -106,6 +106,7 @@
       <xsl:attribute name="color">
         <xsl:value-of select="$muk.red" />
       </xsl:attribute>
+      <xsl:attribute name="font-weight">bold</xsl:attribute>
     </xsl:attribute-set>
 
     <!-- Cover template for title page -->
@@ -269,7 +270,7 @@
 
 
     <!-- Graphics -->
-    <xsl:param name="default.image.width" select="'160mm'"/>
+    <!--<xsl:param name="default.image.width" select="'160mm'"/>-->
 
 
     <!-- Program listing -->
@@ -452,12 +453,47 @@
         </xsl:choose>
     </xsl:template>
 
-<xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
-    <fo:inline text-depth="0" line-stacking-strategy="font-height" hyphenate="false" padding="16mm"
-      color="{$muk.blue}" background-color="{$muk.background}" axf:border-radius="3mm"
-      font-family="{$title.fontset}" font-weight="normal" font-size="16mm">
-        <xsl:apply-templates />
-    </fo:inline>
+    <xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
+      <fo:block-container position="fixed" top="30mm" left="-3mm" right="25mm">
+        <fo:block padding-top="20mm" text-depth="0" line-stacking-strategy="font-height" line-height="1" font-family="{$title.font.family}" text-align="right" padding="10mm" color="{$muk.blue}" axf:border-radius="3mm" font-weight="normal" font-size="11mm" background-color="{$muk.background}">
+          <xsl:variable name="text" select="normalize-space(.)" />
+
+          <xsl:choose>
+            <xsl:when test="starts-with($text, 'Markup UK ')">
+              <fo:external-graphic
+                  content-height="24mm" scaling="uniform"
+                  content-width="scale-to-fit"
+                  src="url(img/MarkupUK-2.svg)"
+                  axf:alttext="Markup UK" />
+              <fo:block axf:alttext=" " />
+              <xsl:variable
+                  name="rest"
+                  select="substring-after($text, 'Markup UK ')" />
+              <xsl:choose>
+                <xsl:when
+                    test="string-length($rest) >= 4 and
+                          translate(substring($rest, 1, 4),
+                                    '1234567890',
+                                    '') = ''">
+                  <fo:inline
+                      color="{$muk.red}" text-depth="0">
+                    <xsl:value-of
+                        select="substring($rest, 1, 4)" />
+                  </fo:inline>
+                  <xsl:value-of
+                      select="substring($rest, 5)" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="$rest" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates />
+            </xsl:otherwise>
+          </xsl:choose>
+        </fo:block>
+      </fo:block-container>
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
