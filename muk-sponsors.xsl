@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-    xmlns:exsl="http://exslt.org/common" xmlns:db="http://docbook.org/ns/docbook"
-    exclude-result-prefixes="db exsl xs" version="1.0">
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0"
+    xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
+    xmlns:fo="http://www.w3.org/1999/XSL/Format">
+
+  <xsl:attribute-set name="administrivia.title.properties">
+    <xsl:attribute name="font-family">
+      <xsl:value-of select="$title.font.family"/>
+    </xsl:attribute>
+    <xsl:attribute name="font-weight">normal</xsl:attribute>
+      <xsl:attribute name="color">
+        <xsl:value-of select="$muk.blue" />
+      </xsl:attribute>
+    <xsl:attribute name="font-size">14pt</xsl:attribute>
+  </xsl:attribute-set>
 
     <!-- Add sponsor pages -->
 
@@ -55,7 +67,10 @@
 
     <xsl:template name="make.sponsors.pages">
 
-        <fo:page-sequence master-reference="sponsors" hyphenate="{$hyphenate}">
+      <fo:page-sequence
+          master-reference="sponsors"
+          initial-page-number="auto-even"
+          hyphenate="{$hyphenate}">
             <xsl:apply-templates select="." mode="running.head.mode">
                 <xsl:with-param name="master-reference" select="'sponsors'"/>
             </xsl:apply-templates>
@@ -213,6 +228,38 @@
                 </fo:conditional-page-master-reference>
             </fo:repeatable-page-master-alternatives>
         </fo:page-sequence-master>
+
+        <fo:simple-page-master
+            master-name="back-cover" page-width="{$page.width}"
+            page-height="{$page.height}"
+            margin-top="{$page.margin.top}"
+            margin-bottom="{$page.margin.bottom}"
+            background-image="url(img/background.jpg)"
+            axf:background-size="cover">
+            <xsl:attribute name="margin-{$direction.align.start}">
+                <xsl:value-of select="$page.margin.inner"/>
+                <xsl:if test="$fop.extensions != 0">
+                    <xsl:value-of select="concat(' - (', $title.margin.left, ')')"/>
+                </xsl:if>
+                <xsl:if test="$fop.extensions != 0">
+                    <xsl:value-of select="concat(' - (', $title.margin.left, ')')"/>
+                </xsl:if>
+            </xsl:attribute>
+            <xsl:attribute name="margin-{$direction.align.end}">
+                <xsl:value-of select="$page.margin.outer"/>
+            </xsl:attribute>
+            <fo:region-body
+                margin-bottom="{$body.margin.bottom}"
+                margin-top="{$body.margin.top}"
+                column-gap="{$column.gap.body}">
+                <xsl:attribute name="margin-{$direction.align.start}">
+                    <xsl:value-of select="$body.margin.inner"/>
+                </xsl:attribute>
+                <xsl:attribute name="margin-{$direction.align.end}">
+                    <xsl:value-of select="$body.margin.outer"/>
+                </xsl:attribute>
+            </fo:region-body>
+        </fo:simple-page-master>
     </xsl:template>
 
 
@@ -320,7 +367,9 @@
                     src="img/mul-logo.png"/>
             </fo:block>-->
 
-            <fo:block font-size="14pt" font-weight="bold" page-break-before="always">
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties"
+                page-break-before="always">
                 <xsl:text>Organisation Committee</xsl:text>
             </fo:block>
             <fo:block>
@@ -340,44 +389,48 @@
             </fo:block>
 
 
-            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
                 <xsl:text>Programme Committee</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Achim Berndzen - &lt;xml-project /&gt;</xsl:text>
+                <xsl:text>Achim Berndzen &#x2013; &lt;xml-project /&gt;</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Abel Braaksma - Abrasoft</xsl:text>
+                <xsl:text>Abel Braaksma &#x2013; Abrasoft</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Peter Flynn - University College Cork</xsl:text>
+                <xsl:text>Peter Flynn &#x2013; University College Cork</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Tony Graham - Antenna House</xsl:text>
+                <xsl:text>Tony Graham &#x2013; Antenna House</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Michael Kay - Saxonica</xsl:text>
+                <xsl:text>Michael Kay &#x2013; Saxonica</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Jirka Kosek - University of Economics, Prague</xsl:text>
+                <xsl:text>Jirka Kosek &#x2013; University of Economics, Prague</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Deborah A. Lapeyre - Mulberry Technologies</xsl:text>
+                <xsl:text>Deborah A. Lapeyre &#x2013; Mulberry Technologies</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Adam Retter - Evolved Binary</xsl:text>
+                <xsl:text>Adam Retter &#x2013; Evolved Binary</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>B. Tommie Usdin - Mulberry Technologies</xsl:text>
+                <xsl:text>B. Tommie Usdin &#x2013; Mulberry Technologies</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Norman Walsh - MarkLogic</xsl:text>
+                <xsl:text>Norman Walsh &#x2013; MarkLogic</xsl:text>
             </fo:block>
             <fo:block>
-                <xsl:text>Lauren Wood - XML.com</xsl:text>
+                <xsl:text>Lauren Wood &#x2013; XML.com</xsl:text>
             </fo:block>
 
-            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
                 <xsl:text>Thank You</xsl:text>
             </fo:block>
             
@@ -433,7 +486,9 @@
                 <xsl:text>...and our long-suffering partners</xsl:text>
             </fo:block>
 
-            <fo:block font-size="14pt" font-weight="bold" break-before="column">
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties"
+                break-before="column">
                 <xsl:text>Sister Conferences</xsl:text>
             </fo:block>
 
@@ -448,7 +503,9 @@
             </fo:block>
 
 
-            <fo:block font-size="14pt" font-weight="bold" margin-top="14pt">
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
                 <fo:block>Markup UK 2019 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
