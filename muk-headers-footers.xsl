@@ -1,8 +1,18 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:db="http://docbook.org/ns/docbook" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:date="http://exslt.org/dates-and-times" xmlns:exsl="http://exslt.org/common" extension-element-prefixes="date" exclude-result-prefixes="db ng exsl" version="1.0">
+<xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0"
+    xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:ng="http://docbook.org/docbook-ng"
+    xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:date="http://exslt.org/dates-and-times"
+    xmlns:exsl="http://exslt.org/common"
+    extension-element-prefixes="date"
+    exclude-result-prefixes="db ng exsl">
 
     <!-- Header and Footer Customizations for muk DocBook -->
     
-    
+   <xsl:template name="head.sep.rule" /> 
+   <xsl:template name="foot.sep.rule" /> 
     
     <!-- Header image -->
     <xsl:param name="header.image.filename" select="'img/MarkupUK-2.svg'"/>
