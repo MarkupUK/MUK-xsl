@@ -90,30 +90,12 @@
       -->
             <itermset/>
         </t:titlepage-content>
-        <t:titlepage-content t:side="verso">
-            <title t:named-template="book.verso.title" font-size="14.4pt" font-weight="bold" font-family="{$title.fontset}"/>
-            <!--<corpauthor/>-->
-            <authorgroup t:named-template="verso.authorgroup"/>
-            <!--<author/>-->
-            <editor t:predicate="[position() = 1]"/>
-      <!-- If you add editor, include this t:predicate attribute
-           because only the first editor generates the list of editors.
-      <editor t:predicate="[position() = 1]"/>
-      -->
-            <!--<othercredit/>-->
-            <releaseinfo space-before="0.5em"/>
-            <pubdate space-before="1em"/>
-            <copyright/>
-            <abstract/>
-            <legalnotice font-size="8pt"/>
-        </t:titlepage-content>
+        <t:titlepage-content t:side="verso" />
         <t:titlepage-separator>
             <fo:block break-after="page"/>
         </t:titlepage-separator>
         <t:titlepage-before t:side="recto"/>
-        <t:titlepage-before t:side="verso">
-            <fo:block break-after="page"/>
-        </t:titlepage-before>
+        <t:titlepage-before t:side="verso" />
     </t:titlepage>
 
 <!-- ==================================================================== -->
@@ -526,7 +508,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="bibliography" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <title t:force="1" t:named-template="component.title" param:node="ancestor-or-self::bibliography[1]" margin-left="{$title.margin.left}" font-size="16pt" font-family="{$title.fontset}" font-weight="bold"/>
+            <title t:force="1" t:named-template="component.title" param:node="ancestor-or-self::bibliography[1]" margin-left="4pc" font-size="16pt" font-family="{$title.fontset}" color="{$muk.blue}" />
             <subtitle font-family="{$title.fontset}"/>
             <itermset/>
         </t:titlepage-content>
