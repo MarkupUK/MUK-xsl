@@ -14,7 +14,9 @@
 
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
     <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
+    <xsl:import href="muk-biblio.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
+    <xsl:import href="muk-pagesetup.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
     <xsl:import href="muk-highlight.xsl"/>
@@ -130,6 +132,10 @@
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
 
+    <xsl:attribute-set name="biblioentry.properties" use-attribute-sets="normal.para.spacing">
+      <xsl:attribute name="start-indent">0.5in + 4pc</xsl:attribute>
+      <xsl:attribute name="text-indent">-0.5in</xsl:attribute>
+    </xsl:attribute-set>
 
     <!-- Suppress email in author info -->
     <xsl:template match="author" mode="titlepage.mode">
@@ -442,6 +448,30 @@
       </fo:declarations>
     </xsl:template>
 
+    <xsl:template name="back.cover">
+      <fo:page-sequence master-reference="back-cover">
+        <fo:flow flow-name="xsl-region-body">
+          <fo:block-container
+              position="fixed" top="30mm" right="-3mm" left="25mm"
+              height="36mm">
+            <fo:block
+                line-stacking-strategy="line-height" line-height="18mm" padding-top="3mm" padding-bottom="3mm" text-depth="0"
+                font-family="League Gothic, sans-serif"
+                text-align="left" padding="10mm" color="rgb(59, 64, 99)"
+                axf:border-radius="3mm" font-weight="normal"
+                font-size="11mm" background-color="rgb(233, 236, 239)">
+              <fo:external-graphic
+                  content-height="37mm" scaling="uniform"
+                  content-width="scale-to-fit"
+                  padding-left="-2.5mm"
+                  src="url(img/MarkupUK-2.svg)"
+                  axf:alttext="Markup UK"/>
+        </fo:block>
+          </fo:block-container>
+        </fo:flow>
+      </fo:page-sequence>
+    </xsl:template>
+
     <xsl:template name="user-axf-page-master-properties">
         <xsl:param name="page.master" select="''"/>
 
@@ -453,9 +483,13 @@
         </xsl:choose>
     </xsl:template>
 
+    <xsl:template name="user-axf-document-information">
+      <axf:document-info name="pagelayout" value="TwoPageRight" />
+    </xsl:template>
+
     <xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
       <fo:block-container position="fixed" top="30mm" left="-3mm" right="25mm">
-        <fo:block padding-top="20mm" text-depth="0" line-stacking-strategy="font-height" line-height="1" font-family="{$title.font.family}" text-align="right" padding="10mm" color="{$muk.blue}" axf:border-radius="3mm" font-weight="normal" font-size="11mm" background-color="{$muk.background}">
+        <fo:block padding-top="19mm" padding-bottom="9mm" text-depth="0" line-stacking-strategy="font-height" line-height="1" font-family="{$title.font.family}" text-align="right" padding="10mm" color="{$muk.blue}" axf:border-radius="3mm" font-weight="normal" font-size="11mm" background-color="{$muk.background}">
           <xsl:variable name="text" select="normalize-space(.)" />
 
           <xsl:choose>
@@ -464,8 +498,8 @@
                   content-height="24mm" scaling="uniform"
                   content-width="scale-to-fit"
                   src="url(img/MarkupUK-2.svg)"
-                  axf:alttext="Markup UK" />
-              <fo:block axf:alttext=" " />
+                  axf:alttext="Markup UK " />
+              <fo:block />
               <xsl:variable
                   name="rest"
                   select="substring-after($text, 'Markup UK ')" />
