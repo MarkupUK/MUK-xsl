@@ -85,7 +85,7 @@
                 space-before.minimum="1em"
                 space-before.optimum="1.5em"
                 space-before.maximum="2em"
-                margin-left="4pc">
+                padding-left="4pc">
         <xsl:call-template name="bibliography.titlepage"/>
       </fo:block>
       <xsl:apply-templates/>
