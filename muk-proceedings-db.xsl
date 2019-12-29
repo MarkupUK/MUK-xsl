@@ -111,6 +111,11 @@
       <xsl:attribute name="font-weight">bold</xsl:attribute>
     </xsl:attribute-set>
 
+    <xsl:param name="variablelist.as.blocks" select="1" />
+    <xsl:attribute-set name="variablelist.term.properties">
+      <xsl:attribute name="font-weight">bold</xsl:attribute>
+    </xsl:attribute-set>
+
     <!-- Cover template for title page -->
     <!--<xsl:template match="cover" mode="titlepage.mode">
         <fo:block-container border-style="solid" border-width="0.5pt" margin-left="40mm" margin-right="40mm">
@@ -325,7 +330,11 @@
     <xsl:attribute-set name="pgwide.properties">
       <xsl:attribute name="start-indent">0</xsl:attribute>
       <xsl:attribute name="padding-top">1lh</xsl:attribute>
-      <xsl:attribute name="padding-bottom">1lh</xsl:attribute>
+          <xsl:attribute name="padding-bottom">1lh</xsl:attribute>
+      <!-- Reduce the font size (but keep the line height) on
+           <programlisting> that are still too wide. -->
+      <xsl:attribute name="overflow">condense</xsl:attribute>
+      <xsl:attribute name="axf:overflow-condense">font-size</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:param name="callout.unicode" select="1" />
@@ -339,6 +348,14 @@
     <xsl:param name="callout.graphics.path"
                select="concat($docbook-xsl.dir,
                               '/images/callouts/')" />
+
+    <xsl:attribute-set name="article.appendix.title.properties">
+      <xsl:attribute name="margin-left">0</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="bibliography.title.properties">
+      <xsl:attribute name="margin-left">0</xsl:attribute>
+    </xsl:attribute-set>
 
     <!-- Tables -->
     <xsl:attribute-set name="formal.title.properties">
@@ -536,6 +553,112 @@
     <xsl:apply-templates select="*[not(self::title)]" mode="titlepage.mode"/>
       </fo:block>
   </fo:block-container>
+</xsl:template>
+
+<xsl:template name="bibliography.title">
+  <xsl:param name="node" select="."/>
+  <xsl:param name="pagewide" select="0"/>
+
+  <xsl:variable name="id">
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$node"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="title">
+    <xsl:apply-templates select="$node" mode="object.title.markup">
+      <xsl:with-param name="allow-anchors" select="1"/>
+    </xsl:apply-templates>
+  </xsl:variable>
+
+  <xsl:variable name="titleabbrev">
+    <xsl:apply-templates select="$node" mode="titleabbrev.markup"/>
+  </xsl:variable>
+
+  <xsl:variable name="level">
+    <xsl:choose>
+      <xsl:when test="ancestor::section">
+        <xsl:value-of select="count(ancestor::section)+1"/>
+      </xsl:when>
+      <xsl:when test="ancestor::sect5">6</xsl:when>
+      <xsl:when test="ancestor::sect4">5</xsl:when>
+      <xsl:when test="ancestor::sect3">4</xsl:when>
+      <xsl:when test="ancestor::sect2">3</xsl:when>
+      <xsl:when test="ancestor::sect1">2</xsl:when>
+      <xsl:otherwise>1</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <fo:block xsl:use-attribute-sets="bibliography.title.properties
+                                    component.title.properties">
+    <xsl:if test="$pagewide != 0">
+      <!-- Doesn't work to use 'all' here since not a child of fo:flow -->
+      <xsl:attribute name="span">inherit</xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="hyphenation-character">
+      <xsl:call-template name="gentext">
+        <xsl:with-param name="key" select="'hyphenation-character'"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:attribute name="hyphenation-push-character-count">
+      <xsl:call-template name="gentext">
+        <xsl:with-param name="key" select="'hyphenation-push-character-count'"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:attribute name="hyphenation-remain-character-count">
+      <xsl:call-template name="gentext">
+        <xsl:with-param name="key" select="'hyphenation-remain-character-count'"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:if test="$axf.extensions != 0 and 
+                  $xsl1.1.bookmarks = 0 and 
+                  $show.bookmarks != 0">
+      <xsl:attribute name="axf:outline-level">
+        <xsl:value-of select="count($node/ancestor::*)"/>
+      </xsl:attribute>
+      <xsl:attribute name="axf:outline-expand">false</xsl:attribute>
+      <xsl:attribute name="axf:outline-title">
+        <xsl:value-of select="normalize-space($title)"/>
+      </xsl:attribute>
+    </xsl:if>
+
+    <!-- Let's handle the case where a component (bibliography, for example)
+         occurs inside a section; will we need parameters for this?
+         Danger Will Robinson: using section.title.level*.properties here
+         runs the risk that someone will set something other than
+         font-size there... -->
+    <xsl:choose>
+      <xsl:when test="$level=2">
+        <fo:block xsl:use-attribute-sets="section.title.level2.properties">
+          <xsl:copy-of select="$title"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:when test="$level=3">
+        <fo:block xsl:use-attribute-sets="section.title.level3.properties">
+          <xsl:copy-of select="$title"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:when test="$level=4">
+        <fo:block xsl:use-attribute-sets="section.title.level4.properties">
+          <xsl:copy-of select="$title"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:when test="$level=5">
+        <fo:block xsl:use-attribute-sets="section.title.level5.properties">
+          <xsl:copy-of select="$title"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:when test="$level=6">
+        <fo:block xsl:use-attribute-sets="section.title.level6.properties">
+          <xsl:copy-of select="$title"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- not in a section: do nothing special -->
+        <xsl:copy-of select="$title"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </fo:block>
 </xsl:template>
 
 </xsl:stylesheet>
