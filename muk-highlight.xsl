@@ -6,70 +6,52 @@
                 version='1.0'>
 
 <!-- ********************************************************************
-     $Id: highlight.xsl 8419 2009-04-29 20:37:52Z kosek $
-     ********************************************************************
 
-     This file is part of the XSL DocBook Stylesheet distribution.
-     See ../README or http://docbook.sf.net/release/xsl/current/ for
-     and other information.
+     Markup UK highlighting.
+
+     This file is not part of the XSL DocBook Stylesheet distribution.
 
      ******************************************************************** -->
 
-<xsl:template match='xslthl:keyword' mode="xslthl">
-  <fo:inline color="{$muk.blue}"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<!-- ============================================================= -->
+<!-- ATTRIBUTE SETS                                                -->
+<!-- ============================================================= -->
 
-<xsl:template match='xslthl:string' mode="xslthl">
-  <fo:inline font-weight="bold" font-style="italic"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<xsl:attribute-set name="highlight.keyword.properties">
+  <xsl:attribute name="color">
+    <xsl:value-of select="$muk.blue" />
+  </xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+</xsl:attribute-set>
 
-<xsl:template match='xslthl:comment' mode="xslthl">
-  <fo:inline font-style="italic"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<xsl:attribute-set name="highlight.string.properties">
+  <xsl:attribute name="color">darkgreen</xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+  <xsl:attribute name="font-style">inherit</xsl:attribute>
+</xsl:attribute-set>
 
-<xsl:template match='xslthl:tag' mode="xslthl">
-  <fo:inline color="{$muk.blue}" font-weight="bold"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<xsl:attribute-set name="highlight.comment.properties">
+  <xsl:attribute name="color">
+    <xsl:value-of select="'darkred'" />
+  </xsl:attribute>
+  <xsl:attribute name="font-style">inherit</xsl:attribute>
+</xsl:attribute-set>
 
-<xsl:template match='xslthl:attribute' mode="xslthl">
-  <fo:inline font-weight="bold"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<xsl:attribute-set name="highlight.tag.properties">
+  <xsl:attribute name="color">
+    <xsl:value-of select="$muk.blue" />
+  </xsl:attribute>
+  <xsl:attribute name="font-weight">bold</xsl:attribute>
+</xsl:attribute-set>
 
-<xsl:template match='xslthl:value' mode="xslthl">
-  <fo:inline font-weight="bold"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
+<xsl:attribute-set name="highlight.attribute.properties">
+  <xsl:attribute name="color">indigo</xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+</xsl:attribute-set>
 
-<!--
-<xsl:template match='xslthl:html'>
-  <span style='background:#AFF'><font color='blue'><xsl:apply-templates/></font></span>
-</xsl:template>
-
-<xsl:template match='xslthl:xslt'>
-  <span style='background:#AAA'><font color='blue'><xsl:apply-templates/></font></span>
-</xsl:template>
-
-<xsl:template match='xslthl:section'>
-  <span style='background:yellow'><xsl:apply-templates/></span>
-</xsl:template>
--->
-
-<xsl:template match='xslthl:number' mode="xslthl">
-  <xsl:apply-templates mode="xslthl"/>
-</xsl:template>
-
-<xsl:template match='xslthl:annotation' mode="xslthl">
-  <fo:inline color="gray"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
-
-<xsl:template match='xslthl:directive' mode="xslthl">
-  <xsl:apply-templates mode="xslthl"/>
-</xsl:template>
-
-<!-- Not sure which element will be in final XSLTHL 2.0 -->
-<xsl:template match='xslthl:doccomment|xslthl:doctype' mode="xslthl">
-  <fo:inline font-weight="bold"><xsl:apply-templates mode="xslthl"/></fo:inline>
-</xsl:template>
-
+<xsl:attribute-set name="highlight.value.properties">
+  <xsl:attribute name="color">teal</xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>
-
