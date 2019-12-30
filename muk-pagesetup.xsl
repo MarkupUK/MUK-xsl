@@ -35,4 +35,12 @@
   </xsl:choose>
 </xsl:template>
 
+<xsl:template name="footnote-separator">
+  <fo:static-content flow-name="xsl-footnote-separator">
+    <fo:block start-indent="{$body.start.indent}">
+      <fo:leader xsl:use-attribute-sets="footnote.sep.leader.properties"/>
+    </fo:block>
+  </fo:static-content>
+</xsl:template>
+
 </xsl:stylesheet>
