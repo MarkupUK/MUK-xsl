@@ -276,6 +276,13 @@
     <xsl:param name="monospace.font.family">Liberation Mono, DejaVu Sans Mono, monospace</xsl:param>
 
 
+    <xsl:attribute-set name="footnote.properties">
+      <xsl:attribute name="start-indent">
+        <xsl:value-of select="$body.start.indent"/>
+      </xsl:attribute>
+    </xsl:attribute-set>
+
+
     <!-- Tables -->
     <xsl:param name="default.table.column.widths" select="number(0)"/>
 
