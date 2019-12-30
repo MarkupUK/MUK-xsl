@@ -132,7 +132,7 @@
 
 
     <!-- Title Font Family -->
-    <xsl:param name="title.font.family">League Gothic, sans-serif</xsl:param>
+    <xsl:param name="title.font.family">League Gothic, DejaVu Sans, sans-serif</xsl:param>
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
@@ -269,7 +269,7 @@
 
 
     <!-- Body Font -->
-    <xsl:param name="body.font.family">Liberation Sans, sans-serif</xsl:param>
+    <xsl:param name="body.font.family">Liberation Sans, DejaVu Sans, sans-serif</xsl:param>
     <xsl:param name="body.font.master" select="9"/>
 
     <!-- Programlisting Font -->
@@ -432,6 +432,23 @@
 
     <xsl:template name="user.declarations">
       <fo:declarations>
+        <!-- https://dejavu-fonts.github.io/ -->
+        <axf:font-face
+            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf')"
+            font-family="DejaVu Sans" />
+        <axf:font-face
+            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Oblique.ttf')"
+            font-family="DejaVu Sans"
+            font-style="italic" />
+        <axf:font-face
+            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Bold.ttf')"
+            font-family="DejaVu Sans"
+            font-weight="bold" />
+        <axf:font-face
+            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-BoldOblique.ttf')"
+            font-family="DejaVu Sans"
+            font-weight="bold"
+            font-style="italic" />
         <!-- https://github.com/theleagueof/league-gothic/archive/master.zip -->
         <axf:font-face
             src="url('league-gothic-master/LeagueGothic-Regular.otf')"
