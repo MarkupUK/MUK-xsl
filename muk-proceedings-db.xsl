@@ -290,7 +290,6 @@
     <!-- Graphics -->
     <!--<xsl:param name="default.image.width" select="'160mm'"/>-->
 
-
     <!-- Program listing -->
     <xsl:param name="shade.verbatim" select="1" />
 
@@ -336,8 +335,8 @@
 
     <xsl:attribute-set name="pgwide.properties">
       <xsl:attribute name="start-indent">0</xsl:attribute>
-      <xsl:attribute name="padding-top">1lh</xsl:attribute>
-          <xsl:attribute name="padding-bottom">1lh</xsl:attribute>
+      <xsl:attribute name="padding-top">1lh - 3pt</xsl:attribute>
+          <xsl:attribute name="padding-bottom">1lh - 3pt</xsl:attribute>
       <!-- Reduce the font size (but keep the line height) on
            <programlisting> that are still too wide. -->
       <xsl:attribute name="overflow">condense</xsl:attribute>
@@ -345,6 +344,7 @@
     </xsl:attribute-set>
 
     <xsl:param name="callout.unicode" select="1" />
+<xsl:param name="callout.unicode.font">DejaVu Sans</xsl:param>
     <xsl:attribute-set name="callout.unicode.properties">
       <xsl:attribute name="color">
         <xsl:value-of select="$muk.red" />
