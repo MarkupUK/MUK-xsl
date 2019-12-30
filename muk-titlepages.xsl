@@ -43,9 +43,6 @@
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/legalnotice"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/legalnotice"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/legalnotice"/>
-  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/pubdate"/>
-  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/pubdate"/>
-  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/pubdate"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/revision"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/revision"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/revision"/>
@@ -172,12 +169,6 @@
 
 <xsl:template match="legalnotice" mode="article.titlepage.recto.auto.mode">
 <fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" text-align="start" margin-left="0.5in" margin-right="0.5in" font-family="{$body.fontset}">
-<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
-</fo:block-container>
-</xsl:template>
-
-<xsl:template match="pubdate" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
