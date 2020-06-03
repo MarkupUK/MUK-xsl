@@ -605,6 +605,55 @@
       </xsl:call-template>
     </fo:simple-page-master>
 
+    <fo:simple-page-master master-name="body-first-even"
+                           page-width="{$page.width}"
+                           page-height="{$page.height}"
+                           margin-top="{$page.margin.top}"
+                           margin-bottom="{$page.margin.bottom}">
+      <xsl:attribute name="margin-{$direction.align.start}">
+        <xsl:value-of select="$page.margin.inner"/>
+	<xsl:if test="$fop.extensions != 0">
+	  <xsl:value-of select="concat(' - (',$title.margin.left,')')"/>
+        </xsl:if>
+      </xsl:attribute>
+      <xsl:attribute name="margin-{$direction.align.end}">
+        <xsl:value-of select="$page.margin.outer"/>
+      </xsl:attribute>
+      <xsl:if test="$axf.extensions != 0">
+        <xsl:call-template name="axf-page-master-properties">
+          <xsl:with-param name="page.master">body-first-even</xsl:with-param>
+        </xsl:call-template>
+      </xsl:if>
+      <fo:region-body margin-bottom="{$body.margin.bottom}"
+                      margin-top="{$body.margin.top}"
+                      column-gap="{$column.gap.body}"
+                      column-count="{$column.count.body}">
+        <xsl:attribute name="margin-{$direction.align.start}">
+          <xsl:value-of select="$body.margin.inner"/>
+        </xsl:attribute>
+        <xsl:attribute name="margin-{$direction.align.end}">
+          <xsl:value-of select="$body.margin.outer"/>
+        </xsl:attribute>
+      </fo:region-body>
+      <fo:region-before region-name="xsl-region-before-first"
+                        extent="{$region.before.extent}"
+                        precedence="{$region.before.precedence}"
+                        display-align="before"/>
+      <fo:region-after region-name="xsl-region-after-first"
+                       extent="{$region.after.extent}"
+                        precedence="{$region.after.precedence}"
+                       display-align="after"/>
+      <xsl:call-template name="region.inner"
+                         >
+        <xsl:with-param name="sequence">first-even</xsl:with-param>
+        <xsl:with-param name="pageclass">body</xsl:with-param>
+      </xsl:call-template>
+      <xsl:call-template name="region.outer">
+        <xsl:with-param name="sequence">first-even</xsl:with-param>
+        <xsl:with-param name="pageclass">body</xsl:with-param>
+      </xsl:call-template>
+    </fo:simple-page-master>
+
     <fo:simple-page-master master-name="body-odd"
                            page-width="{$page.width}"
                            page-height="{$page.height}"
@@ -2194,6 +2243,9 @@
         <fo:conditional-page-master-reference master-reference="blank"
                                               blank-or-not-blank="blank"/>
         <xsl:if test="$force.blank.pages != 0">
+          <fo:conditional-page-master-reference master-reference="body-first-even"
+                                                page-position="first"
+                                                odd-or-even="even"/>
           <fo:conditional-page-master-reference master-reference="body-first"
                                                 page-position="first"/>
         </xsl:if>
@@ -2795,6 +2847,23 @@
   </fo:block>
 </xsl:template>
 
+<xsl:template name="width.set">
+  <xsl:param name="location" select="'header'"/>
+  <xsl:param name="position" select="1"/>
+  <xsl:param name="pageclass" select="''"/>
+  <xsl:param name="sequence" select="''"/>
+  <xsl:param name="gentext-key" select="''"/>
+
+  <xsl:choose>
+    <xsl:when test="$location = 'header'">
+      <xsl:value-of select="normalize-space($header.column.widths)"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="normalize-space($footer.column.widths)"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 <xsl:template name="header.footer.width">
   <xsl:param name="location" select="'header'"/>
   <xsl:param name="position" select="1"/>
@@ -2812,14 +2881,13 @@
        for customization of this template. -->
 
   <xsl:variable name="width.set">
-    <xsl:choose>
-      <xsl:when test="$location = 'header'">
-        <xsl:value-of select="normalize-space($header.column.widths)"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="normalize-space($footer.column.widths)"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="width.set">
+      <xsl:with-param name="location" select="$location"/>
+      <xsl:with-param name="position" select="$position"/>
+      <xsl:with-param name="pageclass" select="$pageclass"/>
+      <xsl:with-param name="sequence" select="$sequence"/>
+      <xsl:with-param name="gentext-key" select="$gentext-key"/>
+    </xsl:call-template>
   </xsl:variable>
 
 

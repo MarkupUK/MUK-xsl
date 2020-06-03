@@ -16,7 +16,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}" padding-bottom="1lh">
         <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
-            <title t:named-template="component.title" margin-top="25mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="24pt"/>
+            <title t:named-template="component.title" margin-top="20mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" />
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
             <!--<subtitle t:named-template="spareparts.list.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="24pt"/>-->
 

@@ -56,6 +56,9 @@
     <xsl:param name="muk.red" select="'rgb(202, 77, 94)'" />
     <xsl:param name="muk.background" select="'rgb(233, 236, 239)'" />
 
+    <!-- For consistent border-radius of backgrounds, etc. -->
+    <xsl:param name="muk.border-radius" select="'3mm'" />
+
     <!-- Page Geometry -->
     <xsl:param name="paper.type" select="'A4'"/>
     <xsl:param name="page.margin.inner">25mm</xsl:param>
@@ -69,7 +72,7 @@
     <xsl:param name="double.sided">1</xsl:param>
 
     <!-- Header and footer column widths (left, centre, right) -->
-    <xsl:param name="header.column.widths">7 1 7</xsl:param>
+    <xsl:param name="header.column.widths">7 0 7</xsl:param>
     <xsl:param name="footer.column.widths">5 1 1</xsl:param>
 
     <xsl:attribute-set name="root.properties">
@@ -493,13 +496,13 @@
       <fo:page-sequence master-reference="back-cover">
         <fo:flow flow-name="xsl-region-body">
           <fo:block-container
-              position="fixed" top="30mm" right="-3mm" left="25mm"
+              position="fixed" top="30mm" right="-{$muk.border-radius}" left="25mm"
               height="36mm">
             <fo:block
-                line-stacking-strategy="line-height" line-height="18mm" padding-top="3mm" padding-bottom="3mm" text-depth="0"
+                line-stacking-strategy="line-height" line-height="18mm" padding-top="{$muk.border-radius}" padding-bottom="{$muk.border-radius}" text-depth="0"
                 font-family="League Gothic, sans-serif"
                 text-align="left" padding="10mm" color="rgb(59, 64, 99)"
-                axf:border-radius="3mm" font-weight="normal"
+                axf:border-radius="{$muk.border-radius}" font-weight="normal"
                 font-size="11mm" background-color="rgb(233, 236, 239)">
               <fo:external-graphic
                   content-height="37mm" scaling="uniform"
@@ -529,8 +532,8 @@
     </xsl:template>
 
     <xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
-      <fo:block-container position="fixed" top="30mm" left="-3mm" right="25mm">
-        <fo:block padding-top="19mm" padding-bottom="9mm" text-depth="0" line-stacking-strategy="font-height" line-height="1" font-family="{$title.font.family}" text-align="right" padding="10mm" color="{$muk.blue}" axf:border-radius="3mm" font-weight="normal" font-size="11mm" background-color="{$muk.background}">
+      <fo:block-container position="fixed" top="30mm" left="-{$muk.border-radius}" right="25mm">
+        <fo:block padding-top="19mm" padding-bottom="9mm" text-depth="0" line-stacking-strategy="font-height" line-height="1" font-family="{$title.font.family}" text-align="right" padding="10mm" color="{$muk.blue}" axf:border-radius="{$muk.border-radius}" font-weight="normal" font-size="11mm" background-color="{$muk.background}">
           <xsl:variable name="text" select="normalize-space(.)" />
 
           <xsl:choose>
@@ -572,7 +575,7 @@
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
-  <fo:block-container span="all" background-color="{$muk.background}" axf:border-radius="3mm" padding="3mm" xsl:use-attribute-sets="abstract.properties" margin-left="0" margin-right="0">
+  <fo:block-container span="all" border="6pt solid {$muk.background}" axf:border-radius="{$muk.border-radius}" padding="{$muk.border-radius}" padding-left="147pt" xsl:use-attribute-sets="abstract.properties" margin-left="-150pt" margin-right="0">
       <fo:block start-indent="0" end-indent="0">
     <xsl:apply-templates select="*[not(self::title)]" mode="titlepage.mode"/>
       </fo:block>
