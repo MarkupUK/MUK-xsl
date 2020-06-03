@@ -11,6 +11,13 @@
     exclude-result-prefixes="db exsl fox xi xs"
     version="1.0">
 
+<!-- ********************************************************************
+
+     Markup UK Proceedings.
+
+     This file is not part of the XSL DocBook Stylesheet distribution.
+
+     ******************************************************************** -->
 
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
     <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
@@ -18,6 +25,7 @@
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-pagesetup.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
+    <xsl:import href="muk-toc.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
     <xsl:import href="muk-highlight.xsl"/>
     <xsl:import href="muk-lists.xsl"/>
@@ -83,6 +91,14 @@
     <!-- TOC -->
     <xsl:param name="generate.toc" select="'book toc,title'"/>
     <xsl:param name="toc.section.depth" select="0"/>
+
+    <xsl:attribute-set name="toc.line.properties">
+      <xsl:attribute name="text-align-last">start</xsl:attribute>
+      <xsl:attribute name="space-after">0.5lh</xsl:attribute>
+    </xsl:attribute-set>
+
+    <!-- Author, in ToC and articles. -->
+    <xsl:param name="author.font-size">12pt</xsl:param>
 
     <!-- Columns, title pages -->
     <xsl:param name="column.count.titlepage" select="1"/>
@@ -396,6 +412,51 @@
         <xsl:attribute name="padding-bottom">0pt</xsl:attribute>
     </xsl:attribute-set>
 
+    <xsl:template match="tocentry|lotentry|tocdiv|tocfront|tocback">
+        <fo:block end-indent="2pc"
+            last-line-end-indent="-2pc">
+            <xsl:if test="@linkend or @pagenum">
+                <xsl:attribute name="text-align-last">justify</xsl:attribute>
+            </xsl:if>
+            <fo:inline keep-with-next.within-line="always">
+                <xsl:choose>
+                    <xsl:when test="@linkend">
+                        <fo:basic-link internal-destination="{@linkend}">
+                            <xsl:apply-templates/>
+                        </fo:basic-link>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </fo:inline>
+            
+            <xsl:choose>
+                <xsl:when test="@linkend">
+                    <fo:inline keep-together.within-line="always">
+                        <fo:leader xsl:use-attribute-sets="toc.leader.properties"/>
+                        <fo:basic-link internal-destination="{@linkend}">
+                            <xsl:choose>
+                                <xsl:when test="@pagenum">
+                                    <xsl:value-of select="@pagenum"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <fo:page-number-citation ref-id="{@linkend}"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </fo:basic-link>
+                    </fo:inline>
+                </xsl:when>
+                <xsl:when test="@pagenum">
+                    <fo:inline keep-together.within-line="always">
+                        <fo:leader xsl:use-attribute-sets="toc.leader.properties"/>
+                        <xsl:value-of select="@pagenum"/>
+                    </fo:inline>
+                </xsl:when>
+            </xsl:choose>
+        </fo:block>
+    </xsl:template>
+
     <!-- add author names to ToC: customising autotoc.xsl -->
     <xsl:template name="toc.line">
         <xsl:param name="toc-context" select="NOTANODE"/>
@@ -410,25 +471,23 @@
 
         <fo:block xsl:use-attribute-sets="toc.line.properties">
             <fo:inline keep-with-next.within-line="always">
-                <fo:basic-link internal-destination="{$id}">
+                <fo:basic-link internal-destination="{$id}" font-family="{$title.font.family}"
+                    font-size="18pt" color="{$muk.blue}">
                     <xsl:if test="$label != ''">
                         <xsl:copy-of select="$label"/>
                         <xsl:value-of select="$autotoc.label.separator"/>
                     </xsl:if>
                     <xsl:apply-templates select="." mode="titleabbrev.markup"/>
                 </fo:basic-link>
-                <!-- hackeroo -->
-                <xsl:text> &#x2013; </xsl:text>
-                <fo:inline font-style="italic">
-                    <xsl:apply-templates select="(articleinfo/author|articleinfo/authorgroup/author)" mode="bibliography.mode"/>
-                </fo:inline>
-                <!-- fun ends here -->
-            </fo:inline>
-            <fo:inline keep-together.within-line="always">
-                <fo:leader xsl:use-attribute-sets="toc.leader.properties"/>
+                <xsl:text>&#xA0;&#xA0;</xsl:text>
                 <fo:basic-link internal-destination="{$id}">
                     <fo:page-number-citation ref-id="{$id}"/>
                 </fo:basic-link>
+                <fo:block />
+                <fo:inline padding-start="2em" font-family="{$title.font.family}" font-size="{$author.font-size}">
+                    <xsl:apply-templates select="(articleinfo/author|articleinfo/authorgroup/author)" mode="bibliography.mode"/>
+                </fo:inline>
+                <!-- fun ends here -->
             </fo:inline>
         </fo:block>
     </xsl:template>

@@ -118,7 +118,7 @@
 </xsl:template>
 
 <xsl:template match="title" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions" xsl:use-attribute-sets="article.titlepage.recto.style" margin-top="20mm" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions" xsl:use-attribute-sets="article.titlepage.recto.style" margin-top="20mm" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm">
 <xsl:call-template name="component.title">
 <xsl:with-param name="node" select="ancestor-or-self::article[1]"/>
 </xsl:call-template>
@@ -132,19 +132,19 @@
 </xsl:template>
 
 <xsl:template match="corpauthor" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="12pt">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="{$author.font-size}">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
 
 <xsl:template match="authorgroup" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="12pt">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="{$author.font-size}">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
 
 <xsl:template match="author" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="12pt">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" space-before="0.5em" font-size="{$author.font-size}">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
@@ -4936,10 +4936,6 @@
 </xsl:template>
 
 <xsl:template name="table.of.contents.titlepage.recto">
-  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="table.of.contents.titlepage.recto.style" space-before.minimum="1em" space-before.optimum="1.5em" space-before.maximum="2em" space-after="0.5em" font-size="17.28pt" font-weight="normal" color="{$muk.blue}" font-family="{$title.fontset}">
-<xsl:call-template name="gentext">
-<xsl:with-param name="key" select="'TableofContents'"/>
-</xsl:call-template></fo:block>
 </xsl:template>
 
 <xsl:template name="table.of.contents.titlepage.verso">

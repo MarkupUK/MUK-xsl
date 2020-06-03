@@ -16,16 +16,16 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}" padding-bottom="1lh">
         <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
-            <title t:named-template="component.title" margin-top="20mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" />
+            <title t:named-template="component.title" margin-top="20mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm" />
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
             <!--<subtitle t:named-template="spareparts.list.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="24pt"/>-->
 
     <corpauthor space-before="0.5em"
-                font-size="12pt"/>
+                font-size="{$author.font-size}"/>
     <authorgroup space-before="0.5em"
-                 font-size="12pt"/>
+                 font-size="{$author.font-size}"/>
     <author space-before="0.5em"
-            font-size="12pt"/>
+            font-size="{$author.font-size}"/>
 
     <!-- If you add editor, include this t:predicate attribute
          because only the first editor generates the list of editors.
@@ -663,7 +663,7 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="table.of.contents" t:wrapper="fo:block">
         <t:titlepage-content t:side="recto">
-            <title t:force="1" t:named-template="gentext" param:key="'TableofContents'" space-before.minimum="1em" space-before.optimum="1.5em" space-before.maximum="2em" space-after="0.5em" font-size="17.28pt" font-weight="normal" color="{$muk.blue}" font-family="{$title.fontset}"/>
+            <!--<title t:force="1" t:named-template="gentext" param:key="'TableofContents'" space-before.minimum="1em" space-before.optimum="1.5em" space-before.maximum="2em" space-after="0.5em" font-size="17.28pt" font-weight="normal" color="{$muk.blue}" font-family="{$title.fontset}"/>-->
         </t:titlepage-content>
         <t:titlepage-content t:side="verso"/>
         <t:titlepage-separator>
