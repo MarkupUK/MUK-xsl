@@ -213,9 +213,11 @@
         <fo:page-sequence-master master-name="sponsors">
             <fo:repeatable-page-master-alternatives>
                 <fo:conditional-page-master-reference master-reference="blank"
-                    blank-or-not-blank="blank"/>
+                                                      blank-or-not-blank="blank"/>
+                <!--
                 <fo:conditional-page-master-reference master-reference="sponsors-first"
                     page-position="first"/>
+                -->
                 <fo:conditional-page-master-reference master-reference="sponsors-odd"
                     odd-or-even="odd"/>
                 <fo:conditional-page-master-reference odd-or-even="even">
