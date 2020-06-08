@@ -396,37 +396,37 @@
                 margin-top="14pt">
                 <xsl:text>Programme Committee</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Achim Berndzen &#x2013; &lt;xml-project /&gt;</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Abel Braaksma &#x2013; Abrasoft</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Peter Flynn &#x2013; University College Cork</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Tony Graham &#x2013; Antenna House</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Michael Kay &#x2013; Saxonica</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Jirka Kosek &#x2013; University of Economics, Prague</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Deborah A. Lapeyre &#x2013; Mulberry Technologies</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Adam Retter &#x2013; Evolved Binary</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>B. Tommie Usdin &#x2013; Mulberry Technologies</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Norman Walsh &#x2013; MarkLogic</xsl:text>
             </fo:block>
-            <fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Lauren Wood &#x2013; XML.com</xsl:text>
             </fo:block>
 
