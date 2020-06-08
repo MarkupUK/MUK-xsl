@@ -629,10 +629,10 @@
                       column-gap="{$column.gap.body}"
                       column-count="{$column.count.body}">
         <xsl:attribute name="margin-{$direction.align.start}">
-          <xsl:value-of select="$body.margin.inner"/>
+          <xsl:value-of select="$body.margin.outer"/>
         </xsl:attribute>
         <xsl:attribute name="margin-{$direction.align.end}">
-          <xsl:value-of select="$body.margin.outer"/>
+          <xsl:value-of select="$body.margin.inner"/>
         </xsl:attribute>
       </fo:region-body>
       <fo:region-before region-name="xsl-region-before-first"
