@@ -256,7 +256,7 @@
       <xsl:value-of select="$scale * 100"/>
       <xsl:text>%</xsl:text>
     </xsl:when>
-    <xsl:when test="$scalefit = 1">scale-to-fit</xsl:when>
+    <xsl:when test="$scalefit = 1">scale-down-to-fit</xsl:when>
     <xsl:otherwise>auto</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -280,7 +280,7 @@
       <xsl:value-of select="$scale * 100"/>
       <xsl:text>%</xsl:text>
     </xsl:when>
-    <xsl:when test="$scalefit = 1">scale-to-fit</xsl:when>
+    <xsl:when test="$scalefit = 1">scale-down-to-fit</xsl:when>
     <xsl:otherwise>auto</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -396,17 +396,25 @@
       </xsl:attribute>
     </xsl:if>
 
-    <xsl:if test="$width != ''">
-      <xsl:attribute name="width">
-        <xsl:value-of select="$width"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$scalefit = 0">
+        <xsl:if test="$width != ''">
+          <xsl:attribute name="width">
+            <xsl:value-of select="$width"/>
+          </xsl:attribute>
+        </xsl:if>
 
-    <xsl:if test="$height != ''">
-      <xsl:attribute name="height">
-        <xsl:value-of select="$height"/>
-      </xsl:attribute>
-    </xsl:if>
+        <xsl:if test="$height != ''">
+          <xsl:attribute name="height">
+            <xsl:value-of select="$height"/>
+          </xsl:attribute>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="max-width">100%</xsl:attribute>
+        <xsl:attribute name="max-height">100%</xsl:attribute>
+      </xsl:otherwise>
+    </xsl:choose>
 
     <xsl:if test="$content.width != ''">
       <xsl:attribute name="content-width">

@@ -22,6 +22,7 @@
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
     <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
     <xsl:import href="muk-biblio.xsl"/>
+    <xsl:import href="muk-formal.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-pagesetup.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
@@ -73,6 +74,7 @@
     <xsl:param name="page.margin.outer">25mm</xsl:param>
     <xsl:param name="page.margin.top">8mm</xsl:param>
     <xsl:param name="region.before.extent">20mm</xsl:param>
+    <xsl:param name="body.margin.outer">4pc</xsl:param>
     <xsl:param name="body.margin.top">25mm</xsl:param>
     <xsl:param name="region.after.extent">11mm</xsl:param>
     <xsl:param name="page.margin.bottom">10mm</xsl:param>
@@ -106,7 +108,7 @@
     <xsl:param name="column.gap.body" select="'24pt'"/>
 
     <!-- Body start indent (4pc default) -->
-    <xsl:param name="body.start.indent" select="'4pc'"/>
+    <xsl:param name="body.start.indent" select="'0'"/>
     <xsl:param name="title.margin.left1" select="$body.start.indent" />
     <!-- Xref Handling -->
     <xsl:param name="insert.xref.page.number">1</xsl:param>
@@ -160,6 +162,18 @@
       <xsl:attribute name="start-indent">0.5in + 4pc</xsl:attribute>
       <xsl:attribute name="text-indent">-0.5in</xsl:attribute>
     </xsl:attribute-set>
+
+
+    <xsl:template name="bookmark.title.style">
+      <xsl:param name="key" select="local-name()"/>
+
+      <xsl:if test="$key = 'book'">
+        <xsl:attribute name="color">
+          <xsl:value-of select="$muk.blue" />
+        </xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+      </xsl:if>
+    </xsl:template>
 
     <!-- Suppress email in author info -->
     <xsl:template match="author" mode="titlepage.mode">
@@ -305,7 +319,6 @@
     <!-- Tables -->
     <xsl:param name="default.table.column.widths" select="number(0)"/>
 
-
     <!-- Graphics -->
     <!--<xsl:param name="default.image.width" select="'160mm'"/>-->
 
@@ -333,6 +346,8 @@
     </xsl:attribute-set>
 
     <xsl:attribute-set name="monospace.verbatim.properties">
+      <!--
+      <xsl:attribute name="start-indent">0</xsl:attribute>
       <xsl:attribute name="start-indent">
         <xsl:choose>
           <xsl:when
@@ -340,6 +355,7 @@
               <xsl:otherwise>4pc</xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
+        -->
         <xsl:attribute name="font-size">
             <xsl:choose>
               <xsl:when test="processing-instruction('db-font-size')">
@@ -389,6 +405,7 @@
             <xsl:value-of select="$title.font.family"/>
         </xsl:attribute>
       <xsl:attribute name="font-weight">normal</xsl:attribute>
+      <xsl:attribute name="text-align">start</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="thead.attrs.common">
