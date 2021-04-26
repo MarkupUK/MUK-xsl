@@ -159,8 +159,8 @@
     <xsl:param name="section.autolabel" select="'1'"/>
 
     <xsl:attribute-set name="biblioentry.properties" use-attribute-sets="normal.para.spacing">
-      <xsl:attribute name="start-indent">0.5in + 4pc</xsl:attribute>
-      <xsl:attribute name="text-indent">-0.5in</xsl:attribute>
+      <xsl:attribute name="start-indent">1.5em</xsl:attribute>
+      <xsl:attribute name="text-indent">-1.5em</xsl:attribute>
     </xsl:attribute-set>
 
 
