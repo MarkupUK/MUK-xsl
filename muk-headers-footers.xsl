@@ -43,8 +43,7 @@
             <!-- sequence can be odd, even, first, blank -->
             <!-- position can be left, center, right -->
             <xsl:choose>
-                <xsl:when test="$sequence = 'blank' and $position = 'left'">
-                    <xsl:call-template name="draft.text"/>
+                <xsl:when test="$sequence = 'blank' and $position = 'right'">
                     <xsl:call-template name="muk-logo"/>
                 </xsl:when>
                 
@@ -119,7 +118,8 @@
                 </xsl:when>
                 
                 <xsl:when test="$sequence = 'blank'">
-                    <xsl:call-template name="muk-logo"/>
+                  <xsl:attribute name="text-align">outside</xsl:attribute>
+                  <xsl:call-template name="muk-logo"/>
                 </xsl:when>
             </xsl:choose>
         </fo:block>
