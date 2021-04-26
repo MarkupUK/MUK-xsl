@@ -68,55 +68,7 @@
 <xsl:template name="setup.pagemasters">
   <fo:layout-master-set>
     <!-- blank pages -->
-    <fo:simple-page-master master-name="blank"
-                           page-width="{$page.width}"
-                           page-height="{$page.height}"
-                           margin-top="{$page.margin.top}"
-                           margin-bottom="{$page.margin.bottom}">
-      <xsl:attribute name="margin-{$direction.align.start}">
-        <xsl:value-of select="$page.margin.outer"/>
-	<xsl:if test="$fop.extensions != 0">
-	  <xsl:value-of select="concat(' - (',$title.margin.left,')')"/>
-        </xsl:if>
-      </xsl:attribute>
-      <xsl:attribute name="margin-{$direction.align.end}">
-        <xsl:value-of select="$page.margin.inner"/>
-      </xsl:attribute>
-      <xsl:if test="$axf.extensions != 0">
-        <xsl:call-template name="axf-page-master-properties">
-          <xsl:with-param name="page.master">blank</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
-      <fo:region-body display-align="center"
-                      margin-bottom="{$body.margin.bottom}"
-                      margin-top="{$body.margin.top}">
-        <xsl:attribute name="margin-{$direction.align.start}">
-          <xsl:value-of select="$body.margin.outer"/>
-        </xsl:attribute>
-        <xsl:attribute name="margin-{$direction.align.end}">
-          <xsl:value-of select="$body.margin.inner"/>
-        </xsl:attribute>
-        <xsl:if test="$fop.extensions = 0 and $fop1.extensions = 0">
-          <xsl:attribute name="region-name">blank-body</xsl:attribute>
-        </xsl:if>
-      </fo:region-body>
-      <fo:region-before region-name="xsl-region-before-blank"
-                        extent="{$region.before.extent}"
-                        precedence="{$region.before.precedence}"
-                        display-align="before"/>
-      <fo:region-after region-name="xsl-region-after-blank"
-                       extent="{$region.after.extent}"
-                       precedence="{$region.after.precedence}"
-                       display-align="after"/>
-      <xsl:call-template name="region.outer">
-        <xsl:with-param name="sequence">blank</xsl:with-param>
-        <xsl:with-param name="pageclass">blank</xsl:with-param>
-      </xsl:call-template>
-      <xsl:call-template name="region.inner">
-        <xsl:with-param name="sequence">blank</xsl:with-param>
-        <xsl:with-param name="pageclass">blank</xsl:with-param>
-      </xsl:call-template>
-    </fo:simple-page-master>
+    <xsl:call-template name="setup.pagemasters.blank" />
 
     <!-- title pages -->
     <fo:simple-page-master master-name="titlepage-first"
@@ -2454,6 +2406,63 @@
     </fo:layout-master-set>
   
     <xsl:call-template name="user.declarations"/>
+</xsl:template>
+
+<xsl:template name="setup.pagemasters.blank">
+  <xsl:param name="master-name" select="'blank'"/>
+
+  <fo:simple-page-master master-name="{$master-name}"
+                         page-width="{$page.width}"
+                         page-height="{$page.height}"
+                         margin-top="{$page.margin.top}"
+                         margin-bottom="{$page.margin.bottom}">
+    <xsl:attribute name="margin-{$direction.align.start}">
+      <xsl:value-of select="$page.margin.outer"/>
+      <xsl:if test="$fop.extensions != 0">
+	<xsl:value-of select="concat(' - (',$title.margin.left,')')"/>
+      </xsl:if>
+    </xsl:attribute>
+    <xsl:attribute name="margin-{$direction.align.end}">
+      <xsl:value-of select="$page.margin.inner"/>
+    </xsl:attribute>
+    <xsl:if test="$axf.extensions != 0">
+      <xsl:call-template name="axf-page-master-properties">
+        <xsl:with-param name="page.master" select="$master-name"/>
+      </xsl:call-template>
+    </xsl:if>
+    <fo:region-body display-align="center"
+                    margin-bottom="{$body.margin.bottom}"
+                    margin-top="{$body.margin.top}">
+      <xsl:attribute name="margin-{$direction.align.start}">
+        <xsl:value-of select="$body.margin.outer"/>
+      </xsl:attribute>
+      <xsl:attribute name="margin-{$direction.align.end}">
+        <xsl:value-of select="$body.margin.inner"/>
+      </xsl:attribute>
+      <xsl:if test="$fop.extensions = 0 and $fop1.extensions = 0">
+        <xsl:attribute name="region-name">
+          <xsl:value-of select="$master-name"/>
+          <xsl:text>-body</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+    </fo:region-body>
+    <fo:region-before region-name="xsl-region-before-{$master-name}"
+                      extent="{$region.before.extent}"
+                      precedence="{$region.before.precedence}"
+                      display-align="before"/>
+    <fo:region-after region-name="xsl-region-after-{$master-name}"
+                     extent="{$region.after.extent}"
+                     precedence="{$region.after.precedence}"
+                     display-align="after"/>
+    <xsl:call-template name="region.outer">
+      <xsl:with-param name="sequence" select="$master-name"/>
+      <xsl:with-param name="pageclass" select="$master-name"/>
+    </xsl:call-template>
+    <xsl:call-template name="region.inner">
+      <xsl:with-param name="sequence" select="$master-name"/>
+      <xsl:with-param name="pageclass" select="$master-name"/>
+    </xsl:call-template>
+  </fo:simple-page-master>
 </xsl:template>
 
 <!-- ==================================================================== -->
