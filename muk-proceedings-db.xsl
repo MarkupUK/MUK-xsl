@@ -600,7 +600,7 @@
         <xsl:choose>
             <xsl:when test="$page.master = 'titlepage-first'">
                 <xsl:attribute name="background-image">
-                  <xsl:value-of select="concat('url(', $muk-xsl.dir, 'img/background.jpg)')"/></xsl:attribute>
+                  <xsl:value-of select="concat('url(', $muk-xsl.dir, '/img/background.jpg)')"/></xsl:attribute>
                 <xsl:attribute name="axf:background-size">cover</xsl:attribute>
             </xsl:when>
         </xsl:choose>
