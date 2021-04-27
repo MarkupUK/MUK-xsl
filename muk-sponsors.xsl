@@ -236,7 +236,7 @@
             page-height="{$page.height}"
             margin-top="{$page.margin.top}"
             margin-bottom="{$page.margin.bottom}"
-            background-image="url(img/background.jpg)"
+            background-image="url({$muk-xsl.dir}/img/background.jpg)"
             axf:background-size="cover">
             <xsl:attribute name="margin-{$direction.align.start}">
                 <xsl:value-of select="$page.margin.inner"/>
@@ -272,7 +272,7 @@
             </fo:block>-->
             <!-- Evolved Binary, Fusion DB -->
             <!--<fo:block text-align="center" margin-bottom="20mm" margin-top="25mm">
-                <fo:external-graphic content-width="130mm" src="img/evolved-binary-logo.png"/>
+                <fo:external-graphic content-width="130mm" src="{$muk-xsl.dir}/img/evolved-binary-logo.png"/>
             </fo:block>-->
             
             <fo:table>
@@ -280,7 +280,7 @@
                     <fo:table-row height="80mm">
                         <fo:table-cell>
                             <fo:block text-align="center" margin-bottom="50mm" margin-top="10mm">
-                                <fo:external-graphic content-width="130mm" src="img/fusionDB-logo.png"/>
+                                <fo:external-graphic content-width="130mm" src="{$muk-xsl.dir}/img/fusionDB-logo.png"/>
                             </fo:block>                
                         </fo:table-cell>
                     </fo:table-row>
@@ -289,7 +289,7 @@
                             <!-- Saxonica -->
                             <fo:block text-align="center">
                                 <fo:external-graphic content-width="110mm"
-                                    src="img/logo_crop-mid-blue-background.gif"/>
+                                    src="{$muk-xsl.dir}/img/logo_crop-mid-blue-background.gif"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -312,13 +312,13 @@
                         <fo:table-cell>
                             <fo:block text-align="left" vertical-align="center" margin-top="45mm">
                                 <fo:external-graphic content-width="50mm"
-                                    src="img/letex-logo.png"/>
+                                    src="{$muk-xsl.dir}/img/letex-logo.png"/>
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell>
                             <fo:block text-align="right" vertical-align="center" margin-top="40mm">
                                 <fo:external-graphic content-width="60mm"
-                                    src="img/exeterLogo.png"/>
+                                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -326,13 +326,13 @@
                         <fo:table-cell>
                             <fo:block text-align="left" vertical-align="center" margin-top="50mm">
                                 <fo:external-graphic content-width="55mm"
-                                    src="img/mercator-logo.png"/>
+                                    src="{$muk-xsl.dir}/img/mercator-logo.png"/>
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell>
                             <fo:block text-align="right" vertical-align="center" margin-top="40mm">
                                 <fo:external-graphic content-width="60mm"
-                                    src="img/mul-logo.png"/>
+                                    src="{$muk-xsl.dir}/img/mul-logo.png"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -348,25 +348,25 @@
             <!-\- letex -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
-                    src="img/letex-logo.png"/>
+                    src="{$muk-xsl.dir}/img/letex-logo.png"/>
             </fo:block>
             
             <!-\- Mercator -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
-                    src="img/mercator-logo.png"/>
+                    src="{$muk-xsl.dir}/img/mercator-logo.png"/>
             </fo:block>
             
             <!-\- exeter -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
-                    src="img/exeterLogo.png"/>
+                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
             </fo:block>
             
             <!-\- Mulberry -\->
             <fo:block text-align="center" margin-top="40mm">
                 <fo:external-graphic content-width="75mm"
-                    src="img/mul-logo.png"/>
+                    src="{$muk-xsl.dir}/img/mul-logo.png"/>
             </fo:block>-->
 
             <fo:block
@@ -495,13 +495,13 @@
             </fo:block>
 
             <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="45mm" src="img/BalisageLogotype.png"/>
+                <fo:external-graphic content-width="45mm" src="{$muk-xsl.dir}/img/BalisageLogotype.png"/>
             </fo:block>
             <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="45mm" src="img/xmlprague-top-logo-13.png"/>
+                <fo:external-graphic content-width="45mm" src="{$muk-xsl.dir}/img/xmlprague-top-logo-13.png"/>
             </fo:block>
             <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="35mm" src="img/xmlss.svg"/>
+                <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/xmlss.svg"/>
             </fo:block>
 
 
