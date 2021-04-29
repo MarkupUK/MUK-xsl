@@ -40,7 +40,7 @@
                   axf:float-reference="page"
                   axf:float-x="inside"
                   axf:float-move="keep">
-          <fo:block-container text-align="inside">
+          <fo:block-container text-align="inside" start-indent="0">
             <fo:block-container width="160mm">
               <fo:block xsl:use-attribute-sets="pgwide.properties">
                 <xsl:apply-templates />
