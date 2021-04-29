@@ -15,7 +15,8 @@
    <xsl:template name="foot.sep.rule" /> 
     
     <!-- Header image -->
-    <xsl:param name="header.image.filename" select="'img/MarkupUK-2.svg'"/>
+    <xsl:param name="header.image.filename"
+               select="concat($muk-xsl.dir, '/img/MarkupUK-2.svg')"/>
     
     
     

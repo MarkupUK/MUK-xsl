@@ -50,9 +50,11 @@
   <xsl:param name="sequence" select="''"/>
   <xsl:param name="gentext-key" select="''"/>
 
+  <!--
   <xsl:message>
     <xsl:value-of select="concat('location: ',$location,'; position: ',$position,'; pageclass: ',$pageclass,'; sequence: ',$sequence,'; gentext-key: ',$gentext-key, ';')" />
   </xsl:message>
+  -->
 
   <xsl:choose>
     <xsl:when test="$location = 'header'">

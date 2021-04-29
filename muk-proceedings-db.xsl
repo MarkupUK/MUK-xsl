@@ -32,6 +32,8 @@
     <xsl:import href="muk-lists.xsl"/>
     <xsl:import href="muk-verbatim.xsl"/>
 
+    <xsl:param name="muk-xsl.dir" />
+    
     <xsl:param name="docbook-xsl.dir"
                select="'docbook-xsl-1.79.1'" />
 
@@ -513,55 +515,55 @@
       <fo:declarations>
         <!-- https://dejavu-fonts.github.io/ -->
         <axf:font-face
-            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf')"
+            src="url('{$muk-xsl.dir}/dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf')"
             font-family="DejaVu Sans" />
         <axf:font-face
-            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Oblique.ttf')"
+            src="url('{$muk-xsl.dir}/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Oblique.ttf')"
             font-family="DejaVu Sans"
             font-style="italic" />
         <axf:font-face
-            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Bold.ttf')"
+            src="url('{$muk-xsl.dir}/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-Bold.ttf')"
             font-family="DejaVu Sans"
             font-weight="bold" />
         <axf:font-face
-            src="url('dejavu-fonts-ttf-2.37/ttf/DejaVuSans-BoldOblique.ttf')"
+            src="url('{$muk-xsl.dir}/dejavu-fonts-ttf-2.37/ttf/DejaVuSans-BoldOblique.ttf')"
             font-family="DejaVu Sans"
             font-weight="bold"
             font-style="italic" />
         <!-- https://github.com/theleagueof/league-gothic/archive/master.zip -->
         <axf:font-face
-            src="url('league-gothic-master/LeagueGothic-Regular.otf')"
+            src="url('{$muk-xsl.dir}/league-gothic-master/LeagueGothic-Regular.otf')"
             font-family="League Gothic" />
         <!-- https://github.com/liberationfonts/liberation-fonts/releases -->
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Regular.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationSans-Regular.ttf')"
             font-family="Liberation Sans" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Bold.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationSans-Bold.ttf')"
             font-family="Liberation Sans"
             font-weight="bold" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-Italic.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationSans-Italic.ttf')"
             font-family="Liberation Sans"
             font-style="italic" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationSans-BoldItalic.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationSans-BoldItalic.ttf')"
             font-family="Liberation Sans"
             font-weight="bold"
             font-style="italic" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Regular.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationMono-Regular.ttf')"
             font-family="Liberation Mono" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Bold.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationMono-Bold.ttf')"
             font-family="Liberation Mono"
             font-weight="bold" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-Italic.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationMono-Italic.ttf')"
             font-family="Liberation Mono"
             font-style="italic" />
         <axf:font-face
-            src="url('liberation-fonts-ttf-2.00.5/LiberationMono-BoldItalic.ttf')"
+            src="url('{$muk-xsl.dir}/liberation-fonts-ttf-2.00.5/LiberationMono-BoldItalic.ttf')"
             font-family="Liberation Mono"
             font-weight="bold"
             font-style="italic" />
@@ -584,7 +586,7 @@
                   content-height="37mm" scaling="uniform"
                   content-width="scale-to-fit"
                   padding-left="-2.5mm"
-                  src="url(img/MarkupUK-2.svg)"
+                  src="url({$muk-xsl.dir}/img/MarkupUK-2.svg)"
                   axf:alttext="Markup UK"/>
         </fo:block>
           </fo:block-container>
@@ -597,7 +599,8 @@
 
         <xsl:choose>
             <xsl:when test="$page.master = 'titlepage-first'">
-                <xsl:attribute name="background-image">url(img/background.jpg)</xsl:attribute>
+                <xsl:attribute name="background-image">
+                  <xsl:value-of select="concat('url(', $muk-xsl.dir, '/img/background.jpg)')"/></xsl:attribute>
                 <xsl:attribute name="axf:background-size">cover</xsl:attribute>
             </xsl:when>
         </xsl:choose>
@@ -617,7 +620,7 @@
               <fo:external-graphic
                   content-height="24mm" scaling="uniform"
                   content-width="scale-to-fit"
-                  src="url(img/MarkupUK-2.svg)"
+                  src="url({$muk-xsl.dir}/img/MarkupUK-2.svg)"
                   axf:alttext="Markup UK " />
               <fo:block />
               <xsl:variable
