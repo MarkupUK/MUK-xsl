@@ -124,7 +124,7 @@
            <xsl:attribute name="font-size"><xsl:value-of select="$font.size"/></xsl:attribute>
          </xsl:if>
           <xsl:if test="$is-wide = 1">
-            <xsl:attribute name="start-indent">0</xsl:attribute>
+            <xsl:attribute name="start-indent"><xsl:value-of select="$pgwide.start.indent"/></xsl:attribute>
          </xsl:if>
           <xsl:choose>
             <xsl:when test="$hyphenate.verbatim != 0 and
@@ -146,7 +146,7 @@
 	    select="$keep.together"/></xsl:attribute>
 	  </xsl:if>
           <xsl:if test="$is-wide">
-            <xsl:attribute name="start-indent">0</xsl:attribute>
+            <xsl:attribute name="start-indent"><xsl:value-of select="$pgwide.start.indent"/></xsl:attribute>
           </xsl:if>
           <xsl:choose>
             <xsl:when test="$hyphenate.verbatim != 0 and
@@ -181,7 +181,7 @@
         </xsl:if>
       </fo:block-container>
     </xsl:when>
-    <xsl:when test="$is-wide">
+    <xsl:when test="$is-wide != 0">
       <fo:block-container xsl:use-attribute-sets="pgwide.properties">
         <!-- All known program code is left-to-right -->
         <xsl:if test="self::programlisting and

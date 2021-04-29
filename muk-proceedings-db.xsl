@@ -25,12 +25,12 @@
     <xsl:import href="muk-formal.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-pagesetup.xsl"/>
-    <xsl:import href="muk-titlepages.xsl"/>
     <xsl:import href="muk-toc.xsl"/>
-    <xsl:import href="muk-sponsors.xsl"/>
     <xsl:import href="muk-highlight.xsl"/>
     <xsl:import href="muk-lists.xsl"/>
     <xsl:import href="muk-verbatim.xsl"/>
+    <xsl:import href="muk-sponsors.xsl"/>
+    <xsl:import href="muk-titlepages.xsl"/>
 
     <xsl:param name="muk-xsl.dir" />
     
@@ -111,6 +111,7 @@
 
     <!-- Body start indent (4pc default) -->
     <xsl:param name="body.start.indent" select="'0'"/>
+    <xsl:param name="pgwide.start.indent" select="'0'"/>
     <xsl:param name="title.margin.left1" select="$body.start.indent" />
     <!-- Xref Handling -->
     <xsl:param name="insert.xref.page.number">1</xsl:param>
@@ -156,6 +157,16 @@
 
     <!-- Title Font Family -->
     <xsl:param name="title.font.family">League Gothic, DejaVu Sans, sans-serif</xsl:param>
+    <!-- Article titles are never centered. -->
+    <xsl:attribute-set name="component.title.properties">
+        <xsl:attribute name="text-align">
+            <xsl:choose>
+                <xsl:when test="((parent::articleinfo) and not(ancestor::book) and not(self::bibliography))
+                    or (parent::slides | parent::slidesinfo)">center1</xsl:when>
+                <xsl:otherwise>start</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
+    </xsl:attribute-set>
 
     <!-- Section numbering -->
     <xsl:param name="section.autolabel" select="'1'"/>
@@ -371,7 +382,7 @@
     </xsl:attribute-set>
 
     <xsl:attribute-set name="pgwide.properties">
-      <xsl:attribute name="start-indent">0</xsl:attribute>
+      <xsl:attribute name="start-indent"><xsl:value-of select="$pgwide.start.indent"/></xsl:attribute>
       <xsl:attribute name="padding-top">1lh - 3pt</xsl:attribute>
           <xsl:attribute name="padding-bottom">1lh - 3pt</xsl:attribute>
       <!-- Reduce the font size (but keep the line height) on
@@ -607,7 +618,14 @@
     </xsl:template>
 
     <xsl:template name="user-axf-document-information">
-      <axf:document-info name="pagelayout" value="TwoPageRight" />
+      <axf:document-info name="pagelayout">
+        <xsl:attribute name="value">
+          <xsl:choose>
+            <xsl:when test="ancestor::book">TwoPageRight</xsl:when>
+            <xsl:otherwise>TwoPageLeft</xsl:otherwise>
+          </xsl:choose>
+        </xsl:attribute>
+      </axf:document-info>
     </xsl:template>
 
     <xsl:template name="muk-proceedings.title" mode="book.titlepage.recto.auto.mode">
