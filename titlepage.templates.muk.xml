@@ -16,7 +16,10 @@
 <!-- ==================================================================== -->
     <t:titlepage t:element="article" t:wrapper="fo:block-container" span="all" font-family="{$title.fontset}" padding-bottom="1lh">
         <t:titlepage-content t:side="recto" start-indent="0pt" text-align="left">
-            <title t:named-template="component.title" margin-top="20mm" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm" />
+            <t:wrapper t:wrapper="fo:block" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-top="20mm" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm" axf:hanging-punctuation="start allow-end" color="{$muk.blue}">
+            <title t:named-template="component.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-weight="normal" font-size="30pt"/>
+            <subtitle font-size="20pt"/>
+            </t:wrapper>
             <productname param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="30pt" font-weight="bold"/>
             <!--<subtitle t:named-template="spareparts.list.title" param:node="ancestor-or-self::article[1]" keep-with-next.within-column="always" font-size="24pt"/>-->
 

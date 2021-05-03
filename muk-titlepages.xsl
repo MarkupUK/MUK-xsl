@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exsl="http://exslt.org/common" version="1.0" exclude-result-prefixes="exsl">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:axsl="http://www.w3.org/1999/XSL/TransformAlias" xmlns:exsl="http://exslt.org/common" version="1.0" exclude-result-prefixes="axsl exsl">
 
 <!-- This stylesheet was created by template/titlepage.xsl-->
 
 <xsl:template name="article.titlepage.recto">
+  <fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-top="20mm" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm" axf:hanging-punctuation="start allow-end" color="{$muk.blue}">
   <xsl:choose>
     <xsl:when test="articleinfo/title">
       <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/title"/>
@@ -19,6 +20,21 @@
     </xsl:when>
   </xsl:choose>
 
+  <xsl:choose>
+    <xsl:when test="articleinfo/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/subtitle"/>
+    </xsl:when>
+    <xsl:when test="artheader/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/subtitle"/>
+    </xsl:when>
+    <xsl:when test="info/subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/subtitle"/>
+    </xsl:when>
+    <xsl:when test="subtitle">
+      <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="subtitle"/>
+    </xsl:when>
+  </xsl:choose>
+</fo:block>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/productname"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/productname"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/productname"/>
@@ -75,14 +91,8 @@
       <xsl:call-template name="article.titlepage.before.recto"/>
       <xsl:call-template name="article.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block-container start-indent="0pt" text-align="left"><xsl:copy-of select="$recto.content"/></fo:block-container>
     </xsl:if>
@@ -90,14 +100,8 @@
       <xsl:call-template name="article.titlepage.before.verso"/>
       <xsl:call-template name="article.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block-container><xsl:copy-of select="$verso.content"/></fo:block-container>
     </xsl:if>
@@ -118,10 +122,16 @@
 </xsl:template>
 
 <xsl:template match="title" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions" xsl:use-attribute-sets="article.titlepage.recto.style" margin-top="20mm" keep-with-next.within-column="always" font-weight="normal" color="{$muk.blue}" font-size="30pt" background-color="{$muk.background}" axf:border-radius="{$muk.border-radius}" margin-left="-150pt" padding-left="150pt" margin-right="0" padding="{$muk.border-radius}" padding-bottom="0.25mm">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" keep-with-next.within-column="always" font-weight="normal" font-size="30pt">
 <xsl:call-template name="component.title">
 <xsl:with-param name="node" select="ancestor-or-self::article[1]"/>
 </xsl:call-template>
+</fo:block-container>
+</xsl:template>
+
+<xsl:template match="subtitle" mode="article.titlepage.recto.auto.mode">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" font-size="20pt">
+<xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
 
@@ -258,14 +268,8 @@
       <xsl:call-template name="set.titlepage.before.recto"/>
       <xsl:call-template name="set.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -273,14 +277,8 @@
       <xsl:call-template name="set.titlepage.before.verso"/>
       <xsl:call-template name="set.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -411,14 +409,8 @@
       <xsl:call-template name="book.titlepage.before.recto"/>
       <xsl:call-template name="book.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -426,14 +418,8 @@
       <xsl:call-template name="book.titlepage.before.verso"/>
       <xsl:call-template name="book.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -533,14 +519,8 @@
       <xsl:call-template name="part.titlepage.before.recto"/>
       <xsl:call-template name="part.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -548,14 +528,8 @@
       <xsl:call-template name="part.titlepage.before.verso"/>
       <xsl:call-template name="part.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -682,14 +656,8 @@
       <xsl:call-template name="partintro.titlepage.before.recto"/>
       <xsl:call-template name="partintro.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -697,14 +665,8 @@
       <xsl:call-template name="partintro.titlepage.before.verso"/>
       <xsl:call-template name="partintro.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -895,14 +857,8 @@
       <xsl:call-template name="reference.titlepage.before.recto"/>
       <xsl:call-template name="reference.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -910,14 +866,8 @@
       <xsl:call-template name="reference.titlepage.before.verso"/>
       <xsl:call-template name="reference.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1062,14 +1012,8 @@
       <xsl:call-template name="refsynopsisdiv.titlepage.before.recto"/>
       <xsl:call-template name="refsynopsisdiv.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1077,14 +1021,8 @@
       <xsl:call-template name="refsynopsisdiv.titlepage.before.verso"/>
       <xsl:call-template name="refsynopsisdiv.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1155,14 +1093,8 @@
       <xsl:call-template name="refsection.titlepage.before.recto"/>
       <xsl:call-template name="refsection.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1170,14 +1102,8 @@
       <xsl:call-template name="refsection.titlepage.before.verso"/>
       <xsl:call-template name="refsection.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1248,14 +1174,8 @@
       <xsl:call-template name="refsect1.titlepage.before.recto"/>
       <xsl:call-template name="refsect1.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1263,14 +1183,8 @@
       <xsl:call-template name="refsect1.titlepage.before.verso"/>
       <xsl:call-template name="refsect1.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1341,14 +1255,8 @@
       <xsl:call-template name="refsect2.titlepage.before.recto"/>
       <xsl:call-template name="refsect2.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1356,14 +1264,8 @@
       <xsl:call-template name="refsect2.titlepage.before.verso"/>
       <xsl:call-template name="refsect2.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1434,14 +1336,8 @@
       <xsl:call-template name="refsect3.titlepage.before.recto"/>
       <xsl:call-template name="refsect3.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1449,14 +1345,8 @@
       <xsl:call-template name="refsect3.titlepage.before.verso"/>
       <xsl:call-template name="refsect3.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1531,14 +1421,8 @@
       <xsl:call-template name="dedication.titlepage.before.recto"/>
       <xsl:call-template name="dedication.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1546,14 +1430,8 @@
       <xsl:call-template name="dedication.titlepage.before.verso"/>
       <xsl:call-template name="dedication.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1628,14 +1506,8 @@
       <xsl:call-template name="acknowledgements.titlepage.before.recto"/>
       <xsl:call-template name="acknowledgements.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1643,14 +1515,8 @@
       <xsl:call-template name="acknowledgements.titlepage.before.verso"/>
       <xsl:call-template name="acknowledgements.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1758,14 +1624,8 @@
       <xsl:call-template name="preface.titlepage.before.recto"/>
       <xsl:call-template name="preface.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1773,14 +1633,8 @@
       <xsl:call-template name="preface.titlepage.before.verso"/>
       <xsl:call-template name="preface.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -1965,14 +1819,8 @@
       <xsl:call-template name="chapter.titlepage.before.recto"/>
       <xsl:call-template name="chapter.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block margin-left="{$title.margin.left}"><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -1980,14 +1828,8 @@
       <xsl:call-template name="chapter.titlepage.before.verso"/>
       <xsl:call-template name="chapter.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -2180,14 +2022,8 @@
       <xsl:call-template name="appendix.titlepage.before.recto"/>
       <xsl:call-template name="appendix.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -2195,14 +2031,8 @@
       <xsl:call-template name="appendix.titlepage.before.verso"/>
       <xsl:call-template name="appendix.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -2377,14 +2207,8 @@
       <xsl:call-template name="section.titlepage.before.recto"/>
       <xsl:call-template name="section.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -2392,14 +2216,8 @@
       <xsl:call-template name="section.titlepage.before.verso"/>
       <xsl:call-template name="section.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -2572,14 +2390,8 @@
       <xsl:call-template name="sect1.titlepage.before.recto"/>
       <xsl:call-template name="sect1.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -2587,14 +2399,8 @@
       <xsl:call-template name="sect1.titlepage.before.verso"/>
       <xsl:call-template name="sect1.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -2767,14 +2573,8 @@
       <xsl:call-template name="sect2.titlepage.before.recto"/>
       <xsl:call-template name="sect2.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -2782,14 +2582,8 @@
       <xsl:call-template name="sect2.titlepage.before.verso"/>
       <xsl:call-template name="sect2.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -2962,14 +2756,8 @@
       <xsl:call-template name="sect3.titlepage.before.recto"/>
       <xsl:call-template name="sect3.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -2977,14 +2765,8 @@
       <xsl:call-template name="sect3.titlepage.before.verso"/>
       <xsl:call-template name="sect3.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3157,14 +2939,8 @@
       <xsl:call-template name="sect4.titlepage.before.recto"/>
       <xsl:call-template name="sect4.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3172,14 +2948,8 @@
       <xsl:call-template name="sect4.titlepage.before.verso"/>
       <xsl:call-template name="sect4.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3352,14 +3122,8 @@
       <xsl:call-template name="sect5.titlepage.before.recto"/>
       <xsl:call-template name="sect5.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3367,14 +3131,8 @@
       <xsl:call-template name="sect5.titlepage.before.verso"/>
       <xsl:call-template name="sect5.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3565,14 +3323,8 @@
       <xsl:call-template name="simplesect.titlepage.before.recto"/>
       <xsl:call-template name="simplesect.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3580,14 +3332,8 @@
       <xsl:call-template name="simplesect.titlepage.before.verso"/>
       <xsl:call-template name="simplesect.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3736,14 +3482,8 @@
       <xsl:call-template name="topic.titlepage.before.recto"/>
       <xsl:call-template name="topic.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3751,14 +3491,8 @@
       <xsl:call-template name="topic.titlepage.before.verso"/>
       <xsl:call-template name="topic.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3833,14 +3567,8 @@
       <xsl:call-template name="bibliography.titlepage.before.recto"/>
       <xsl:call-template name="bibliography.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3848,14 +3576,8 @@
       <xsl:call-template name="bibliography.titlepage.before.verso"/>
       <xsl:call-template name="bibliography.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -3941,14 +3663,8 @@
       <xsl:call-template name="bibliodiv.titlepage.before.recto"/>
       <xsl:call-template name="bibliodiv.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -3956,14 +3672,8 @@
       <xsl:call-template name="bibliodiv.titlepage.before.verso"/>
       <xsl:call-template name="bibliodiv.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4046,14 +3756,8 @@
       <xsl:call-template name="glossary.titlepage.before.recto"/>
       <xsl:call-template name="glossary.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4061,14 +3765,8 @@
       <xsl:call-template name="glossary.titlepage.before.verso"/>
       <xsl:call-template name="glossary.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4154,14 +3852,8 @@
       <xsl:call-template name="glossdiv.titlepage.before.recto"/>
       <xsl:call-template name="glossdiv.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4169,14 +3861,8 @@
       <xsl:call-template name="glossdiv.titlepage.before.verso"/>
       <xsl:call-template name="glossdiv.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4260,14 +3946,8 @@
       <xsl:call-template name="index.titlepage.before.recto"/>
       <xsl:call-template name="index.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4275,14 +3955,8 @@
       <xsl:call-template name="index.titlepage.before.verso"/>
       <xsl:call-template name="index.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4357,14 +4031,8 @@
       <xsl:call-template name="indexdiv.titlepage.before.recto"/>
       <xsl:call-template name="indexdiv.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4372,14 +4040,8 @@
       <xsl:call-template name="indexdiv.titlepage.before.verso"/>
       <xsl:call-template name="indexdiv.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4455,14 +4117,8 @@
       <xsl:call-template name="setindex.titlepage.before.recto"/>
       <xsl:call-template name="setindex.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4470,14 +4126,8 @@
       <xsl:call-template name="setindex.titlepage.before.verso"/>
       <xsl:call-template name="setindex.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4552,14 +4202,8 @@
       <xsl:call-template name="colophon.titlepage.before.recto"/>
       <xsl:call-template name="colophon.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4567,14 +4211,8 @@
       <xsl:call-template name="colophon.titlepage.before.verso"/>
       <xsl:call-template name="colophon.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4660,14 +4298,8 @@
       <xsl:call-template name="sidebar.titlepage.before.recto"/>
       <xsl:call-template name="sidebar.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4675,14 +4307,8 @@
       <xsl:call-template name="sidebar.titlepage.before.verso"/>
       <xsl:call-template name="sidebar.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4807,14 +4433,8 @@
       <xsl:call-template name="qandaset.titlepage.before.recto"/>
       <xsl:call-template name="qandaset.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block text-align="center"><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4822,14 +4442,8 @@
       <xsl:call-template name="qandaset.titlepage.before.verso"/>
       <xsl:call-template name="qandaset.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -4956,14 +4570,8 @@
       <xsl:call-template name="table.of.contents.titlepage.before.recto"/>
       <xsl:call-template name="table.of.contents.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -4971,14 +4579,8 @@
       <xsl:call-template name="table.of.contents.titlepage.before.verso"/>
       <xsl:call-template name="table.of.contents.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5023,14 +4625,8 @@
       <xsl:call-template name="list.of.tables.titlepage.before.recto"/>
       <xsl:call-template name="list.of.tables.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5038,14 +4634,8 @@
       <xsl:call-template name="list.of.tables.titlepage.before.verso"/>
       <xsl:call-template name="list.of.tables.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5090,14 +4680,8 @@
       <xsl:call-template name="list.of.figures.titlepage.before.recto"/>
       <xsl:call-template name="list.of.figures.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5105,14 +4689,8 @@
       <xsl:call-template name="list.of.figures.titlepage.before.verso"/>
       <xsl:call-template name="list.of.figures.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5157,14 +4735,8 @@
       <xsl:call-template name="list.of.examples.titlepage.before.recto"/>
       <xsl:call-template name="list.of.examples.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5172,14 +4744,8 @@
       <xsl:call-template name="list.of.examples.titlepage.before.verso"/>
       <xsl:call-template name="list.of.examples.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5224,14 +4790,8 @@
       <xsl:call-template name="list.of.equations.titlepage.before.recto"/>
       <xsl:call-template name="list.of.equations.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5239,14 +4799,8 @@
       <xsl:call-template name="list.of.equations.titlepage.before.verso"/>
       <xsl:call-template name="list.of.equations.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5291,14 +4845,8 @@
       <xsl:call-template name="list.of.procedures.titlepage.before.recto"/>
       <xsl:call-template name="list.of.procedures.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5306,14 +4854,8 @@
       <xsl:call-template name="list.of.procedures.titlepage.before.verso"/>
       <xsl:call-template name="list.of.procedures.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5358,14 +4900,8 @@
       <xsl:call-template name="list.of.unknowns.titlepage.before.recto"/>
       <xsl:call-template name="list.of.unknowns.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5373,14 +4909,8 @@
       <xsl:call-template name="list.of.unknowns.titlepage.before.verso"/>
       <xsl:call-template name="list.of.unknowns.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5425,14 +4955,8 @@
       <xsl:call-template name="component.list.of.tables.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.tables.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5440,14 +4964,8 @@
       <xsl:call-template name="component.list.of.tables.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.tables.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5492,14 +5010,8 @@
       <xsl:call-template name="component.list.of.figures.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.figures.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5507,14 +5019,8 @@
       <xsl:call-template name="component.list.of.figures.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.figures.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5559,14 +5065,8 @@
       <xsl:call-template name="component.list.of.examples.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.examples.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5574,14 +5074,8 @@
       <xsl:call-template name="component.list.of.examples.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.examples.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5626,14 +5120,8 @@
       <xsl:call-template name="component.list.of.equations.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.equations.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5641,14 +5129,8 @@
       <xsl:call-template name="component.list.of.equations.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.equations.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5693,14 +5175,8 @@
       <xsl:call-template name="component.list.of.procedures.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.procedures.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5708,14 +5184,8 @@
       <xsl:call-template name="component.list.of.procedures.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.procedures.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5760,14 +5230,8 @@
       <xsl:call-template name="component.list.of.unknowns.titlepage.before.recto"/>
       <xsl:call-template name="component.list.of.unknowns.titlepage.recto"/>
     </xsl:variable>
-    <xsl:variable name="recto.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($recto.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="recto.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$recto.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($recto.content) != '') or ($recto.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$recto.content"/></fo:block>
     </xsl:if>
@@ -5775,14 +5239,8 @@
       <xsl:call-template name="component.list.of.unknowns.titlepage.before.verso"/>
       <xsl:call-template name="component.list.of.unknowns.titlepage.verso"/>
     </xsl:variable>
-    <xsl:variable name="verso.elements.count">
-      <xsl:choose>
-        <xsl:when test="function-available('exsl:node-set')"><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
-          <!--Xalan quirk--><xsl:value-of select="count(exsl:node-set($verso.content)/*)"/></xsl:when>
-        <xsl:otherwise>1</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
+    <axsl:variable xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" name="verso.elements.count">
+      <axsl:call-template name="count.elements"><axsl:with-param name="elements" select="$verso.content"/></axsl:call-template></axsl:variable>
     <xsl:if test="(normalize-space($verso.content) != '') or ($verso.elements.count &gt; 0)">
       <fo:block><xsl:copy-of select="$verso.content"/></fo:block>
     </xsl:if>
@@ -5801,5 +5259,18 @@
   <!-- try the generic titlepage.mode -->
   <xsl:apply-templates select="." mode="titlepage.mode"/>
 </xsl:template>
+
+<axsl:template xmlns:axsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://nwalsh.com/docbook/xsl/template/1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" name="count.elements">
+  <axsl:param name="elements"/><axsl:choose>
+    <axsl:when test="function-available('exsl:node-set')">
+      <axsl:value-of select="count(exsl:node-set($elements)/*)"/>
+    </axsl:when>
+    <axsl:when test="contains(system-property('xsl:vendor'), 'Apache Software Foundation')">
+      <!--Xalan quirk-->
+      <axsl:value-of select="count(exsl:node-set($elements)/*)"/>
+    </axsl:when>
+    <axsl:otherwise>1</axsl:otherwise>
+  </axsl:choose>
+</axsl:template>
 
 </xsl:stylesheet>
