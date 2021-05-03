@@ -1,0 +1,37 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+<comment>Properties for 'MUK-xsl' system.</comment>
+
+<!-- NOTE: If you want to change any of these properties or add your
+     own, do it in a 'properties.local.xml'.  That file, if it exists,
+     will be read before this file so, thanks to Ant's rules for
+     property definitions, any properties in that file will take
+     precedence over property settings in this file. -->
+
+<!-- NOTE: Use ${muk.basedir.converted} for files located relative
+     to the 'muk' system directory. -->
+
+<!-- NOTE: It is an Ant convention that Ant-style property references
+     in property values, e.g., "${muk.basedir.converted}", will
+     resolve to that property's value, provided the property was
+     previously declared either earlier in the build process or
+     earlier in the current property file. -->
+
+<entry key="single">paper.xml</entry>
+
+<!-- <oXygen/>-related properties. -->
+<!-- Oxygen version, which is included in directory names. -->
+<entry key="oxygen.version">23</entry>
+<!-- Oxygen installation folder as file path. -->
+<entry key="oxygenInstallDir.windows">C:/Program Files/Oxygen XML Editor ${oxygen.version}</entry>
+<entry key="oxygenInstallDir.unix">/opt/Oxygen XML Editor ${oxygen.version}</entry>
+
+<!-- Location of .jar for Saxon XSLT 2.0 (or later) processor -->
+<entry key="saxon.jar.unix">/usr/share/java/saxonb.jar</entry>
+<entry key="saxon.jar.mac">/usr/share/java/saxon9.jar</entry>
+<entry key="saxon.jar.windows">/E:/saxon/saxon9he.jar</entry>
+
+<entry key="ahformatter.windows">AHFCmd.exe</entry>
+<entry key="ahformatter.unix">/usr/AHFormatterV71_64/run.sh</entry>
+
+</properties>
