@@ -1,1 +1,4 @@
+# 'build-paths.xml' is regenerated every time Ant runs.
+build-paths.xml
+*.local.xml
 *~

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="muk-xsl" default="muk-titlepages" basedir="."
+	 xmlns:if="ant:if"
+	 xmlns:unless="ant:unless">
+<description>Tasks for Markup UK XSLT stylesheets.</description>
+
+<dirname property="muk-xsl.basedir" file="${ant.file.muk-xsl}"/>
+
+<pathconvert property="muk-xsl.basedir.converted" dirsep="/">
+  <path location="${muk-xsl.basedir}" />
+  <!-- Ant under cygwin uses a lowercase drive letter, which Java
+       programs don't always recognise as a drive letter, so
+       translate. -->
+  <map from="c:" to="C:"/>
+  <map from="d:" to="D:"/>
+  <map from="e:" to="E:"/>
+</pathconvert>
+
+<pathconvert property="basedir.converted" dirsep="/">
+  <path location="${basedir}" />
+  <!-- Ant under cygwin uses a lowercase drive letter, which Java
+       programs don't always recognise as a drive letter, so
+       translate. -->
+  <map from="c:" to="C:"/>
+  <map from="d:" to="D:"/>
+  <map from="e:" to="E:"/>
+</pathconvert>
+
+<pathconvert property="ant.home.converted" dirsep="/">
+  <path location="${ant.home}" />
+  <!-- Ant under cygwin uses a lowercase drive letter, which Java
+       programs don't always recognise as a drive letter, so
+       translate. -->
+  <map from="c:" to="C:"/>
+  <map from="d:" to="D:"/>
+  <map from="e:" to="E:"/>
+</pathconvert>
+
+<!-- Current project folder as file path. -->
+<property name="pd" value="."/>
+<!-- Current file folder as file path. -->
+<property name="pwd" value="${user.dir}"/>
+
+<!-- 'MUK-xsl' is expected to be a submodule of another project, so
+     read properties of containing project before reading this
+     submodule's properties. -->
+
+<!-- Parent's XML file of really local overrides of its properties
+     determining or describing local configuration. -->
+<property
+    name="parent.dir"
+    location="${pwd}/.."/>
+<property
+    name="parent.properties.local.xml"
+    location="${parent.dir}/properties.local.xml"/>
+<property
+    file="${parent.properties.local.xml}"/>
+
+<!-- Parent's XML file of properties determining or describing its
+     local configuration. -->
+<property
+    name="parent.properties.xml"
+    location="${parent.dir}/properties.xml"/>
+<property
+    file="${parent.properties.xml}"/>
+
+<!-- Parent's file of properties determining or describing 'muk'
+     system configuration. -->
+<property name="parent.muk.properties.xml"
+	  value="${muk.basedir.converted}/properties.xml"/>
+<property file="${muk.properties.xml}"/>
+
+<!-- XML file of really local overrides of properties determining or
+     describing local configuration. -->
+<property
+    name="properties.local.xml"
+    location="${pwd}/properties.local.xml"/>
+<property
+    file="${properties.local.xml}"/>
+
+<!-- XML file of properties determining or describing local
+     configuration. -->
+<property
+    name="properties.xml"
+    location="${pwd}/properties.xml"/>
+<property
+    file="${properties.xml}"/>
+
+<!-- File of properties determining or describing 'muk-xsl' system
+     configuration. -->
+<property name="muk-xsl.properties.xml"
+	  value="${muk-xsl.basedir.converted}/properties.xml"/>
+<property file="${muk-xsl.properties.xml}"/>
+
+<property name="xsl.dir"
+	  value="${muk-xsl.basedir.converted}" />
+<property name="docbook.xsl.dir"
+	  value="${xsl.dir}/docbook-xsl-1.79.1" />
+<property name="xslthl.config"
+	  value="${docbook.xsl.dir}/highlighting/xslthl-config.xml" />
+
+<!-- oxygenInstallDir location depends on if run from oXygen or on OS. -->
+<condition property="oxygenInstallDir"
+	   value="${ant.home.converted}/../../">
+  <contains string="${ant.home.converted}"
+	    substring="oxygen"
+	    casesensitive="false" />
+</condition>
+<condition property="oxygenInstallDir" value="${oxygenInstallDir.windows}">
+  <os family="windows" />
+</condition>
+<condition property="oxygenInstallDir" value="${oxygenInstallDir.mac}">
+  <os family="mac" />
+</condition>
+<property name="oxygenInstallDir" value="${oxygenInstallDir.unix}" />
+
+<property name="oxygen-basic-utilities.jar"
+	  value="${oxygenInstallDir}/lib/oxygen-basic-utilities.jar"/>
+<property name="resolver.jar"
+	  value="${oxygenInstallDir}/lib/resolver.jar"/>
+<property name="resolver.class"
+	  value="org.apache.xml.resolver.tools.CatalogResolver"/>
+
+<condition property="is.windows">
+  <os family="windows" />
+</condition>
+
+<!-- When you have <oXygen/> installed, it's the easiest place to find
+     the jars you need. -->
+<property name="xerces.jar"
+	  value="${oxygenInstallDir}/lib/oxygen-patched-xerces.jar" />
+<property name="xml-apis.jar"
+	  value="${oxygenInstallDir}/lib/xml-apis.jar" />
+<property name="oxygen-basic-utilities.jar"
+	  value="${oxygenInstallDir}/lib/oxygen-basic-utilities.jar" />
+<property name="xslthl.jar"
+	  value="${oxygenInstallDir}/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.highlight/lib/xslthl-2.1.1.jar" />
+
+<!-- saxon.jar location depends on if run from oXygen or on OS. -->
+<condition property="saxon.jar"
+	   value="${oxygenInstallDir}/lib/oxygen-patched-saxon-9.jar">
+  <resourceexists>
+    <file file="${oxygenInstallDir}/lib/oxygen-patched-saxon-9.jar" />
+  </resourceexists>
+</condition>
+<condition property="saxon.jar" value="${saxon.jar.windows}">
+  <os family="windows" />
+</condition>
+<condition property="saxon.jar" value="${saxon.jar.mac}">
+  <os family="mac" />
+</condition>
+<property name="saxon.jar" value="${saxon.jar.unix}" />
+
+<!-- saxon6.jar location depends on if run from oXygen or on OS. -->
+<condition property="saxon6.jar"
+	   value="${oxygenInstallDir}/lib/oxygen-patched-saxon-6.jar">
+  <resourceexists>
+    <file file="${oxygenInstallDir}/lib/oxygen-patched-saxon-6.jar" />
+  </resourceexists>
+</condition>
+<condition property="saxon6.jar" value="${saxon6.jar.windows}">
+  <os family="windows" />
+</condition>
+<condition property="saxon6.jar" value="${saxon6.jar.mac}">
+  <os family="mac" />
+</condition>
+<property name="saxon6.jar" value="${saxon6.jar.unix}" />
+
+<!-- AH Formatter location depends on OS. -->
+<condition property="ahformatter" value="${ahformatter.windows}">
+  <os family="windows" />
+</condition>
+<condition property="ahformatter" value="${ahformatter.mac}">
+  <os family="mac" />
+</condition>
+<property name="ahformatter" value="${ahformatter.unix}" />
+
+<!-- PDF version to generate. -->
+<property name="pdf.version" value="PDF1.5" />
+
+
+<property environment="env"/>
+
+<tstamp />
+
+<!-- Regenerate 'build-paths.xml' before including it. -->
+<xslt in="${xsl.dir}/ant-paths.xsl"
+      out="build-paths.xml"
+      style="${xsl.dir}/ant-paths.xsl"
+      basedir="${basedir.converted}"
+      classpath="${saxon.jar};${oxygen-basic-utilities.jar}"
+      force="true">
+  <factory name="net.sf.saxon.TransformerFactoryImpl">
+    <attribute
+	name="http://saxon.sf.net/feature/initialTemplate"
+	value="{http://markupuk.org/XSLT/Functions}ant-paths" />
+    <attribute
+        name="http://saxon.sf.net/feature/allow-external-functions"
+        value="true" />
+    <attribute
+        name="http://saxon.sf.net/feature/validation"
+        value="false" />
+  </factory>
+  <param name="timestamp" expression="${DSTAMP}-${TSTAMP}" />
+  <param name="xsl.dir" expression="${xsl.dir}" />
+  <param name="verbose" expression="${verbose}" />
+</xslt>
+<include file="${muk-xsl.basedir.converted}/build-paths.xml" />
+
+
+<target name="single.basename">
+  <fail unless="single"
+        message="'single' property must be set to filename of single HTML/XML file to process." />
+  <!-- Basename of single file to process. -->
+  <local name="single.not.xml" />
+  <basename property="single.not.xml"
+	    file="${single}" suffix=".xml" />
+  <basename property="single.basename"
+	    file="${single.not.xml}" suffix=".html" />
+</target>
+
+<target name="nons.single" depends="single.basename">
+  <java classname="com.icl.saxon.StyleSheet"
+	classpath="${xerces.jar}:${saxon6.jar}" fork="true">
+    <sysproperty
+	key="javax.xml.parsers.DocumentBuilderFactory"
+	value="org.apache.xerces.jaxp.DocumentBuilderFactoryImpl" />
+    <sysproperty
+	key="javax.xml.parsers.SAXParserFactory"
+	value="org.apache.xerces.jaxp.SAXParserFactoryImpl" />
+    <sysproperty
+	key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+	value="org.apache.xerces.parsers.XIncludeParserConfiguration" />
+    <arg value="-o" />
+    <arg value="${xsl.dir}/${single.basename}-nons.xml" />
+    <arg value="${basedir.converted}/${single}" />
+    <arg value="${xsl.dir}/nons.xsl" />
+  </java>
+</target>
+
+<target name="single.isset">
+  <fail unless="single">$${single} must be set.</fail>
+  <echo if:true="${verbose}">$${single}: ${single}</echo>
+  <echo if:true="${verbose}">$${single.basename}: ${single.basename}</echo>
+</target>
+
+<target name="fo.single.uptodate"
+	depends="single.isset">
+  <uptodate
+      property="fo.single.uptodate"
+      targetfile="${xsl.dir}/${single.basename}.fo">
+    <srcfiles
+	file="${basedir.converted}/${single.basename}.xml" />
+    <srcresources>
+      <path refid="muk-proceedings-db.path" />
+    </srcresources>
+    <srcfiles
+	dir="${docbook.xsl.dir}/highlighting" includes="*.xml" />
+  </uptodate>
+</target>
+
+<target name="muk-titlepages">
+  <xslt in="${xsl.dir}/titlepage.templates.muk.xml"
+	out="${xsl.dir}/muk-titlepages.xsl"
+	style="${docbook.xsl.dir}/template/titlepage.xsl"
+	classpath="${xslthl.jar}:${xerces.jar}:${xml-apis.jar}:${oxygen-basic-utilities.jar}:${saxon6.jar}"
+	force="${force}">
+    <sysproperty
+	key="javax.xml.parsers.DocumentBuilderFactory"
+	value="org.apache.xerces.jaxp.DocumentBuilderFactoryImpl" />
+    <sysproperty
+	key="javax.xml.parsers.SAXParserFactory"
+	value="org.apache.xerces.jaxp.SAXParserFactoryImpl" />
+    <sysproperty
+	key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+	value="org.apache.xerces.parsers.XIncludeParserConfiguration" />
+    <sysproperty
+	key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+	value="org.apache.xerces.parsers.XIncludeParserConfiguration" />
+    <factory name="com.icl.saxon.TransformerFactoryImpl" />
+  </xslt>
+</target>
+
+<target name="fo.single"
+	depends="nons.single,
+		 muk-titlepages,
+		 fo.single.uptodate"
+	unless="fo.single.uptodate">
+  <xslt in="${basedir.converted}/${single.basename}.xml"
+	out="${xsl.dir}/${single.basename}.fo"
+	style="${xsl.dir}/muk-proceedings-db.xsl"
+	classpath="${xslthl.jar}:${xerces.jar}:${xml-apis.jar}:${oxygen-basic-utilities.jar}:${saxon6.jar}"
+	force="yes">
+    <sysproperty
+	key="javax.xml.parsers.DocumentBuilderFactory"
+	value="org.apache.xerces.jaxp.DocumentBuilderFactoryImpl" />
+    <sysproperty
+	key="javax.xml.parsers.SAXParserFactory"
+	value="org.apache.xerces.jaxp.SAXParserFactoryImpl" />
+    <sysproperty
+	key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+	value="org.apache.xerces.parsers.XIncludeParserConfiguration" />
+    <sysproperty
+	key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+	value="org.apache.xerces.parsers.XIncludeParserConfiguration" />
+    <factory name="com.icl.saxon.TransformerFactoryImpl" />
+    <param name="muk-xsl.dir" expression="file:///${xsl.dir}" />
+    <param name="fo.processor" expression="ahf" />
+    <param name="highlight.source" expression="1" />
+    <param name="highlight.xslthl.config"
+	   expression="file:///${xslthl.config}" />
+    <param name="keep.relative.image.uris" expression="0" />
+  </xslt>
+</target>
+
+<target name="pdf.single.uptodate"
+	depends="single.isset">
+  <uptodate
+      property="pdf.single.uptodate"
+      targetfile="${xsl.dir}/${single.basename}.pdf">
+    <srcfiles
+	file="${xsl.dir}/${single.basename}.fo" />
+  </uptodate>
+</target>
+
+<target name="pdf.single"
+	depends="fo.single, pdf.single.uptodate"
+	unless="pdf.single.uptodate">
+  <exec executable="${ahformatter}"
+	dir="${basedir.converted}">
+    <arg value="-x" />
+    <arg value="3" />
+    <arg value="-peb" />
+    <arg value="1" />
+    <arg value="-prr" if:set="is.windows" />
+    <arg value="200" if:set="is.windows" />
+    <arg value="-pdfver" />
+    <arg value="${pdf.version}" />
+    <arg value="-o" />
+    <arg value="${xsl.dir}/${single.basename}.pdf" />
+    <arg value="-d" />
+    <arg value="${xsl.dir}/${single.basename}.fo" />
+  </exec>
+</target>
+
+<!-- Utility targets. -->
+
+<target name="echoproperties">
+  <echoproperties />
+</target>
+
+</project>

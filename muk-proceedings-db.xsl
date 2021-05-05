@@ -188,6 +188,13 @@
       </xsl:if>
     </xsl:template>
 
+    <!-- Show article subtitle, if it exists. -->
+    <xsl:template match="subtitle" mode="titlepage.mode">
+      <fo:block>
+        <xsl:apply-templates />
+      </fo:block>
+    </xsl:template>
+
     <!-- Suppress email in author info -->
     <xsl:template match="author" mode="titlepage.mode">
         <fo:block>
@@ -672,7 +679,8 @@
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
-  <fo:block-container span="all" border="6pt solid {$muk.background}" axf:border-radius="{$muk.border-radius}" padding="{$muk.border-radius}" padding-left="147pt" xsl:use-attribute-sets="abstract.properties" margin-left="-150pt" margin-right="0">
+  <xsl:variable name="abstract.border.width" select="'6pt'" />
+  <fo:block-container span="all" border="{$abstract.border.width} solid {$muk.background}" axf:border-radius="{$muk.border-radius}" padding="{$muk.border-radius}" padding-left="150pt - {$abstract.border.width}" xsl:use-attribute-sets="abstract.properties" margin-left="-150pt" margin-right="0">
       <fo:block start-indent="0" end-indent="0">
     <xsl:apply-templates select="*[not(self::title)]" mode="titlepage.mode"/>
       </fo:block>
