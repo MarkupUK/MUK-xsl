@@ -54,6 +54,9 @@
   <xsl:choose>
     <!-- Do we want syntax highlighting -->
     <xsl:when test="$highlight.source != 0">
+      <xsl:if test="not(document($highlight.xslthl.config))">
+        <xsl:message>Highlighter configuration not found: <xsl:value-of select="$highlight.xslthl.config" /></xsl:message>
+      </xsl:if>
       <xsl:variable name="language">
 	<xsl:call-template name="language.to.xslthl">
 	  <xsl:with-param name="context" select="."/>
@@ -66,6 +69,7 @@
 	  </xsl:variable>
 	  <xsl:choose>
 	    <xsl:when test="function-available('s6hl:highlight')">
+              <xsl:message>DEBUG: Function</xsl:message>
 	      <xsl:apply-templates select="s6hl:highlight($language, exsl:node-set($content), $highlight.xslthl.config)"
 				   mode="xslthl"/>
 	    </xsl:when>
@@ -78,17 +82,20 @@
 				   mode="xslthl"/>
 	    </xsl:when>
 	    <xsl:otherwise>
+              <xsl:message>DEBUG: No function</xsl:message>
 	      <xsl:copy-of select="$content"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:when>
 	<xsl:otherwise>
+          <xsl:message>DEBUG: No language</xsl:message>
 	  <xsl:apply-templates/>
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:when>
     <!-- No syntax highlighting -->
     <xsl:otherwise>
+      <xsl:message>DEBUG: No highlighting</xsl:message>
       <xsl:apply-templates/>
     </xsl:otherwise>
   </xsl:choose>
