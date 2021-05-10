@@ -101,6 +101,11 @@
       <xsl:attribute name="space-after">0.5lh</xsl:attribute>
     </xsl:attribute-set>
 
+    <xsl:attribute-set name="toc.margin.properties">
+      <xsl:attribute name="space-before.optimum">10mm</xsl:attribute>
+      <xsl:attribute name="space-before.conditionality">retain</xsl:attribute>
+    </xsl:attribute-set>
+
     <!-- Author, in ToC and articles. -->
     <xsl:param name="author.font-size">12pt</xsl:param>
 
