@@ -69,7 +69,6 @@
 	  </xsl:variable>
 	  <xsl:choose>
 	    <xsl:when test="function-available('s6hl:highlight')">
-              <xsl:message>DEBUG: Function</xsl:message>
 	      <xsl:apply-templates select="s6hl:highlight($language, exsl:node-set($content), $highlight.xslthl.config)"
 				   mode="xslthl"/>
 	    </xsl:when>
@@ -82,13 +81,11 @@
 				   mode="xslthl"/>
 	    </xsl:when>
 	    <xsl:otherwise>
-              <xsl:message>DEBUG: No function</xsl:message>
 	      <xsl:copy-of select="$content"/>
 	    </xsl:otherwise>
 	  </xsl:choose>
 	</xsl:when>
 	<xsl:otherwise>
-          <xsl:message>DEBUG: No language</xsl:message>
 	  <xsl:apply-templates/>
 	</xsl:otherwise>
       </xsl:choose>
