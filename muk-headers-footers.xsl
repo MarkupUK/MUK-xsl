@@ -59,18 +59,19 @@
                 
                 <xsl:when test="$position='right' and $sequence='even'">
                     <xsl:if test="$pageclass != 'titlepage'">
+                      <fo:block margin-top="3.3mm">
                         <xsl:choose>
-                            <xsl:when test="ancestor::book and ($double.sided != 0)">
-                                <fo:block margin-top="4mm">
-                                    <fo:retrieve-marker retrieve-class-name="section.head.marker"
-                                        retrieve-position="first-including-carryover"
-                                        retrieve-boundary="page-sequence"/>
-                                </fo:block>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-                            </xsl:otherwise>
+                          <xsl:when test="ancestor::book and ($double.sided != 0)">
+                            <fo:retrieve-marker
+                                retrieve-class-name="section.head.marker"
+                                retrieve-position="first-including-carryover"
+                                retrieve-boundary="page-sequence"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+                          </xsl:otherwise>
                         </xsl:choose>
+                      </fo:block>
                     </xsl:if>
                 </xsl:when>
                 
@@ -95,18 +96,19 @@
                 
                 <xsl:when test="$position='left' and $sequence='odd'">
                     <xsl:if test="$pageclass != 'titlepage'">
+                      <fo:block margin-top="3.3mm">
                         <xsl:choose>
-                            <xsl:when test="ancestor::book and ($double.sided != 0)">
-                                <fo:block margin-top="4mm">
-                                    <fo:retrieve-marker retrieve-class-name="section.head.marker"
-                                        retrieve-position="first-including-carryover"
-                                        retrieve-boundary="page-sequence"/>
-                                </fo:block>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-                            </xsl:otherwise>
+                          <xsl:when test="ancestor::book and ($double.sided != 0)">
+                            <fo:retrieve-marker
+                                retrieve-class-name="section.head.marker"
+                                retrieve-position="first-including-carryover"
+                                retrieve-boundary="page-sequence"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+                          </xsl:otherwise>
                         </xsl:choose>
+                      </fo:block>
                     </xsl:if>
                 </xsl:when>
                 
