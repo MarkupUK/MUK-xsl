@@ -630,11 +630,13 @@
     </xsl:template>
 
     <xsl:template name="user-axf-document-information">
+      <!-- The context node is the document element. -->
       <axf:document-info name="pagelayout">
         <xsl:attribute name="value">
           <xsl:choose>
-            <xsl:when test="ancestor::book">TwoPageRight</xsl:when>
-            <xsl:otherwise>TwoPageLeft</xsl:otherwise>
+            <!-- Articles start on a left-hand page. -->
+            <xsl:when test="ancestor::article">TwoPageLeft</xsl:when>
+            <xsl:otherwise>TwoPageRight</xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
       </axf:document-info>
