@@ -635,7 +635,7 @@
         <xsl:attribute name="value">
           <xsl:choose>
             <!-- Articles start on a left-hand page. -->
-            <xsl:when test="ancestor::article">TwoPageLeft</xsl:when>
+            <xsl:when test="self::article">TwoPageLeft</xsl:when>
             <xsl:otherwise>TwoPageRight</xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
