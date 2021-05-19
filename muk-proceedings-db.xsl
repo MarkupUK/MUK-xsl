@@ -37,7 +37,7 @@
     <xsl:param name="docbook-xsl.dir"
                select="'docbook-xsl-1.79.1'" />
 
-    <xsl:param name="fo.processor" select="'fop'"/>
+    <xsl:param name="fo.processor" select="'ahf'"/>
 
     <xsl:param name="axf.extensions">
         <xsl:choose>
@@ -84,7 +84,7 @@
     <xsl:param name="double.sided">1</xsl:param>
 
     <!-- Header and footer column widths (left, centre, right) -->
-    <xsl:param name="header.column.widths">7 0 7</xsl:param>
+    <xsl:param name="header.column.widths">5 0 2</xsl:param>
     <xsl:param name="footer.column.widths">5 1 1</xsl:param>
 
     <xsl:attribute-set name="root.properties">
@@ -99,6 +99,7 @@
     <xsl:attribute-set name="toc.line.properties">
       <xsl:attribute name="text-align-last">start</xsl:attribute>
       <xsl:attribute name="space-after">0.5lh</xsl:attribute>
+      <xsl:attribute name="axf:hanging-punctuation">start allow-end</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="toc.margin.properties">
