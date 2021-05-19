@@ -54,4 +54,14 @@
   <xsl:attribute name="font-weight">inherit</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="highlight.number.properties">
+  <xsl:attribute name="color">blue</xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="highlight.property.properties">
+  <xsl:attribute name="color">forestgreen</xsl:attribute>
+  <xsl:attribute name="font-weight">inherit</xsl:attribute>
+</xsl:attribute-set>
+
 </xsl:stylesheet>

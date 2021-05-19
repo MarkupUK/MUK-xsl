@@ -50,6 +50,8 @@
 
 <xsl:attribute-set name="highlight.directive.properties" />
 
+<xsl:attribute-set name="highlight.property.properties" />
+
 <xsl:attribute-set name="highlight.doccomment.properties">
   <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
@@ -119,6 +121,12 @@
 
 <xsl:template match='xslthl:directive' mode="xslthl">
   <fo:inline xsl:use-attribute-sets="highlight.directive.properties">
+    <xsl:apply-templates mode="xslthl"/>
+  </fo:inline>
+</xsl:template>
+
+<xsl:template match='xslthl:property' mode="xslthl">
+  <fo:inline xsl:use-attribute-sets="highlight.property.properties">
     <xsl:apply-templates mode="xslthl"/>
   </fo:inline>
 </xsl:template>
