@@ -113,10 +113,10 @@
                 </xsl:when>
                 
                 <xsl:when test="$sequence = 'first'">
-                  <xsl:attribute name="margin-left">-16mm</xsl:attribute>
+                  <xsl:attribute name="margin-left">-15mm</xsl:attribute>
                   <xsl:call-template name="muk-logo">
                     <xsl:with-param name="content-height"
-                                    select="'30mm'" />
+                                    select="'27mm'" />
                   </xsl:call-template>
                 </xsl:when>
                 

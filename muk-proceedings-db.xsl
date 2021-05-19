@@ -651,7 +651,7 @@
           <xsl:choose>
             <xsl:when test="starts-with($text, 'Markup UK ')">
               <fo:external-graphic
-                  content-height="24mm" scaling="uniform"
+                  content-height="24.4mm" scaling="uniform"
                   content-width="scale-to-fit"
                   src="url({$muk-xsl.dir}/img/MarkupUK-2.svg)"
                   axf:alttext="Markup UK " />
