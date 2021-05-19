@@ -488,7 +488,7 @@
                 <fo:block>Markup UK 2021 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
-                <fo:block>by David Maus, Alain Couthures, Michael Kay, Erik Siegel, Karin Bredenberg, Jaime Kaminski, Robin La Fontaine, Nigel Whitaker, Steven Pemberton, Tony Graham and Liam Quin</fo:block>
+                <fo:block>by B. Tommie Usdin, David Maus, Alain Couthures, Michael Kay, Erik Siegel, Debbie Lapeyre, Karin Bredenberg, Jaime Kaminski, Robin La Fontaine, Nigel Whitaker, Steven Pemberton, Tony Graham and Liam Quin</fo:block>
             </fo:block>
             
         </fo:flow>
