@@ -284,22 +284,13 @@
                             </fo:block>                
                         </fo:table-cell>
                     </fo:table-row>
-                    <fo:table-row height="35mm">
+                    <fo:table-row height="80mm">
                         <fo:table-cell>
-                            <!-- Saxonica -->
-                            <fo:block text-align="center">
-                                <fo:external-graphic content-width="110mm"
-                                    src="{$muk-xsl.dir}/img/logo_crop-mid-blue-background.gif"/>
-                            </fo:block>
-                        </fo:table-cell>
-                    </fo:table-row>
-                    <fo:table-row height="40mm">
-                        <fo:table-cell>
-                            <fo:block text-align="center">
-                                <fo:external-graphic content-width="120mm"
-                                    src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
-                            </fo:block>
-                        </fo:table-cell>
+                        <fo:block text-align="center" vertical-align="center" margin-top="10mm">
+                            <fo:external-graphic content-width="110mm"
+                                src="{$muk-xsl.dir}/img/letex-logo.png"/>
+                        </fo:block>
+                    </fo:table-cell>
                     </fo:table-row>
                 </fo:table-body>
             </fo:table>
@@ -308,31 +299,28 @@
             
             <fo:table width="130mm" page-break-before="always">
                 <fo:table-body>
-                    <fo:table-row height="100mm">
+                    <fo:table-row height="80mm">
                         <fo:table-cell>
-                            <fo:block text-align="left" vertical-align="center" margin-top="45mm">
-                                <fo:external-graphic content-width="50mm"
-                                    src="{$muk-xsl.dir}/img/letex-logo.png"/>
-                            </fo:block>
-                        </fo:table-cell>
-                        <fo:table-cell>
-                            <fo:block text-align="right" vertical-align="center" margin-top="40mm">
-                                <fo:external-graphic content-width="60mm"
-                                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
+                            <!-- Saxonica -->
+                            <fo:block text-align="center">
+                                <fo:external-graphic content-width="110mm" margin-bottom="30mm"
+                                    src="{$muk-xsl.dir}/img/logo_crop-mid-blue-background.gif"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
-                    <fo:table-row height="100mm">
+                    <fo:table-row height="80mm">
                         <fo:table-cell>
-                            <fo:block text-align="left" vertical-align="center" margin-top="50mm">
-                                <fo:external-graphic content-width="55mm"
-                                    src="{$muk-xsl.dir}/img/mercator-logo.png"/>
+                            <fo:block text-align="center">
+                                <fo:external-graphic content-width="120mm"
+                                    src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
                             </fo:block>
                         </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="40mm">
                         <fo:table-cell>
-                            <fo:block text-align="right" vertical-align="center" margin-top="40mm">
-                                <fo:external-graphic content-width="60mm"
-                                    src="{$muk-xsl.dir}/img/mul-logo.png"/>
+                            <fo:block text-align="center" vertical-align="center">
+                                <fo:external-graphic content-width="100mm"
+                                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -397,6 +385,9 @@
                 <xsl:text>Programme Committee</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
+                <xsl:text>Syd Bauman &#x2013; Northeastern University Digital Scholarship Group</xsl:text>
+            </fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Achim Berndzen &#x2013; &lt;xml-project /&gt;</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
@@ -416,6 +407,9 @@
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Deborah A. Lapeyre &#x2013; Mulberry Technologies</xsl:text>
+            </fo:block>
+            <fo:block start-indent="1em" text-indent="-1em">
+                <xsl:text>David Maus &#x2013; State and University Library Hamburg</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Adam Retter &#x2013; Evolved Binary</xsl:text>
@@ -441,19 +435,15 @@
             </fo:block>
             
             <fo:block>
+                <xsl:text>le-tex Publishing Services</xsl:text>
+            </fo:block>
+            
+            <fo:block>
                 <xsl:text>Saxonica</xsl:text>
             </fo:block>
             
             <fo:block>
-                <xsl:text>oXygen XML Editor</xsl:text>
-            </fo:block>
-
-            <fo:block>
-                <xsl:text>letex Publishing Services</xsl:text>
-            </fo:block>
-            
-            <fo:block>
-                <xsl:text>Mercator</xsl:text>
+                <xsl:text>OxygenXML</xsl:text>
             </fo:block>
             
             <fo:block>
@@ -461,27 +451,11 @@
             </fo:block>
             
             <fo:block>
-                <xsl:text>Deborah A. Lapeyre</xsl:text>
-            </fo:block>
-            
-            <fo:block>
-                <xsl:text>B. Tommie Usdin</xsl:text>
-            </fo:block>
-
-            <fo:block>
-                <xsl:text>Bethan Tovey</xsl:text>
-            </fo:block>
-
-            <fo:block>
                 <xsl:text>Adam Retter</xsl:text>
             </fo:block>
 
             <fo:block>
-                <xsl:text>Jirka Kosek</xsl:text>
-            </fo:block>
-
-            <fo:block>
-                <xsl:text>Norman Walsh</xsl:text>
+                <xsl:text>Tony Graham</xsl:text>
             </fo:block>
             
             <fo:block>
@@ -503,15 +477,18 @@
             <fo:block margin-top="8pt">
                 <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/xmlss.svg"/>
             </fo:block>
+            <fo:block margin-top="8pt">
+                <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/da-logo-with-outlines.svg"/>
+            </fo:block>
 
 
             <fo:block
                 xsl:use-attribute-sets="administrivia.title.properties"
                 margin-top="14pt">
-                <fo:block>Markup UK 2019 Proceedings</fo:block>
+                <fo:block>Markup UK 2021 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
-                <fo:block>by B. Tommie Usdin, Debbie Lapeyre, Karin Bredenberg, Jaime Kaminski, Peter Flynn, Marco Geue, Gerrit Imsieke, Andy Bunce, Alain Couthures, Andreas Tai, Michael Seiferle, Robin La Fontaine, Nigel A Whitaker, John Lumley, Octavian Nadolu, Tony Graham, Barnabas Davoti, Erik Siegel, Cristian Talau, Liam R E Quin, Syd Bauman, and Sandro Cirulli</fo:block>
+                <fo:block>by David Maus, Alain Couthures, Michael Kay, Erik Siegel, Karin Bredenberg, Jaime Kaminski, Robin La Fontaine, Nigel Whitaker, Steven Pemberton, Tony Graham and Liam Quin</fo:block>
             </fo:block>
             
         </fo:flow>
