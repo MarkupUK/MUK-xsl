@@ -369,6 +369,12 @@
               <xsl:otherwise>inherit</xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
+        <xsl:attribute name="font-stretch">
+            <xsl:choose>
+              <xsl:when test="ancestor::title">extra-condensed</xsl:when>
+              <xsl:otherwise>inherit</xsl:otherwise>
+            </xsl:choose>
+        </xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="monospace.verbatim.properties">
