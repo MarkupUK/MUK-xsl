@@ -321,7 +321,7 @@
                         <fo:table-cell>
                             <fo:block text-align="center" vertical-align="center">
                                 <fo:external-graphic content-width="100mm"
-                                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
+                                    src="{$muk-xsl.dir}/img/kriyadocs_transparent.svg"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
