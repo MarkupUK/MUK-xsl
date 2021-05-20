@@ -34,7 +34,7 @@
       <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="subtitle"/>
     </xsl:when>
   </xsl:choose>
-</fo:block>
+</fo:block>  
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="articleinfo/productname"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="artheader/productname"/>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="info/productname"/>
