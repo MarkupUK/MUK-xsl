@@ -178,7 +178,7 @@
 </xsl:template>
 
 <xsl:template match="legalnotice" mode="article.titlepage.recto.auto.mode">
-<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" text-align="start" margin-left="0.5in" margin-right="0.5in" font-family="{$body.fontset}">
+<fo:block-container xmlns:fo="http://www.w3.org/1999/XSL/Format" xsl:use-attribute-sets="article.titlepage.recto.style" color="{$muk.grey}" space-before="0.5em" font-size="{$author.font-size}">
 <xsl:apply-templates select="." mode="article.titlepage.recto.mode"/>
 </fo:block-container>
 </xsl:template>
