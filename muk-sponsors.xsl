@@ -14,6 +14,7 @@
         <xsl:value-of select="$muk.blue" />
       </xsl:attribute>
     <xsl:attribute name="font-size">14pt</xsl:attribute>
+    <xsl:attribute name="space-before">14pt</xsl:attribute>
   </xsl:attribute-set>
 
     <!-- Add sponsor pages -->
@@ -360,6 +361,12 @@
             <fo:block
                 xsl:use-attribute-sets="administrivia.title.properties"
                 page-break-before="always">
+                <xsl:text>Markup UK</xsl:text>
+            </fo:block>
+            <fo:block>A Conference about XML and Other Markup Technologies<fo:block /><fo:basic-link external-destination="https://markupuk.org/">https://markupuk.org/</fo:basic-link></fo:block>
+            <fo:block space-before="1lh">Markup UK Conferences Limited<fo:block /> is a limited company registered in England and Wales.<fo:block/>Company registration number: 11623628<fo:block/>Registered address: 24 Trimworth Road, Folkestone, CT19 4EL, UK<fo:block/>VAT Registration Number: 316 5241 25</fo:block>
+            <fo:block
+                xsl:use-attribute-sets="administrivia.title.properties">
                 <xsl:text>Organisation Committee</xsl:text>
             </fo:block>
             <fo:block>
@@ -380,8 +387,7 @@
 
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties"
-                margin-top="14pt">
+                xsl:use-attribute-sets="administrivia.title.properties">
                 <xsl:text>Programme Committee</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
@@ -425,8 +431,7 @@
             </fo:block>
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties"
-                margin-top="14pt">
+                xsl:use-attribute-sets="administrivia.title.properties">
                 <xsl:text>Thank You</xsl:text>
             </fo:block>
             
@@ -478,17 +483,18 @@
                 <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/xmlss.svg"/>
             </fo:block>
             <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/da-logo-with-outlines.svg"/>
+                <fo:external-graphic content-width="35mm" content-height="10mm" src="{$muk-xsl.dir}/img/da-logo-with-outlines.svg"/>
             </fo:block>
 
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties"
-                margin-top="14pt">
+                xsl:use-attribute-sets="administrivia.title.properties">
                 <fo:block>Markup UK 2021 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
                 <fo:block>by David Maus, Alain Couthures, Michael Kay, Erik Siegel, Karin Bredenberg, Jaime Kaminski, Robin La Fontaine, Nigel Whitaker, Steven Pemberton, Tony Graham and Liam Quin</fo:block>
+                <fo:block margin-top="1lh">The organizers of Markup UK would like to thank Antenna House for their expert and unstinting help in preparing and formatting the conference proceedings, and their generosity in providing licences to do so.</fo:block>
+                <fo:block margin-top="1lh">Antenna House Formatter is based on the W3C Recommendations for XSL-FO and CSS and has long been recognized as the most powerful and proven standards based formatting software available. It is used worldwide in demanding applications where the need is to format HTML and XML into PDF and print. Today, Antenna House Formatter is used to produce millions of pages daily of technical, financial, user, and a wide variety of other documentation for thousands of customers in over 45 countries.</fo:block>
             </fo:block>
             
         </fo:flow>
