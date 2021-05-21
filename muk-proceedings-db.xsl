@@ -611,7 +611,7 @@
                 font-family="League Gothic, sans-serif"
                 text-align="left" padding="10mm" color="rgb(59, 64, 99)"
                 axf:border-radius="{$muk.border-radius}" font-weight="normal"
-                font-size="11mm" background-color="rgb(233, 236, 239)">
+                font-size="11mm" background-color="{$muk.background}">
               <fo:external-graphic
                   content-height="37mm" scaling="uniform"
                   content-width="scale-to-fit"
@@ -620,6 +620,18 @@
                   axf:alttext="Markup UK"/>
         </fo:block>
           </fo:block-container>
+          <!--
+          <fo:block-container
+              position="fixed" bottom="12.5mm" right="25mm" left="25mm" line-height="1em" height="1em + {$muk.border-radius} * 2" overflow="condense" axf:overflow-condense="font-size" font-size="10mm">
+            <fo:block
+                line-stacking-strategy="line-height" padding-top="{$muk.border-radius}" padding-bottom="{$muk.border-radius}" text-depth="0"
+                font-family="{$body.font.family}"
+                text-align="left" padding="{$muk.border-radius}" color="{$muk.blue}"
+                axf:border-radius="{$muk.border-radius}" font-weight="normal">
+              A Conference about XML and Other Markup Technologies
+        </fo:block>
+          </fo:block-container>
+          -->
         </fo:flow>
       </fo:page-sequence>
     </xsl:template>
@@ -690,6 +702,16 @@
           </xsl:choose>
         </fo:block>
       </fo:block-container>
+          <fo:block-container
+              position="fixed" bottom="12.5mm" right="25mm" left="25mm" line-height="1em" height="1em + {$muk.border-radius} * 2" overflow="condense" axf:overflow-condense="font-size" font-size="10mm">
+            <fo:block
+                line-stacking-strategy="line-height" padding-top="{$muk.border-radius}" padding-bottom="{$muk.border-radius}" text-depth="0"
+                font-family="{$body.font.family}"
+                text-align="left" padding="{$muk.border-radius}" color="{$muk.blue}"
+                axf:border-radius="{$muk.border-radius}" font-weight="normal">
+              A Conference about XML and Other Markup Technologies
+        </fo:block>
+          </fo:block-container>
 </xsl:template>
 
 <xsl:template match="abstract" mode="titlepage.mode">
