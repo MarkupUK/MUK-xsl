@@ -620,18 +620,24 @@
                   axf:alttext="Markup UK"/>
         </fo:block>
           </fo:block-container>
-          <!--
           <fo:block-container
-              position="fixed" bottom="12.5mm" right="25mm" left="25mm" line-height="1em" height="1em + {$muk.border-radius} * 2" overflow="condense" axf:overflow-condense="font-size" font-size="10mm">
+              position="fixed" bottom="12.5mm" right="25mm" left="25mm"
+              line-height="1em" height="1em + {$muk.border-radius} * 2"
+              overflow="condense" axf:overflow-condense="font-size"
+              font-size="18pt">
             <fo:block
-                line-stacking-strategy="line-height" padding-top="{$muk.border-radius}" padding-bottom="{$muk.border-radius}" text-depth="0"
+                line-stacking-strategy="line-height"
+                padding-top="{$muk.border-radius}"
+                padding-bottom="{$muk.border-radius}" text-depth="0"
                 font-family="{$body.font.family}"
-                text-align="left" padding="{$muk.border-radius}" color="{$muk.blue}"
-                axf:border-radius="{$muk.border-radius}" font-weight="normal">
-              A Conference about XML and Other Markup Technologies
+                text-align="center" padding="{$muk.border-radius}"
+                color="{$muk.blue}"
+                axf:border-radius="{$muk.border-radius}"
+                font-weight="normal">
+              <fo:basic-link
+                  external-destination="https://markupuk.org/">https://markupuk.org/</fo:basic-link>
         </fo:block>
           </fo:block-container>
-          -->
         </fo:flow>
       </fo:page-sequence>
     </xsl:template>
