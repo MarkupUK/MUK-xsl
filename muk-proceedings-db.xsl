@@ -357,6 +357,8 @@
       </xsl:attribute>
       <xsl:attribute name="axf:border-radius">3pt</xsl:attribute>
       <xsl:attribute name="padding">3pt</xsl:attribute>
+      <xsl:attribute name="padding-right">1em</xsl:attribute>
+      <xsl:attribute name="margin-right">-3pt</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="monospace.properties">
@@ -398,16 +400,37 @@
             </xsl:choose>
         </xsl:attribute>
         <xsl:attribute name="line-height">inherit</xsl:attribute>
+        <xsl:attribute name="wrap-option">wrap</xsl:attribute>
+        <xsl:attribute name="axf:word-break">break-all</xsl:attribute>
+        <xsl:attribute name="axf:line-continued-mark">&#x21A9;</xsl:attribute>
+        <xsl:attribute name="axf:line-continued-mark-font-weight">bold</xsl:attribute>
+        <xsl:attribute name="axf:line-continued-mark-color">
+          <xsl:value-of select="$muk.grey" />
+        </xsl:attribute>
+        <xsl:attribute name="axf:line-continued-mark-offset">0.1em</xsl:attribute>
+        <xsl:attribute name="axf:line-continued-mark-font-family">
+          <xsl:value-of select="$body.font.family" />
+        </xsl:attribute>
+        <xsl:attribute name="role">
+          <xsl:value-of select="local-name()" />
+        </xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="pgwide.properties">
-      <xsl:attribute name="start-indent"><xsl:value-of select="$pgwide.start.indent"/></xsl:attribute>
+      <xsl:attribute name="start-indent">
+        <xsl:value-of select="$pgwide.start.indent"/>
+      </xsl:attribute>
       <xsl:attribute name="padding-top">1lh - 3pt</xsl:attribute>
-          <xsl:attribute name="padding-bottom">1lh - 3pt</xsl:attribute>
+      <xsl:attribute name="padding-bottom">1lh - 3pt</xsl:attribute>
       <!-- Reduce the font size (but keep the line height) on
            <programlisting> that are still too wide. -->
+      <!--
       <xsl:attribute name="overflow">condense</xsl:attribute>
       <xsl:attribute name="axf:overflow-condense">font-size</xsl:attribute>
+      -->
+      <xsl:attribute name="role">
+        <xsl:value-of select="concat('pgwide-', local-name())" />
+      </xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:param name="callout.unicode" select="1" />
