@@ -48,6 +48,13 @@
   </xsl:choose>
 </xsl:template>
 
+<!-- Changes from the current DocBook XSLT 1.0 stylesheets:
+      - Always generate two nested fo:block-container so
+        any line-continued marks are within the shaded
+        area of the verbatim text.
+      - Attribute sets are on the outer fo:block-container,
+        not on the inner $content fo:block.
+-->
 <xsl:template match="programlisting|screen|synopsis">
   <xsl:param name="suppress-numbers" select="'0'"/>
   <xsl:variable name="id"><xsl:call-template name="object.id"/></xsl:variable>
@@ -112,6 +119,7 @@
 -->
 
   <xsl:variable name="block.content">
+    <!--
     <xsl:choose>
       <xsl:when test="$shade.verbatim != 0">
         <fo:block id="{$id}"
@@ -139,8 +147,8 @@
         </fo:block>
       </xsl:when>
       <xsl:otherwise>
-        <fo:block id="{$id}"
-                  xsl:use-attribute-sets="monospace.verbatim.properties">
+      -->
+        <fo:block id="{$id}">
 	  <xsl:if test="$keep.together != ''">
 	    <xsl:attribute name="keep-together.within-column"><xsl:value-of
 	    select="$keep.together"/></xsl:attribute>
@@ -159,8 +167,10 @@
             </xsl:otherwise>
           </xsl:choose>
         </fo:block>
+    <!--
       </xsl:otherwise>
     </xsl:choose>
+    -->
   </xsl:variable>
 
   <xsl:choose>
@@ -168,7 +178,11 @@
     <xsl:when test="@width != '' or
                     (self::programlisting and
                     starts-with($writing.mode, 'rl'))">
-      <fo:block-container start-indent="0pt" end-indent="0pt">
+      <fo:block-container
+          start-indent="0pt" end-indent="0pt"
+          xsl:use-attribute-sets="pgwide.properties
+                                  monospace.verbatim.properties
+                                  shade.verbatim.style">
         <xsl:if test="@width != ''">
           <xsl:attribute name="width">
             <xsl:value-of select="concat(@width, '*', $monospace.verbatim.font.width)"/>
@@ -179,20 +193,32 @@
                       starts-with($writing.mode, 'rl')">
           <xsl:attribute name="writing-mode">lr-tb</xsl:attribute>
         </xsl:if>
+        <xsl:copy-of select="$block.content"/>
       </fo:block-container>
     </xsl:when>
     <xsl:when test="$is-wide != 0">
-      <fo:block-container xsl:use-attribute-sets="pgwide.properties">
+      <fo:block-container
+          xsl:use-attribute-sets="pgwide.properties
+                                  monospace.verbatim.properties
+                                  shade.verbatim.style">
         <!-- All known program code is left-to-right -->
         <xsl:if test="self::programlisting and
                       starts-with($writing.mode, 'rl')">
           <xsl:attribute name="writing-mode">lr-tb</xsl:attribute>
         </xsl:if>
+        <fo:block-container margin="0">
         <xsl:copy-of select="$block.content"/>
+        </fo:block-container>
       </fo:block-container>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:copy-of select="$block.content"/>
+      <fo:block-container
+          xsl:use-attribute-sets="monospace.verbatim.properties
+                                  shade.verbatim.style">
+        <fo:block-container margin="0">
+          <xsl:copy-of select="$block.content"/>
+        </fo:block-container>
+      </fo:block-container>
     </xsl:otherwise>
   </xsl:choose>
 
