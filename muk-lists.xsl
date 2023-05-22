@@ -21,7 +21,7 @@
     <xsl:when test="$itemsymbol = 'whitediamond'">blackdiamond</xsl:when>
     <xsl:when test="$itemsymbol = 'blackdiamond'">whitediamondcontainingblack</xsl:when>
     <xsl:when test="$itemsymbol = 'whitediamondcontainingblack'">whitediamond</xsl:when>
-    <xsl:otherwise>whitediamond</xsl:otherwise>
+    <xsl:otherwise>blackdiamond</xsl:otherwise>
   </xsl:choose>
 </xsl:template>
 
