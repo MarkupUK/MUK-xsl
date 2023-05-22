@@ -127,11 +127,16 @@
     <xsl:param name="hyphenate" select="'false'"/>
 
     <!-- Lists -->
+    <xsl:attribute-set name="itemizedlist.properties">
+      <xsl:attribute name="relative-align">baseline</xsl:attribute>
+    </xsl:attribute-set>
+
     <xsl:attribute-set name="itemizedlist.label.properties">
       <xsl:attribute name="color">
         <xsl:value-of select="$muk.red" />
       </xsl:attribute>
       <xsl:attribute name="font-weight">bold</xsl:attribute>
+      <xsl:attribute name="relative-align">baseline</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="orderedlist.label.properties">
