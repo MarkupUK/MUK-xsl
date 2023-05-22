@@ -28,6 +28,7 @@
     <xsl:import href="muk-toc.xsl"/>
     <xsl:import href="muk-highlight.xsl"/>
     <xsl:import href="muk-lists.xsl"/>
+    <xsl:import href="muk-pi.xsl"/>
     <xsl:import href="muk-verbatim.xsl"/>
     <xsl:import href="muk-sponsors.xsl"/>
     <xsl:import href="muk-titlepages.xsl"/>
