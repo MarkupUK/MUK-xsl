@@ -22,6 +22,7 @@
     <xsl:import href="docbook-xsl-1.79.1/fo/docbook.xsl"/>
     <xsl:import href="docbook-xsl-1.79.1/fo/highlight.xsl"/>
     <xsl:import href="muk-biblio.xsl"/>
+    <xsl:import href="muk-block.xsl"/>
     <xsl:import href="muk-formal.xsl"/>
     <xsl:import href="muk-headers-footers.xsl"/>
     <xsl:import href="muk-pagesetup.xsl"/>
@@ -441,7 +442,7 @@
     </xsl:attribute-set>
 
     <xsl:param name="callout.unicode" select="1" />
-<xsl:param name="callout.unicode.font">DejaVu Sans</xsl:param>
+    <xsl:param name="callout.unicode.font">DejaVu Sans</xsl:param>
     <xsl:attribute-set name="callout.unicode.properties">
       <xsl:attribute name="color">
         <xsl:value-of select="$muk.red" />
@@ -864,5 +865,12 @@
     </xsl:choose>
   </fo:block>
 </xsl:template>
+
+<!-- Block quote. -->
+
+<!-- Add to existing attribute set. -->
+<xsl:attribute-set name="attribution.properties">
+  <xsl:attribute name="keep-with-previous.within-column">always</xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>
