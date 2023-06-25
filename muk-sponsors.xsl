@@ -303,7 +303,7 @@
                         <fo:table-cell>
                             <fo:block vertical-align="center" margin-top="40mm">
                                 <fo:external-graphic content-width="60mm"
-                                    src="{$muk-xsl.dir}/img/AntennaHouse-logo.png"/>
+                                    src="{$muk-xsl.dir}/img/logo-antenna-en.svg"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
