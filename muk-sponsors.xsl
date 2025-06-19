@@ -397,15 +397,6 @@
                 <xsl:text>Syd Bauman &#x2013; Northeastern University Digital Scholarship Group</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Achim Berndzen &#x2013; &lt;xml-project /&gt;</xsl:text>
-            </fo:block>
-            <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Abel Braaksma &#x2013; Abrasoft</xsl:text>
-            </fo:block>
-            <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Peter Flynn &#x2013; University College Cork</xsl:text>
-            </fo:block>
-            <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Tony Graham &#x2013; Antenna House</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
