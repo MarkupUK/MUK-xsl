@@ -430,7 +430,15 @@
             </fo:block>
             
             <fo:block>
+                <xsl:text>Antenna House</xsl:text>
+            </fo:block>
+            
+            <fo:block>
                 <xsl:text>Evolved Binary</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>Ilmari Koria</xsl:text>
             </fo:block>
             
             <fo:block>
@@ -438,17 +446,13 @@
             </fo:block>
             
             <fo:block>
-                <xsl:text>Saxonica</xsl:text>
-            </fo:block>
-            
-            <fo:block>
                 <xsl:text>OxygenXML</xsl:text>
             </fo:block>
             
             <fo:block>
-                <xsl:text>Ilmari Koria</xsl:text>
+                <xsl:text>Saxonica</xsl:text>
             </fo:block>
-
+            
             <fo:block>
                 <xsl:text>Wissam Asfahani</xsl:text>
             </fo:block>
