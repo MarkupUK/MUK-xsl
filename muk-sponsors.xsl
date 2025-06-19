@@ -403,7 +403,7 @@
                 <xsl:text>Michael Kay &#x2013; Saxonica</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Jirka Kosek &#x2013; University of Economics, Prague</xsl:text>
+                <xsl:text>Jirka Kosek &#x2013; Prague University of Economics and Business</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Deborah A. Lapeyre &#x2013; Mulberry Technologies</xsl:text>
@@ -486,7 +486,7 @@
                 <fo:block>Markup UK 2025 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
-                <fo:block>by Rebecca Bamford, Achim Berndzen, Francis Cave, Charafeddine Cheraa, John Cummins, Francis Denton, Tony Graham, Gerrit Imsieke, Michael H Kay, Martin Kraetke, Astrea Kumaradas, Deborah A Lapeyre, David Maus, Ari Nordström, Steven Pemberton, Liam Quin, Adam Retter, Andrew Sales, Erik Siegel, Amber Smiley, Sheila Thomson, Norman Tovery-Walsh, B. Tommie Usdin and Christine Windeln.</fo:block>
+                <fo:block>by Rebecca Bamford, Francis Cave, Charafeddine Cheraa, John Cummins, Francis Denton, Tony Graham, Gerrit Imsieke, Michael H Kay, Martin Kraetke, Astrea Kumaradas, Deborah A Lapeyre, David Maus, Ari Nordström, Steven Pemberton, Liam Quin, Adam Retter, Andrew Sales, Erik Siegel, Amber Smiley, Sheila Thomson, Norman Tovery-Walsh, B. Tommie Usdin and Christine Windeln.</fo:block>
                 <fo:block margin-top="1lh">The organisers of Markup UK would like to thank Antenna House for their expert and unstinting help in preparing and formatting the conference proceedings, and their generosity in providing licences to do so.</fo:block>
                 <fo:block margin-top="1lh">Antenna House Formatter is based on the W3C Recommendations for XSL-FO and CSS and has long been recognized as the most powerful and proven standards based formatting software available. It is used worldwide in demanding applications where the need is to format HTML and XML into PDF and print. Today, Antenna House Formatter is used to produce millions of pages daily of technical, financial, user, and a wide variety of other documentation for thousands of customers in over 45 countries.</fo:block>
             </fo:block>
