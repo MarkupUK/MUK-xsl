@@ -14,7 +14,6 @@
         <xsl:value-of select="$muk.blue" />
       </xsl:attribute>
     <xsl:attribute name="font-size">14pt</xsl:attribute>
-    <xsl:attribute name="space-before">14pt</xsl:attribute>
   </xsl:attribute-set>
 
     <!-- Add sponsor pages -->
@@ -281,17 +280,17 @@
                     <fo:table-row height="80mm">
                         <fo:table-cell>
                             <fo:block text-align="center" margin-bottom="50mm" margin-top="10mm">
-                                <fo:external-graphic content-width="130mm" src="{$muk-xsl.dir}/img/fusionDB-logo.png"/>
+                                <fo:external-graphic content-width="130mm" src="{$muk-xsl.dir}/img/CloudBackend-XIOS3.svg"/>
                             </fo:block>                
                         </fo:table-cell>
                     </fo:table-row>
-                    <fo:table-row height="80mm">
+                    <fo:table-row height="40mm">
                         <fo:table-cell>
-                        <fo:block text-align="center" vertical-align="center" margin-top="10mm">
-                            <fo:external-graphic content-width="110mm"
-                                src="{$muk-xsl.dir}/img/letex-logo.png"/>
-                        </fo:block>
-                    </fo:table-cell>
+                            <fo:block text-align="center">
+                                <fo:external-graphic content-width="100mm"
+                                    src="{$muk-xsl.dir}/img/fusionDB-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
                     </fo:table-row>
                 </fo:table-body>
             </fo:table>
@@ -300,80 +299,48 @@
             
             <fo:table width="130mm" page-break-before="always">
                 <fo:table-body>
-                    <fo:table-row height="80mm">
+                    <fo:table-row height="100mm">
                         <fo:table-cell>
-                            <!-- Saxonica -->
-                            <fo:block text-align="center">
-                                <fo:external-graphic content-width="110mm" margin-bottom="30mm"
+                            <fo:block vertical-align="center" margin-top="40mm">
+                                <fo:external-graphic content-width="60mm"
+                                    src="{$muk-xsl.dir}/img/AntennaHouse-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="100mm">
+                        <fo:table-cell>
+                            <fo:block vertical-align="center" margin-top="40mm">
+                                <fo:external-graphic content-width="60mm"
+                                    src="{$muk-xsl.dir}/img/OxygenXMLEditorLogo.svg"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="100mm">
+                        <fo:table-cell>
+                            <fo:block vertical-align="center" margin-top="45mm">
+                                <fo:external-graphic content-width="50mm"
+                                    src="{$muk-xsl.dir}/img/letex-logo.png"/>
+                            </fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+                    <fo:table-row height="100mm">
+                        <fo:table-cell>
+                            <fo:block vertical-align="center" margin-top="45mm">
+                                <fo:external-graphic content-width="50mm"
                                     src="{$muk-xsl.dir}/img/logo_crop-mid-blue-background.gif"/>
-                            </fo:block>
-                        </fo:table-cell>
-                    </fo:table-row>
-                    <fo:table-row height="80mm">
-                        <fo:table-cell>
-                            <fo:block text-align="center">
-                                <fo:external-graphic content-width="120mm"
-                                    src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
-                            </fo:block>
-                        </fo:table-cell>
-                    </fo:table-row>
-                    <fo:table-row height="40mm">
-                        <fo:table-cell>
-                            <fo:block text-align="center" vertical-align="center">
-                                <fo:external-graphic content-width="100mm"
-                                    src="{$muk-xsl.dir}/img/kriyadocs_transparent.svg"/>
                             </fo:block>
                         </fo:table-cell>
                     </fo:table-row>
                 </fo:table-body>
             </fo:table>
-            
-            <!--<!-\- oXygen -\->
-            <fo:block text-align="center" margin-top="40mm"  page-break-before="always">
-                <fo:external-graphic content-width="75mm"
-                    src="https://www.oxygenxml.com/resellers/resources/OxygenXMLEditorLogo.svg"/>
-            </fo:block>
-            
-            <!-\- letex -\->
-            <fo:block text-align="center" margin-top="40mm">
-                <fo:external-graphic content-width="75mm"
-                    src="{$muk-xsl.dir}/img/letex-logo.png"/>
-            </fo:block>
-            
-            <!-\- Mercator -\->
-            <fo:block text-align="center" margin-top="40mm">
-                <fo:external-graphic content-width="75mm"
-                    src="{$muk-xsl.dir}/img/mercator-logo.png"/>
-            </fo:block>
-            
-            <!-\- exeter -\->
-            <fo:block text-align="center" margin-top="40mm">
-                <fo:external-graphic content-width="75mm"
-                    src="{$muk-xsl.dir}/img/exeterLogo.png"/>
-            </fo:block>
-            
-            <!-\- Mulberry -\->
-            <fo:block text-align="center" margin-top="40mm">
-                <fo:external-graphic content-width="75mm"
-                    src="{$muk-xsl.dir}/img/mul-logo.png"/>
-            </fo:block>-->
 
             <fo:block
                 xsl:use-attribute-sets="administrivia.title.properties"
                 page-break-before="always">
-                <xsl:text>Markup UK</xsl:text>
-            </fo:block>
-            <fo:block>A Conference about XML and Other Markup Technologies<fo:block /><fo:basic-link external-destination="https://markupuk.org/">https://markupuk.org/</fo:basic-link></fo:block>
-            <fo:block space-before="1lh">Markup UK Conferences Limited<fo:block /> is a limited company registered in England and Wales.<fo:block/>Company registration number: 11623628<fo:block/>Registered address: 24 Trimworth Road, Folkestone, CT19 4EL, UK<fo:block/>VAT Registration Number: 316 5241 25</fo:block>
-            <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties">
                 <xsl:text>Organisation Committee</xsl:text>
             </fo:block>
             <fo:block>
                 <xsl:text>Geert Bormans</xsl:text>
-            </fo:block>
-            <fo:block>
-                <xsl:text>Tomos Hillman</xsl:text>
             </fo:block>
             <fo:block>
                 <xsl:text>Ari Nordström</xsl:text>
@@ -387,7 +354,8 @@
 
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties">
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
                 <xsl:text>Programme Committee</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
@@ -395,12 +363,6 @@
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Achim Berndzen &#x2013; &lt;xml-project /&gt;</xsl:text>
-            </fo:block>
-            <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Abel Braaksma &#x2013; Abrasoft</xsl:text>
-            </fo:block>
-            <fo:block start-indent="1em" text-indent="-1em">
-                <xsl:text>Peter Flynn &#x2013; University College Cork</xsl:text>
             </fo:block>
             <fo:block start-indent="1em" text-indent="-1em">
                 <xsl:text>Tony Graham &#x2013; Antenna House</xsl:text>
@@ -431,8 +393,13 @@
             </fo:block>
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties">
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
                 <xsl:text>Thank You</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>CloudBackend</xsl:text>
             </fo:block>
             
             <fo:block>
@@ -440,7 +407,15 @@
             </fo:block>
             
             <fo:block>
+                <xsl:text>Antenna House</xsl:text>
+            </fo:block>
+            
+            <fo:block>
                 <xsl:text>le-tex Publishing Services</xsl:text>
+            </fo:block>
+            
+            <fo:block>
+                <xsl:text>oXygen XML Editor</xsl:text>
             </fo:block>
             
             <fo:block>
@@ -448,21 +423,9 @@
             </fo:block>
             
             <fo:block>
-                <xsl:text>OxygenXML</xsl:text>
-            </fo:block>
-            
-            <fo:block>
-                <xsl:text>Exeter</xsl:text>
-            </fo:block>
-            
-            <fo:block>
-                <xsl:text>Adam Retter</xsl:text>
+                <xsl:text>Jirka Kosek</xsl:text>
             </fo:block>
 
-            <fo:block>
-                <xsl:text>Tony Graham</xsl:text>
-            </fo:block>
-            
             <fo:block>
                 <xsl:text>...and our long-suffering partners</xsl:text>
             </fo:block>
@@ -473,29 +436,31 @@
                 <xsl:text>Sister Conferences</xsl:text>
             </fo:block>
 
-            <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="45mm" src="{$muk-xsl.dir}/img/BalisageLogotype.png"/>
+            <fo:block margin-top="16pt" text-align="center">
+                <fo:external-graphic content-height="10mm" src="{$muk-xsl.dir}/img/BalisageLogotype.png"/>
             </fo:block>
-            <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="45mm" src="{$muk-xsl.dir}/img/xmlprague-top-logo-13.png"/>
+            <fo:block margin-top="8pt" text-align="center">
+                <fo:external-graphic content-height="15mm" content-width="35mm" src="{$muk-xsl.dir}/img/xmlprague-top-logo-13.png"/>
             </fo:block>
-            <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="35mm" src="{$muk-xsl.dir}/img/xmlss.svg"/>
+            <fo:block margin-top="8pt" text-align="center">
+                <fo:external-graphic content-height="15mm" src="{$muk-xsl.dir}/img/xmlss.svg"/>
             </fo:block>
-            <fo:block margin-top="8pt">
-                <fo:external-graphic content-width="35mm" content-height="10mm" src="{$muk-xsl.dir}/img/da-logo-with-outlines.svg"/>
+            <fo:block margin-top="8pt" text-align="center">
+                <fo:external-graphic content-height="15mm" content-width="35mm" src="{$muk-xsl.dir}/img/da-logo-with-outlines.svg"/>
             </fo:block>
 
 
             <fo:block
-                xsl:use-attribute-sets="administrivia.title.properties">
-                <fo:block>Markup UK 2021 Proceedings</fo:block>
+                xsl:use-attribute-sets="administrivia.title.properties"
+                margin-top="14pt">
+                <fo:block>Markup UK 2023 Proceedings</fo:block>
             </fo:block>
             <fo:block font-size="10pt">
-                <fo:block>by B. Tommie Usdin, David Maus, Alain Couthures, Michael Kay, Erik Siegel, Debbie Lapeyre, Karin Bredenberg, Jaime Kaminski, Robin La Fontaine, Nigel Whitaker, Steven Pemberton, Tony Graham and Liam Quin</fo:block>
-                <fo:block margin-top="1lh">The organisers of Markup UK would like to thank Antenna House for their expert and unstinting help in preparing and formatting the conference proceedings, and their generosity in providing licences to do so.</fo:block>
-                <fo:block margin-top="1lh">Antenna House Formatter is based on the W3C Recommendations for XSL-FO and CSS and has long been recognized as the most powerful and proven standards based formatting software available. It is used worldwide in demanding applications where the need is to format HTML and XML into PDF and print. Today, Antenna House Formatter is used to produce millions of pages daily of technical, financial, user, and a wide variety of other documentation for thousands of customers in over 45 countries.</fo:block>
+                <fo:block>by Erik Siegel, Daniel Arthursson, Martin Nilsson, Tony Graham, Sven Reinck, Achim Berndzen, Thorsten Rohm, Martin Kraetke, Daniel Arthursson, Martin Nilsson, Christophe Marchand, Kurt Conrad, Octavian Nadolu, Andrew Sales, Tony Graham, Jorge Sánchez and Liam Quin.</fo:block>
             </fo:block>
+            <fo:block margin-top="1lh">The organisers of Markup UK would like to thank Antenna House for their expert and unstinting help in preparing and formatting the conference proceedings, and their generosity in providing licences to do so.</fo:block>
+            <fo:block margin-top="1lh">Antenna House Formatter is based on the W3C Recommendations for XSL-FO and CSS and has long been recognized as the most powerful and proven standards based formatting software available. It is used worldwide in demanding applications where the need is to format HTML and XML into PDF and print. Today, Antenna House Formatter is used to produce millions of pages daily of technical, financial, user, and a wide variety of other documentation for thousands of customers in over 45 countries.</fo:block>
+            
             
         </fo:flow>
     </xsl:template>
