@@ -288,7 +288,7 @@
                     <fo:table-row>
                         <fo:table-cell>
                             <fo:block text-align="center" margin-bottom="50mm" margin-top="10mm">
-                                <fo:external-graphic content-width="150mm" src="{$muk-xsl.dir}/img/AntennaHouse-logo.png"/>
+                                <fo:external-graphic content-width="150mm" src="{$muk-xsl.dir}/img/logo-antena-en.svg"/>
                             </fo:block>                
                         </fo:table-cell>
                     </fo:table-row>
